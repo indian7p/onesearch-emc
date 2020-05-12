@@ -123,7 +123,7 @@ client.on('message', (message) => {
 			client.commands.get('updatecache').execute(message, args);
 			break;
 		case 's':
-			client.commands.get('s').execute(message, args, client, Nation);
+			client.commands.get('s').execute(message, args, client, Nation, Results);
 			break;
 		case 'getall':
 			client.commands.get('getall').execute(message, args);
