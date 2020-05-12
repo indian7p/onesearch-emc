@@ -9,7 +9,7 @@ const CACHE = new db.table('CACHE');
 module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
-	execute: async (message, args, client, Nation) => {
+	execute(message, args, client, Nation, Result) {
 		let errorMessage = new Discord.RichEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		if (!args[1]) return message.channel.send(errorMessage.setDescription('No search query'));
 		let query = message.content.slice(4).toLowerCase();
@@ -17,7 +17,7 @@ module.exports = {
 		let embeds = [];
 
 		let nationQuery = query.replace(/ /g, '_');
-		Nation.findOne({ nameLower: nationQuery }, async function(err, nation) {
+		Nation.findOne({ nameLower: nationQuery }, function(err, nation) {
 			if (nation != null) {
 				let townsList = nation.townsArr.toString().replace(/,/g, ', ');
 				let CASSTstatus = casst.get(`${nation.nameLower}`);
@@ -85,51 +85,33 @@ module.exports = {
 					}
 				}
 			}
-
-			let keys = CACHE.all().map((x) => x.ID);
-			var pageNum = 0;
-
-			for (const key of keys) {
-				let data = CACHE.get(key);
-
-				var themeColor = 0x0071bc;
-				if (data.themeColor != undefined) var themeColor = data.themeColor;
-				let resEmbed = new Discord.RichEmbed()
-					.setTitle(data.name)
-					.setURL(data.link)
-					.setDescription(data.description)
-					.setThumbnail(data.imageLink)
-					.setColor(themeColor)
-					.setFooter(`Page ${keys.indexOf(key) + 1}/${keys.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
-
-				let name = data.name.toLowerCase() + '';
-        if(data.description == null){
-          continue;
-        }
-				let desc = data.description.toLowerCase() + '';
-				let link = data.link.toLowerCase() + '';
-				let id = data.id.toLowerCase() + '';
-
-				if (id.indexOf(query) > -1) {
-					var pageNum = pageNum + 1;
-					embeds.push(resEmbed.setFooter(`Page ${pageNum} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png'));
-				} else {
-					if (name.indexOf(query) > -1) {
-						var pageNum = pageNum + 1;
-						embeds.push(resEmbed.setFooter(`Page ${pageNum} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png'));
-					} else {
-						if (desc.indexOf(query) > -1) {
-							var pageNum = pageNum + 1;
-							embeds.push(resEmbed.setFooter(`Page ${pageNum} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png'));
-						}
-					}
-				}
-			}
-			if (embeds.length == 0) {
-				message.channel.send(errorMessage.setDescription('No results found.'));
-			} else {
-				await message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
-			}
-		});
+      
+      Result.find({"$text": {"$search": query}}, async function(err, results){
+        let pageNum = 0
+        await results.forEach(data => {
+          if(data.desc == null){
+           console.log(data.name+" Missing desc.")
+          }else{
+            console.log(data.name)
+            var themeColor = 0x0071bc;
+				    if (data.themeColor != undefined) var themeColor = data.themeColor;
+				    let resEmbed = new Discord.RichEmbed()
+					  .setTitle(data.name)
+					  .setURL(data.link)
+					  .setDescription(data.desc)
+            .setThumbnail(data.imgLink)
+					  .setColor(themeColor)
+					  .setFooter(`Page ${pageNum+1}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+            embeds.push(resEmbed)
+            pageNum++
+          }
+        })
+        if (embeds.length == 0) {
+	        message.channel.send(errorMessage.setDescription('No results found.'));
+		    } else {
+		      message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
+		    }
+      })
+		})
 	}
 };
