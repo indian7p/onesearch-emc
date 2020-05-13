@@ -133,7 +133,7 @@ module.exports = {
                             message.channel.send(onEmbed);
                             message.channel.stopTyping();
                           }else{
-                            let onEmbed = new Discord.RichEmbed().setTitle(data.data.player.username).setColor(0x0071bc).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+                            let onEmbed = new Discord.RichEmbed().setTitle(data.data.player.username).setColor(0x0071bc).addField('Status', 'Offline').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
                             message.channel.send(onEmbed);
                             message.channel.stopTyping();
                           }
