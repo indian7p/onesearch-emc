@@ -1,15 +1,17 @@
 const Discord = require('discord.js');
+const moment = require('moment-timezone')
 const fn = require('/app/util/fn');
 
 const db = require('quick.db');
 const nationsP = new db.table('nationsP');
+const townP = new db.table('townP');
 const casst = new db.table('casst');
 const CACHE = new db.table('CACHE');
 
 module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
-	execute(message, args, client, Nation, Result) {
+	execute(message, args, Nation, Result, Town) {
 		let errorMessage = new Discord.RichEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		if (!args[1]) return message.channel.send(errorMessage.setDescription('No search query'));
 		let query = message.content.slice(4).toLowerCase();
@@ -85,6 +87,70 @@ module.exports = {
 					}
 				}
 			}
+      
+      Town.findOne({ nameLower: query }, function(err, town) {
+			  if (town != null) {
+						switch (town.color) {
+						case '#FFFFFF':
+							var color = '#FEFEFE';
+							break;
+						case '#000000':
+							var color = '#010101';
+							break;
+						default:
+							if (town.nation == 'No Nation') {
+								var color = 0x69a841;
+							} else {
+								var color = town.color;
+							}
+							break;
+					}
+					if (town.capital == true) {
+						var tName = ':star: ' + town.name + ' (' + town.nation + ')';
+					} else {
+						var tName = town.name + ' (' + town.nation + ')';
+					}
+					if (townP.get(`${town.name}.scrating`) == null) {
+						var description = 'Information may be slightly out of date.';
+					} else {
+						var description = `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]**` + ' Information may be slightly out of date.';
+					}
+					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
+					let memberList = '```' + town.members + '```';
+					let resEmbed = new Discord.RichEmbed()
+						.setTitle(tName)
+						.setDescription(description)
+						.setColor(color)
+						.setThumbnail(townP.get(`${town.name}.imgLink`))
+						.addField('Coords', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`)
+						.addField('Mayor', '```' + town.mayor + '```')
+						.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo.png');
+					if (memberList.length > 1024) {
+						var counter = 0;
+						let members1 = [];
+						let members2 = [];
+						town.membersArr.forEach((member) => {
+							counter++;
+							if (counter <= 50) {
+								members1.push(member);
+							} else {
+								members2.push(member);
+							}
+						});
+            if(townP.get(`${town.name}.link`) == null) {
+              embeds.push(resEmbed.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```').addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```'));
+            }else{
+              embeds.push(resEmbed.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```').addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```').setURL(townP.get(`${town.name}.link`)));
+            }
+					} else {
+            if(townP.get(`${town.name}.link`) == null) {
+              embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
+            }else{
+              embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(townP.get(`${town.name}.link`)));
+            }
+					}
+				}
+			});
 
 			Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
 				let pageNum = 0;
