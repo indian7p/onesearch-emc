@@ -123,20 +123,17 @@ client.on('message', (message) => {
 			client.commands.get('updatecache').execute(message, args);
 			break;
 		case 's':
-			client.commands.get('s').execute(message, args, client, Nation, Results);
+			client.commands.get('s').execute(message, args, Nation, Result, Town);
 			break;
 		case 'getall':
 			client.commands.get('getall').execute(message, args);
 			break;
-		case 'st':
-			client.commands.get('st').execute(message, args, Town, Nation);
+		case 't':
+			client.commands.get('t').execute(message, args, Town);
 			break;
 		case 'player':
 		case 'pl':
 			client.commands.get('pl').execute(message, args, Town, Nation, client);
-			break;
-		case 'setstatus':
-			client.commands.get('setstatus').execute(message, args);
 			break;
 		case 'linkdiscord':
 			client.commands.get('linkdiscord').execute(message, args);
@@ -167,6 +164,13 @@ client.on('message', (message) => {
 		case 'listaudit':
 			client.commands.get('listaudit').execute(message, args, Nation);
 			break;
+		case 'cleartmp':
+			if (message.author.id != '456965312886079533') return message.channel.send('You do not have permission to use this command.');
+			tmp.all().forEach((item) => {
+				console.log(item.ID);
+				tmp.delete(item.ID);
+			});
+			break;
 		case 'plhistory':
 			message.channel.send('Please use 1!pl chistory [name]');
 			break;
@@ -178,6 +182,9 @@ client.on('message', (message) => {
       break;
     case 'stopTyping':
       message.channel.stopTyping()
+      break;
+    case 'sc':
+      client.commands.get('sc').execute(message, args, client, Town, Nation)
       break;
     case 'nonation':
       client.commands.get('nonation').execute(message, args, Town, Nation);
