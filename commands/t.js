@@ -6,9 +6,9 @@ const listcache = new cache.table('listcache')
 const fn = require('/app/util/fn')
 
 module.exports = {
-	name: 'st',
+	name: 't',
 	description: 'Searches for towns',
-	execute: (message, args, Town, Nation) => {
+	execute: (message, args, Town) => {
 		message.channel.startTyping();
 		let errorMessage = new Discord.RichEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		switch (args[1]) {
@@ -32,7 +32,7 @@ module.exports = {
         break;
 			default:
 				if (!args[1]) return message.channel.send(errorMessage.setDescription('No results for ""'));
-				var query = message.content.slice(5).toLowerCase().replace(/ /g, '_');
+				var query = message.content.slice(4).toLowerCase().replace(/ /g, '_');
 				Town.findOne({ nameLower: query }, function(err, town) {
 					if (err) return console.log(err);
 					if (town == null) {
