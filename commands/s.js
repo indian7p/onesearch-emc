@@ -85,33 +85,45 @@ module.exports = {
 					}
 				}
 			}
-      
-      Result.find({"$text": {"$search": query}}, async function(err, results){
-        let pageNum = 0
-        await results.forEach(data => {
-          if(data.desc == null){
-           console.log(data.name+" Missing desc.")
-          }else{
-            console.log(data.name)
-            var themeColor = 0x0071bc;
-				    if (data.themeColor != undefined) var themeColor = data.themeColor;
-				    let resEmbed = new Discord.RichEmbed()
-					  .setTitle(data.name)
-					  .setURL(data.link)
-					  .setDescription(data.desc)
-            .setThumbnail(data.imgLink)
-					  .setColor(themeColor)
-					  .setFooter(`Page ${pageNum+1}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
-            embeds.push(resEmbed)
-            pageNum++
-          }
-        })
-        if (embeds.length == 0) {
-	        message.channel.send(errorMessage.setDescription('No results found.'));
-		    } else {
-		      message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
-		    }
-      })
-		})
+
+			Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
+				let pageNum = 0;
+				let NSFWcount = 0;
+				await results.forEach((data) => {
+					if (data.desc == null) {
+						console.log(data.name + ' Missing desc.');
+					} else {
+						pageNum++;
+						var themeColor = 0x0071bc;
+						if (data.themeColor != undefined) var themeColor = data.themeColor;
+						let resEmbed = new Discord.RichEmbed()
+							.setTitle(data.name)
+							.setURL(data.link)
+							.setDescription(data.desc)
+							.setThumbnail(data.imgLink)
+							.setColor(themeColor)
+							.setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+						if (data.nsfw != undefined) {
+							if (message.channel.type == 'dm') {
+								embeds.push(resEmbed);
+							} else {
+								NSFWcount++;
+								message.author.send(resEmbed);
+							}
+						} else {
+							embeds.push(resEmbed);
+						}
+					}
+				});
+				if (embeds.length == 0) {
+					message.channel.send(errorMessage.setDescription('No results found.'));
+				} else {
+					if (NSFWcount > 0) {
+						message.channel.send(NSFWcount + ' NSFW result(s) sent to your DMs.');
+					}
+					message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
+				}
+			});
+		});
 	}
 };
