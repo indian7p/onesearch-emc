@@ -5,7 +5,7 @@ const fn = require('/app/util/fn')
 module.exports = {
   name: "getall",
   description: "Gets all results",
-  execute(message, Result){
+  execute(message, Result) {
     
     let embeds = []
     Result.find({}, function(err, results) {
@@ -21,11 +21,12 @@ module.exports = {
         .setFooter(`Page ${pageCount}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png')
         
         embeds.push(resEmbed)
+        if(pageCount == results.length){
+          message.channel.send(embeds[0]).then(m => {
+            fn.paginator(message.author.id, m, embeds, 0)
+          })
+        }
       })
-    })
-    
-    message.channel.send(embeds[0]).then(m => {
-      fn.paginator(message.author.id, m, embeds, 0)
     })
   }
 }
