@@ -1,34 +1,31 @@
 const Discord = require("discord.js");
-const cache = require("quick.db");
-const admin = require("firebase-admin");
-const db = admin.firestore();
 
 const fn = require('/app/util/fn')
 
 module.exports = {
   name: "getall",
-  description: "Gets all the document names",
-  execute: async (message, args) => {
-    let table = new cache.table("CACHE")
+  description: "Gets all results",
+  execute(message, Result){
     
     let embeds = []
+    Result.find({}, function(err, results) {
+      let pageCount = 0;
+      results.forEach(result => {
+        pageCount++
+        let resEmbed = new Discord.RichEmbed()
+        .setTitle(result.name)
+        .setColor(0x0071bc)
+        .setDescription(result.desc)
+        .setURL(result.link)
+        .setThumbnail(result.imgLink)
+        .setFooter(`Page ${pageCount}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png')
+        
+        embeds.push(resEmbed)
+      })
+    })
     
-    let keys = table.all().map(x => x.ID)
-    for (const key of keys) {
-      let data = table.get(key)
-
-      embeds.push(
-        new Discord.RichEmbed()
-        .setTitle(data.name)
-        .setColor(0xfefefe)
-        .setDescription(data.description)
-        .setURL(data.link)
-        .setThumbnail(data.imageLink)
-        .setFooter(`Page ${keys.indexOf(key)+1}/${keys.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png')
-      )
-    }
-    
-    let m = await message.channel.send(embeds[0])
-    fn.paginator(message.author.id, m, embeds, 0)
+    message.channel.send(embeds[0]).then(m => {
+      fn.paginator(message.author.id, m, embeds, 0)
+    })
   }
-} 
+}
