@@ -2,7 +2,7 @@
 
 # OneSearch
 
-Find towns, nations, and discords with OneSearch for EarthMC. Gets data from the EarthMC map.
+Find towns, nations, and Discord servers with OneSearch for EarthMC. Gets data from the EarthMC map.
 
 This does not include Discord guilds for security and privacy reasons.
 
