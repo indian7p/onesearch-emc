@@ -54,16 +54,28 @@ let ResultSchema = new Schema({
 	id: String
 });
 let TownPSchema = new Schema({
+<<<<<<< HEAD
 	name: String,
 	scrating: String,
 	imgLink: String,
 	link: String
+=======
+  name: String,
+  scrating: String,
+  imgLink: String,
+  link: String
+})
+let StatsSchema = new Schema({
+  name: String,
+  count: String
+>>>>>>> bbbe25479643e336bc3b2299866daf7fefcc499e
 });
 
 var Town = mongoose.model('Town', TownSchema);
 var TownP1 = mongoose.model('TownP', TownPSchema);
 var Nation = mongoose.model('Nation', NationSchema);
 var Result = mongoose.model('Result', ResultSchema);
+var Stats = mongoose.model('Stat', StatsSchema);
 
 var admin = require('firebase-admin');
 
