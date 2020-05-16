@@ -10,10 +10,10 @@ const casst = new cache.table('casst');
 const players = new cache.table('players');
 const tmp = new cache.table('tmp');
 const fetch = require('node-fetch');
-const fn = require('/app/util/fn')
-const moment = require('moment-timezone')
-const listcache = new cache.table('listcache')
-const stats = new cache.table('stats')
+const fn = require('/app/util/fn');
+const moment = require('moment-timezone');
+const listcache = new cache.table('listcache');
+const stats = new cache.table('stats');
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -34,31 +34,31 @@ let TownSchema = new Schema({
 	time: { type: Date, default: Date.now }
 });
 let NationSchema = new Schema({
-  name: String,
-  nameLower: String,
-  color: String,
-  towns: String,
-  townsArr: Array,
-  residents: Number,
-  owner: String,
-  capital: String,
-  location: String
+	name: String,
+	nameLower: String,
+	color: String,
+	towns: String,
+	townsArr: Array,
+	residents: Number,
+	owner: String,
+	capital: String,
+	location: String
 });
 let ResultSchema = new Schema({
-  desc: String,
-  imgLink: String,
-  link: String,
-  name: String,
-  themeColor: String,
-  nsfw: String,
-  id: String
-})
+	desc: String,
+	imgLink: String,
+	link: String,
+	name: String,
+	themeColor: String,
+	nsfw: String,
+	id: String
+});
 let TownPSchema = new Schema({
-  name: String,
-  scrating: String,
-  imgLink: String,
-  link: String
-})
+	name: String,
+	scrating: String,
+	imgLink: String,
+	link: String
+});
 
 var Town = mongoose.model('Town', TownSchema);
 var TownP1 = mongoose.model('TownP', TownPSchema);
@@ -108,24 +108,24 @@ client.on('message', (message) => {
 		case 'calculator':
 			client.commands.get('calculator').execute(message, args);
 			break;
-    case 'coinflip':
+		case 'coinflip':
 			client.commands.get('coinflip').execute(message);
 			break;
-    case 'getall':
+		case 'getall':
 			client.commands.get('getall').execute(message, Result);
 			break;
-    case 'help':
+		case 'help':
 			client.commands.get('help').execute(message, args);
 			break;
-    case 'info':
-      client.commands.get('info').execute(message);
-      break;
-    case 'listaudit':
+		case 'info':
+			client.commands.get('info').execute(message);
+			break;
+		case 'listaudit':
 			client.commands.get('listaudit').execute(message, args, Nation);
-      break;
-    case 'listscammers':
-      client.commands.get('listscammers').execute(message, args, Nation);
-      break;
+			break;
+		case 'listscammers':
+			client.commands.get('listscammers').execute(message, args, Nation);
+			break;
 		case 'updatecache':
 			client.commands.get('updatecache').execute(message, args);
 			break;
@@ -133,29 +133,29 @@ client.on('message', (message) => {
 			client.commands.get('s').execute(message, args, Nation, Result, Town);
 			break;
 		case 't':
-    case 'town':
+		case 'town':
 			client.commands.get('t').execute(message, args, Town);
 			break;
 		case 'pl':
-    case 'player':
+		case 'player':
 			client.commands.get('pl').execute(message, args, Town, Nation, client);
 			break;
 		case 'n':
-    case 'nation':
+		case 'nation':
 			client.commands.get('n').execute(message, args, Town, Nation);
-      break;
-    case 'nonation':
-      client.commands.get('nonation').execute(message, args, Town, Nation);
-      break;
-    case 'notown':
-      client.commands.get('notown').execute(message, args, Town);
-      break;
-    case 'randomnumber':
-      client.commands.get('randomnumber').execute(message, args);
-      break;
+			break;
+		case 'nonation':
+			client.commands.get('nonation').execute(message, args, Town, Nation);
+			break;
+		case 'notown':
+			client.commands.get('notown').execute(message, args, Town);
+			break;
+		case 'randomnumber':
+			client.commands.get('randomnumber').execute(message, args);
+			break;
 		case 'readify':
 			client.commands.get('readify').execute(message, args, Nation);
-      break;
+			break;
 		case 'setn':
 			client.commands.get('setn').execute(message, args, Nation);
 			break;
@@ -164,12 +164,12 @@ client.on('message', (message) => {
 			break;
 		case 'sett':
 			client.commands.get('sett').execute(message, args, Town, Nation);
-      break;
-    case 'stopTyping':
-      message.channel.stopTyping()
-      break;
-    //On separate bot
-    /*case 'updatedb':
+			break;
+		case 'stopTyping':
+			message.channel.stopTyping();
+			break;
+		//On separate bot
+		/*case 'updatedb':
       if(message.author.id != '456965312886079533')return message.channel.send('You do not have permission to use this command.')
       client.commands.get("updatedb").execute(Town, Nation);
       break;
@@ -177,8 +177,8 @@ client.on('message', (message) => {
       if(message.author.id != '456965312886079533')return message.channel.send('You do not have permission to use this command.')
       client.commands.get("updatenations").execute(Town, Nation);
       break;*/
-    case 'updatelistcache':
-      client.commands.get('updatelistcache').execute(Town, Nation);
-      break;
+		case 'updatelistcache':
+			client.commands.get('updatelistcache').execute(Town, Nation);
+			break;
 	}
 });
