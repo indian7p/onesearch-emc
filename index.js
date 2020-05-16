@@ -59,6 +59,10 @@ let TownPSchema = new Schema({
   imgLink: String,
   link: String
 })
+let StatsSchema = new Schema({
+  name: String,
+  count: String
+});
 
 var Town = mongoose.model('Town', TownSchema);
 var TownP1 = mongoose.model('TownP', TownPSchema);
