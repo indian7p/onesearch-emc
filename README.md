@@ -1,3 +1,4 @@
+<a href="https://creativecommons.org/licenses/by/4.0/"><img src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a><br>
 <img src="https://cdn.bcow.tk/assets/logo.png" width=56/>
 <h1>onesearch-emc</h1><br>
 Find towns, nations, and discords with OneSearch for EarthMC. Gets data from the EarthMC map.
