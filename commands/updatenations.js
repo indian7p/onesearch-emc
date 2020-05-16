@@ -9,7 +9,6 @@ module.exports = {
 			let nationsListwD = [];
 			towns.forEach((elems) => {
 				nationsListwD.push(elems.nation);
-				//console.log(elems.nation);
 			});
 			let uniqueNations = nationsListwD.filter((c, index) => {
 				return nationsListwD.indexOf(c) === index;
@@ -29,6 +28,7 @@ module.exports = {
 						if (town.capital == true) {
 							tmp.set(`${nation}.owner`, town.mayor);
 							tmp.set(`${nation}.capital`, town.name);
+              tmp.set(`${nation}.location`, `${town.x},${town.z}`);
 						}
 						counter++;
 						if (counter == towns2.length) {
@@ -38,7 +38,6 @@ module.exports = {
               let name = nation.replace(/ /g, '_').replace(/ *\([^)]*\) */g, '').replace(/(&amp;)(. *)/g, '');
 							let color1 = nation.replace(/ *\([^)]*\) */g, '').replace(name, "").slice(5);
               var color = tmp.get(`${nation}.color`);
-              console.log(color1)
 							switch (color1) {
 								case '0':
 									var color = '#111111';
@@ -96,12 +95,13 @@ module.exports = {
 								townsArr: uniqueTowns,
 								residents: tmp.get(`${nation}.resAmt`),
 								owner: tmp.get(`${nation}.owner`),
-								capital: tmp.get(`${nation}.capital`)
+								capital: tmp.get(`${nation}.capital`),
+                location: tmp.get(`${nation}.location`)
 							});
 							newNation.save(function(err) {
 								if (err) throw err;
 							});
-							//console.log(`Saving ${nation}`);
+							console.log(`Saving ${nation}`);
 						}
 					});
 				});
