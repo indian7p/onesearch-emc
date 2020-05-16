@@ -1,7 +1,3 @@
-const Discord = require("discord.js")
-
-const db = require("quick.db")
-
 let paginator = async (author, msg, embeds, pageNow, addReactions = true) => {
   if (addReactions) {
     await msg.react("⏪")
@@ -13,7 +9,7 @@ let paginator = async (author, msg, embeds, pageNow, addReactions = true) => {
   if (!reaction) return msg.clearReactions().catch(() => {})
   reaction = reaction.first()
   
-  if (msg.channel.type == 'dm' || !msg.member.hasPermissions("MANAGE_MESSAGES")) {
+  if (msg.channel.type == 'dm' || !msg.member.hasPermission(["MANAGE_MESSAGES"])) {
     if (reaction.emoji.name == "◀") {
       let m = await msg.channel.send(embeds[Math.max(pageNow-1, 0)])
       msg.delete()
@@ -31,8 +27,7 @@ let paginator = async (author, msg, embeds, pageNow, addReactions = true) => {
       msg.delete()
       paginator(author, m, embeds, embeds.length-1)
     }
-  }
-  else {
+  } else {
     if (reaction.emoji.name == "◀") {
       await reaction.remove(author)
       let m = await msg.edit(embeds[Math.max(pageNow-1, 0)])
