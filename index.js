@@ -77,17 +77,6 @@ var Nation = mongoose.model('Nation', NationSchema);
 var Result = mongoose.model('Result', ResultSchema);
 var Stats = mongoose.model('Stat', StatsSchema);
 
-var admin = require('firebase-admin');
-
-var serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
-
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
-	databaseURL: ''
-});
-
-const db = admin.firestore();
-
 client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands/').filter((file) => file.endsWith('.js'));
@@ -177,6 +166,9 @@ client.on('message', (message) => {
 		case 'sett':
 			client.commands.get('sett').execute(message, args, Town, Nation);
 			break;
+		case 'stats':
+      client.commands.get('stats').execute(message, client, Town, Nation, Result)
+      break;
 		case 'stopTyping':
 			message.channel.stopTyping();
 			break;
