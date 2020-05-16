@@ -38,14 +38,15 @@ let TownSchema = new Schema({
 	time: { type: Date, default: Date.now }
 });
 let NationSchema = new Schema({
-	name: String,
-	nameLower: String,
-	color: String,
-	towns: String,
-	townsArr: Array,
-	residents: Number,
-	owner: String,
-	capital: String
+  name: String,
+  nameLower: String,
+  color: String,
+  towns: String,
+  townsArr: Array,
+  residents: Number,
+  owner: String,
+  capital: String,
+  location: String
 });
 let ResultSchema = new Schema({
   desc: String,
@@ -53,6 +54,7 @@ let ResultSchema = new Schema({
   link: String,
   name: String,
   themeColor: String,
+  nsfw: String,
   id: String
 })
 let TownPSchema = new Schema({
