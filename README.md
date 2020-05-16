@@ -1,6 +1,6 @@
+<img src="https://cdn.bcow.tk/assets/logo.png" width=56/>
 
-
-# <img src="https://cdn.bcow.tk/assets/logo.png" width=56/> OneSearch
+# OneSearch
 
 Find towns, nations, and discords with OneSearch for EarthMC. Gets data from the EarthMC map.
 
