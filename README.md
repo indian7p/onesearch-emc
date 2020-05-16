@@ -9,5 +9,4 @@ This does not include Discord guilds for security and privacy reasons.
 ## Links
 
 * [Bot Invite](https://l.bcow.tk/osbot)
-
 * [Trello](https://trello.com/b/LVy0jGYg/onesearch)
