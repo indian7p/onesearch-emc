@@ -6,7 +6,6 @@ const db = require('quick.db');
 const nationsP = new db.table('nationsP');
 const townP = new db.table('townP');
 const casst = new db.table('casst');
-const CACHE = new db.table('CACHE');
 
 module.exports = {
 	name: 's',
@@ -47,15 +46,16 @@ module.exports = {
 					var members2STR = '```' + members2.toString().replace(/,/g, ', ') + '```';
 				}
 
+        let location = nation.location.split(",")
 				let resEmbedN = new Discord.RichEmbed()
 					.setTitle(nationName)
 					.setColor(nation.color)
 					.setThumbnail(imgLink)
 					.addField('Owner', '```' + nation.owner + '```')
 					.addField('Capital', nation.capital)
-					.addField('Residents', nation.residents)
-					.addField('CASST Status', CASSTstatus)
-					.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+          .addField('CASST Status', CASSTstatus)
+					.addField('Residents', nation.residents, true)
+          .addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
 
 				if (nationDisc == null) {
 					if (nationAMNT == null) {
@@ -88,7 +88,7 @@ module.exports = {
 				}
 			}
       
-      Town.findOne({ nameLower: query }, function(err, town) {
+      Town.findOne({ nameLower: nationQuery }, function(err, town) {
 			  if (town != null) {
 						switch (town.color) {
 						case '#FFFFFF':
@@ -122,8 +122,8 @@ module.exports = {
 						.setDescription(description)
 						.setColor(color)
 						.setThumbnail(townP.get(`${town.name}.imgLink`))
-						.addField('Coords', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`)
-						.addField('Mayor', '```' + town.mayor + '```')
+						.addField('Owner', '```' + town.mayor + '```', true)
+            .addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
 						.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo.png');
 					if (memberList.length > 1024) {
 						var counter = 0;
