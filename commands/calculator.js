@@ -1,7 +1,4 @@
 const Discord = require("discord.js");
-const client = new Discord.Client();
-const admin = require("firebase-admin");
-const db = admin.firestore();
 
 module.exports = {
     name: "calculator",

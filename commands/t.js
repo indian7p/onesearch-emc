@@ -32,7 +32,11 @@ module.exports = {
         break;
 			default:
 				if (!args[1]) return message.channel.send(errorMessage.setDescription('No results for ""'));
-				var query = message.content.slice(4).toLowerCase().replace(/ /g, '_');
+				if(args[0] == "town"){
+          var query = message.content.slice(7).toLowerCase().replace(/ /g, '_');
+        }else{
+          var query = message.content.slice(4).toLowerCase().replace(/ /g, '_');
+        }
 				Town.findOne({ nameLower: query }, function(err, town) {
 					if (err) return console.log(err);
 					if (town == null) {

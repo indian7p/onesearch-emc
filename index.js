@@ -112,46 +112,54 @@ client.on('message', (message) => {
 		case 'calculator':
 			client.commands.get('calculator').execute(message, args);
 			break;
-		case 'randomnumber':
-			client.commands.get('randomnumber').execute(message, args);
+    case 'coinflip':
+			client.commands.get('coinflip').execute(message);
 			break;
-		case 'coinflip':
-			client.commands.get('coinflip').execute(message, args);
+    case 'getall':
+			client.commands.get('getall').execute(message, Result);
 			break;
-		case 'help':
+    case 'help':
 			client.commands.get('help').execute(message, args);
 			break;
+    case 'info':
+      client.commands.get('info').execute(message);
+      break;
+    case 'listaudit':
+			client.commands.get('listaudit').execute(message, args, Nation);
+      break;
+    case 'listscammers':
+      client.commands.get('listscammers').execute(message, args, Nation);
+      break;
 		case 'updatecache':
 			client.commands.get('updatecache').execute(message, args);
 			break;
 		case 's':
 			client.commands.get('s').execute(message, args, Nation, Result, Town);
 			break;
-		case 'getall':
-			client.commands.get('getall').execute(message, args);
-			break;
 		case 't':
+    case 'town':
 			client.commands.get('t').execute(message, args, Town);
 			break;
-		case 'player':
 		case 'pl':
+    case 'player':
 			client.commands.get('pl').execute(message, args, Town, Nation, client);
 			break;
 		case 'n':
+    case 'nation':
 			client.commands.get('n').execute(message, args, Town, Nation);
-			break;
+      break;
+    case 'nonation':
+      client.commands.get('nonation').execute(message, args, Town, Nation);
+      break;
+    case 'notown':
+      client.commands.get('notown').execute(message, args, Town);
+      break;
+    case 'randomnumber':
+      client.commands.get('randomnumber').execute(message, args);
+      break;
 		case 'readify':
 			client.commands.get('readify').execute(message, args, Nation);
-			break;
-		//These commands are on a separate bot
-		/*case 'updatedb':
-      if(message.author.id != '456965312886079533')return message.channel.send('You do not have permission to use this command.')
-      client.commands.get("updatedb").execute(Town, Nation);
       break;
-    case 'updatenations':
-      if(message.author.id != '456965312886079533')return message.channel.send('You do not have permission to use this command.')
-      client.commands.get("updatenations").execute(Town, Nation);
-      break;*/
 		case 'setn':
 			client.commands.get('setn').execute(message, args, Nation);
 			break;
@@ -160,24 +168,21 @@ client.on('message', (message) => {
 			break;
 		case 'sett':
 			client.commands.get('sett').execute(message, args, Town, Nation);
-			break;
-		case 'listaudit':
-			client.commands.get('listaudit').execute(message, args, Nation);
-			break;
-		case 'listscammers':
-			client.commands.get('listscammers').execute(message, args, Nation);
-			break;
-    case 'updatelistcache':
-      client.commands.get('updatelistcache').execute(Town, Nation);
       break;
     case 'stopTyping':
       message.channel.stopTyping()
       break;
-    case 'nonation':
-      client.commands.get('nonation').execute(message, args, Town, Nation);
+    //On separate bot
+    /*case 'updatedb':
+      if(message.author.id != '456965312886079533')return message.channel.send('You do not have permission to use this command.')
+      client.commands.get("updatedb").execute(Town, Nation);
       break;
-    case 'notown':
-      client.commands.get('notown').execute(message, args, Town);
+    case 'updatenations':
+      if(message.author.id != '456965312886079533')return message.channel.send('You do not have permission to use this command.')
+      client.commands.get("updatenations").execute(Town, Nation);
+      break;*/
+    case 'updatelistcache':
+      client.commands.get('updatelistcache').execute(Town, Nation);
       break;
 	}
 });

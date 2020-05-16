@@ -29,7 +29,11 @@ module.exports = {
 				message.channel.stopTyping();
 				break;
 			default:
-        var query = message.content.slice(4).toLowerCase().replace(/ /g, '_');
+        if(args[0] == "nation"){
+          var query = message.content.slice(9).toLowerCase().replace(/ /g, '_');
+        }else{
+          var query = message.content.slice(4).toLowerCase().replace(/ /g, '_');
+        }
         if(query == 'no_nation') return message.channel.send(errorMessage.setDescription('Use 1!nonation'))
 				Nation.findOne({ nameLower: query }, function(err, nation) {
 					if (nation == null) {
@@ -156,7 +160,7 @@ module.exports = {
 							.setThumbnail(imgLink)
 							.addField('Owner', '```' + nation.owner + '```')
 							.addField('Capital', nation.capital)
-							.addField('Residents', nation.residents)
+							.addField('CASST Status', nationCASST)
 							.addField('Residents', nation.residents, true)
               .addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
 							.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');

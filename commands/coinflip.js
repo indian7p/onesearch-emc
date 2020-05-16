@@ -1,12 +1,9 @@
 const Discord = require("discord.js");
-const client = new Discord.Client();
-const admin = require("firebase-admin");
-const db = admin.firestore();
 
 module.exports = {
     name: "coinflip",
     description: "Flips a coin",
-    execute(message, args) {
+    execute(message) {
         let x = Math.floor(Math.random() * 2) + 1;
         if (x == 1) {
             const coinEmbedHeads = new Discord.RichEmbed()
