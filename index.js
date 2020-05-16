@@ -15,10 +15,6 @@ const moment = require('moment-timezone')
 const listcache = new cache.table('listcache')
 const stats = new cache.table('stats')
 
-function countInArray(array, what) {
-	return array.filter((item) => item == what).length;
-}
-
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
