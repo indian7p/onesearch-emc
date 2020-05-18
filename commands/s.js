@@ -124,6 +124,7 @@ module.exports = {
 						.setThumbnail(townP.get(`${town.name}.imgLink`))
 						.addField('Owner', '```' + town.mayor + '```', true)
             .addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
+            .addField('Size', town.area, true)
 						.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo.png');
 					if (memberList.length > 1024) {
 						var counter = 0;
