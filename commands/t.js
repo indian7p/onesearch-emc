@@ -30,6 +30,49 @@ module.exports = {
         })
         message.channel.stopTyping();
         break;
+			case "online":
+        fetch('https://earthmc.net/map/up/world/earth/')
+				.then((res) => {
+				  return res.json();
+				})
+				.then((data) => {
+          let query = message.content.slice(args[0].length+args[1].length+4).toLowerCase().replace(/ /g, "_");
+          Town.findOne({ nameLower: query }, function(err, town) {
+            if (town == null) {
+						  message.channel.stopTyping();
+						  return message.channel.send(errorMessage.setDescription('Town not found. The database may be updating, try again in a minute.'));
+					  }
+            let counter = 0;
+            let online = [];
+            data.players.forEach(player => {
+              Town.findOne({ membersArr: { $in: [ player.account ] } }, function(err, playerTown) {
+                if(playerTown != null) {
+                  if(playerTown.name == town.name) {
+                    online.push(player.account)
+                  }
+                }
+              }).then(n => {
+                counter++
+                if(counter == data.players.length) {
+                  if (online.length == 0) {
+                    var onlineCount = 0;
+                    online.push("No players online");
+                  }else{
+                    var onlineCount = online.length;
+                  }
+                  let embed = new Discord.RichEmbed()
+                  .setTitle(`Players Online - ${town.name}`)
+                  .setColor(0x0071bc)
+                  .setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ", ")}\`\`\``)
+                  .setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+                  message.channel.send(embed)
+                  message.channel.stopTyping()
+                }
+              })
+            })
+          })
+        })
+        break;
 			default:
 				if (!args[1]) return message.channel.send(errorMessage.setDescription('No results for ""'));
 				if(args[0] == "town"){
