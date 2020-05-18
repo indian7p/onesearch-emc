@@ -4,6 +4,7 @@ const cache = require('quick.db');
 const townP = new cache.table('townP');
 const listcache = new cache.table('listcache')
 const fn = require('/app/util/fn')
+const fetch = require("node-fetch")
 
 module.exports = {
 	name: 't',
@@ -30,7 +31,7 @@ module.exports = {
         })
         message.channel.stopTyping();
         break;
-			case "online":
+      case "online":
         fetch('https://earthmc.net/map/up/world/earth/')
 				.then((res) => {
 				  return res.json();
