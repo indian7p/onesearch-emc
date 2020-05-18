@@ -170,6 +170,7 @@ client.on('message', (message) => {
       client.commands.get("updatenations").execute(Town, Nation);
       break;*/
 		case 'updatelistcache':
+      message.delete()
 			client.commands.get('updatelistcache').execute(Town, Nation);
 			break;
 	}
