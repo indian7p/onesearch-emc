@@ -24,6 +24,7 @@ let TownSchema = new Schema({
 	nameLower: String,
 	nation: String,
 	color: String,
+  area: Number,
 	mayor: String,
 	members: String,
 	membersArr: Array,
