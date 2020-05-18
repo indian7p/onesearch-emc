@@ -64,9 +64,9 @@ module.exports = {
 						var tName = town.name + ' (' + town.nation + ')';
 					}
 					if (townP.get(`${town.name}.scrating`) == null) {
-						var description = 'Information may be slightly out of date.';
+						var description = 'Information may be slightly out of date. Size may be inaccurate due to hollow claims.';
 					} else {
-						var description = `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]**` + ' Information may be slightly out of date.';
+						var description = `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]**` + ' Information may be slightly out of date. Size may be inaccurate due to hollow claims.';
 					}
 					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 					let memberList = '```' + town.members + '```';
@@ -75,8 +75,9 @@ module.exports = {
 						.setDescription(description)
 						.setColor(color)
 						.setThumbnail(townP.get(`${town.name}.imgLink`))
-						.addField('Mayor', '```' + town.mayor + '```')
-            .addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`)
+						.addField('Mayor', '```' + town.mayor + '```', true)
+            .addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
+            .addField('Size', town.area, true)
 						.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo.png');
 					if (memberList.length > 1024) {
 						var counter = 0;
