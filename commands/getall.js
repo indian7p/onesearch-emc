@@ -12,7 +12,7 @@ module.exports = {
       let pageCount = 0;
       results.forEach(result => {
         pageCount++
-        let resEmbed = new Discord.RichEmbed()
+        let resEmbed = new Discord.MessageEmbed()
         .setTitle(result.name)
         .setColor(0x0071bc)
         .setDescription(result.desc)

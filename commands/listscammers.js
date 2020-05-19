@@ -23,7 +23,7 @@ module.exports = {
 									return res.json();
 								})
 								.then((data) => {
-									let resEmbed = new Discord.RichEmbed()
+									let resEmbed = new Discord.MessageEmbed()
 										.setTitle(data.data.player.username)
 										.setURL(`https://namemc.com/${player.ID}`)
 										.setThumbnail(`https://crafatar.com/avatars/${player.ID}?overlay`)

@@ -11,7 +11,7 @@ module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
 	execute(message, args, Nation, Result, Town) {
-		let errorMessage = new Discord.RichEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		if (!args[1]) return message.channel.send(errorMessage.setDescription('No search query'));
 		let query = message.content.slice(4).toLowerCase();
 
@@ -47,7 +47,7 @@ module.exports = {
 				}
 
         let location = nation.location.split(",")
-				let resEmbedN = new Discord.RichEmbed()
+				let resEmbedN = new Discord.MessageEmbed()
 					.setTitle(nationName)
 					.setColor(nation.color)
 					.setThumbnail(imgLink)
@@ -117,7 +117,7 @@ module.exports = {
 					}
 					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 					let memberList = '```' + town.members + '```';
-					let resEmbed = new Discord.RichEmbed()
+					let resEmbed = new Discord.MessageEmbed()
 						.setTitle(tName)
 						.setDescription(description)
 						.setColor(color)
@@ -163,7 +163,7 @@ module.exports = {
 						pageNum++;
 						var themeColor = 0x0071bc;
 						if (data.themeColor != undefined) var themeColor = data.themeColor;
-						let resEmbed = new Discord.RichEmbed()
+						let resEmbed = new Discord.MessageEmbed()
 							.setTitle(data.name)
 							.setURL(data.link)
 							.setDescription(data.desc)

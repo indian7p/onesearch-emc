@@ -6,7 +6,7 @@ module.exports = {
     execute(message) {
         let x = Math.floor(Math.random() * 2) + 1;
         if (x == 1) {
-            const coinEmbedHeads = new Discord.RichEmbed()
+            const coinEmbedHeads = new Discord.MessageEmbed()
                 .setTitle('Coin Flip')
                 .addField('Result', 'Heads')
                 .setColor(0xfefefe)
@@ -14,7 +14,7 @@ module.exports = {
                 .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png')
             message.channel.send(coinEmbedHeads)
         } else {
-            const coinEmbedTails = new Discord.RichEmbed()
+            const coinEmbedTails = new Discord.MessageEmbed()
                 .setTitle('Coin Flip')
                 .addField('Result', 'Tails')
                 .setColor(0xfefefe)

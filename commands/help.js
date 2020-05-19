@@ -4,7 +4,7 @@ module.exports = {
     name: "help",
     description: "Shows commands and tips and tricks",
     execute(message, args) {
-        const helpEmbed = new Discord.RichEmbed()
+        const helpEmbed = new Discord.MessageEmbed()
           .setTitle("Help")
           .setThumbnail('https://cdn.bcow.tk/assets/logo.png')
           .setColor(0x0071bc)

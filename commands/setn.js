@@ -18,8 +18,8 @@ module.exports = {
   name: 'setn',
   description: 'Sets nation information',
   execute: (message, args, Nation) => {
-    let errorMessage = new Discord.RichEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-    let successMessage = new Discord.RichEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07BF63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+    let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+    let successMessage = new Discord.MessageEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07BF63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
     if (message.author.id != '456965312886079533') {
       if (message.author.id != '345720683076124673') {
         message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));

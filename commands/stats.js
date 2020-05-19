@@ -14,7 +14,7 @@ module.exports = {
       
       Nation.find({}, function(err, nations){
         Result.find({}, function(err, results){
-          let statsEmbed = new Discord.RichEmbed()
+          let statsEmbed = new Discord.MessageEmbed()
           .setTitle("Stats")
 		      .setThumbnail("https://cdn.bcow.tk/assets/logo.png")
 		      .setColor(0x0071bc)

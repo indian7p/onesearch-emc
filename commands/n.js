@@ -10,8 +10,8 @@ module.exports = {
 	name: 'n',
 	description: 'Searches for nations',
 	execute: async (message, args, Town, Nation) => {
-		let errorMessage = new Discord.RichEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-		let nHelp = new Discord.RichEmbed().setTitle('1!n - Help').addField('1!n [nation]', 'Finds nations').addField('1!n list', 'Lists all nations by residents').setColor(0x0071bc).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let nHelp = new Discord.MessageEmbed().setTitle('1!n - Help').addField('1!n [nation]', 'Finds nations').addField('1!n list', 'Lists all nations by residents').setColor(0x0071bc).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		message.channel.startTyping();
 		switch (args[1]) {
 			case 'list':
@@ -20,7 +20,7 @@ module.exports = {
 				let counter = 0;
 				listcache.get('nations').forEach((nationsL) => {
 					counter++;
-					let embed = new Discord.RichEmbed().setTitle('Nation List').setColor(0x0071bc).setDescription(nationsL).setFooter(`OneSearch | Page ${counter}/${listcache.get('nations').length}`, 'https://cdn.bcow.tk/assets/logo.png');
+					let embed = new Discord.MessageEmbed().setTitle('Nation List').setColor(0x0071bc).setDescription(nationsL).setFooter(`OneSearch | Page ${counter}/${listcache.get('nations').length}`, 'https://cdn.bcow.tk/assets/logo.png');
 					embeds.push(embed);
 				});
 				message.channel.send(embeds[0]).then((m) => {
@@ -79,7 +79,7 @@ module.exports = {
 									var members2STR = '```' + members2.toString().replace(/,/g, ', ') + '```';
 								}
                 let location = nationByTown.location.split(",")
-								let resEmbedN = new Discord.RichEmbed()
+								let resEmbedN = new Discord.MessageEmbed()
 									.setTitle(nationName)
                   .setDescription("TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command.")
 									.setColor(nationByTown.color)
@@ -153,7 +153,7 @@ module.exports = {
 							var members2STR = '```' + members2.toString().replace(/,/g, ', ') + '```';
 						}
             let location = nation.location.split(",")
-						let resEmbedN = new Discord.RichEmbed()
+						let resEmbedN = new Discord.MessageEmbed()
 							.setTitle(nationName)
               .setDescription("TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command.")
 							.setColor(nation.color)

@@ -11,7 +11,7 @@ module.exports = {
 	description: 'Searches for towns',
 	execute: (message, args, Town) => {
 		message.channel.startTyping();
-		let errorMessage = new Discord.RichEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		switch (args[1]) {
       case 'list':
         if(listcache.get('towns')==null) return message.channel.send(errorMessage.setDescription('Town list not found. The database may be updating, try again in a minute.'))
@@ -19,7 +19,7 @@ module.exports = {
         let counter = 0
         listcache.get('towns').forEach(townsL => {
           counter++
-          let embed = new Discord.RichEmbed()
+          let embed = new Discord.MessageEmbed()
           .setTitle('Town List')
           .setColor(0x0071bc)
           .setDescription(townsL)
@@ -61,7 +61,7 @@ module.exports = {
                   }else{
                     var onlineCount = online.length;
                   }
-                  let embed = new Discord.RichEmbed()
+                  let embed = new Discord.MessageEmbed()
                   .setTitle(`Players Online - ${town.name}`)
                   .setColor(0x0071bc)
                   .setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ", ")}\`\`\``)
@@ -114,7 +114,7 @@ module.exports = {
 					}
 					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 					let memberList = '```' + town.members + '```';
-					let resEmbed = new Discord.RichEmbed()
+					let resEmbed = new Discord.MessageEmbed()
 						.setTitle(tName)
 						.setDescription(description)
 						.setColor(color)

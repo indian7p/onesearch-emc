@@ -11,9 +11,9 @@ module.exports = {
 	name: 'setpl',
 	description: 'Sets player information',
 	execute: (message, args, Town, Nation, client) => {
-    let successMessage = new Discord.RichEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07BF63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-    let errorMessage = new Discord.RichEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-    let helpEmbed = new Discord.RichEmbed()
+    let successMessage = new Discord.MessageEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07BF63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+    let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+    let helpEmbed = new Discord.MessageEmbed()
     .setTitle('1!setpl')
     .setDescription('Using `null` as the value will clear that type')
     .setColor(0x3fb4ff)
@@ -69,7 +69,7 @@ module.exports = {
             message.channel.send(successMessage.setDescription(`Cleared the player's status`))
             return;
           }
-          let scsEmbed = new Discord.RichEmbed()
+          let scsEmbed = new Discord.MessageEmbed()
 						.setTitle(data.data.player.username)
 						.setURL(`https://namemc.com/${data.data.player.raw_id}`)
 						.setThumbnail(`https://crafatar.com/avatars/${data.data.player.raw_id}?overlay`)

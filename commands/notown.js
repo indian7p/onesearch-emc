@@ -22,7 +22,7 @@ module.exports = {
             townless.push(player.account)
           }
           if(counter == data.players.length){
-            let resEmbed = new Discord.RichEmbed()
+            let resEmbed = new Discord.MessageEmbed()
             .setTitle('Townless Players')
             .setColor(0x0071bc)
             .setDescription(`**Players [${townless.length}]**\n`+'```'+townless.toString().replace(/,/g, ', ')+'```')

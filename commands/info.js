@@ -4,7 +4,7 @@ module.exports = {
     name: "info",
     description: "Shows bot information",
     execute(message, args) {
-        const helpEmbed = new Discord.RichEmbed()
+        const helpEmbed = new Discord.MessageEmbed()
           .setTitle("Info")
           .setDescription('Find towns, nations, and discords with OneSearch for EarthMC.')
           .setThumbnail('https://cdn.bcow.tk/assets/logo.png')

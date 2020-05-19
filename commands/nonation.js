@@ -8,7 +8,7 @@ module.exports = {
 	name: 'nonation',
 	description: 'Searches for towns without nations',
 	execute: async (message, args, Town, Nation) => {
-		let errorMessage = new Discord.RichEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		message.channel.startTyping();
 		var query = message.content.slice(5).toLowerCase().replace(/ /g, '_');
 		Nation.findOne({ nameLower: 'no_nation' }, async function(err, nation2) {
@@ -107,7 +107,7 @@ module.exports = {
 							break;
 					}
 					pageNum++;
-					let resEmbed = new Discord.RichEmbed()
+					let resEmbed = new Discord.MessageEmbed()
 						.setTitle('No Nation')
 						.setColor(0x0071bc)
 						.addField('Residents', nation2.residents)

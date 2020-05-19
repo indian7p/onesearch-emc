@@ -6,7 +6,7 @@ module.exports = {
     name: "readify",
     description: "Takes a list and does stuff",
     execute(message, args, Nation) {
-    let errorMessage = new Discord.RichEmbed().setTitle(":x: **Error**").setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+    let errorMessage = new Discord.MessageEmbed().setTitle(":x: **Error**").setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
       if(message.author.id != '456965312886079533')return message.channel.send('You do not have permission to use this command.')
       let nationsArr = message.content.slice(10).split(',')
       nationsArr.forEach(nation1 => {
