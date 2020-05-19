@@ -1,11 +1,10 @@
-const Discord = require('discord.js');
-const moment = require('moment-timezone')
-const fn = require('../util/fn');
-
-const db = require('quick.db');
-const nationsP = new db.table('nationsP');
-const townP = new db.table('townP');
-const casst = new db.table('casst');
+const Discord = require('discord.js'),
+	moment = require('moment-timezone'),
+	fn = require('../util/fn'),
+	db = require('quick.db'),
+	nationsP = new db.table('nationsP'),
+	townP = new db.table('townP'),
+	casst = new db.table('casst');
 
 module.exports = {
 	name: 's',
@@ -46,16 +45,16 @@ module.exports = {
 					var members2STR = '```' + members2.toString().replace(/,/g, ', ') + '```';
 				}
 
-        let location = nation.location.split(",")
+				let location = nation.location.split(',');
 				let resEmbedN = new Discord.MessageEmbed()
 					.setTitle(nationName)
 					.setColor(nation.color)
 					.setThumbnail(imgLink)
 					.addField('Owner', '```' + nation.owner + '```')
 					.addField('Capital', nation.capital)
-          .addField('CASST Status', CASSTstatus)
+					.addField('CASST Status', CASSTstatus)
 					.addField('Residents', nation.residents, true)
-          .addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
+					.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true);
 
 				if (nationDisc == null) {
 					if (nationAMNT == null) {
@@ -87,10 +86,10 @@ module.exports = {
 					}
 				}
 			}
-      
-      Town.findOne({ nameLower: nationQuery }, function(err, town) {
-			  if (town != null) {
-						switch (town.color) {
+
+			Town.findOne({ nameLower: nationQuery }, function(err, town) {
+				if (town != null) {
+					switch (town.color) {
 						case '#FFFFFF':
 							var color = '#FEFEFE';
 							break;
@@ -123,8 +122,8 @@ module.exports = {
 						.setColor(color)
 						.setThumbnail(townP.get(`${town.name}.imgLink`))
 						.addField('Owner', '```' + town.mayor + '```', true)
-            .addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
-            .addField('Size', town.area, true)
+						.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
+						.addField('Size', town.area, true)
 						.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo.png');
 					if (memberList.length > 1024) {
 						var counter = 0;
@@ -138,17 +137,22 @@ module.exports = {
 								members2.push(member);
 							}
 						});
-            if(townP.get(`${town.name}.link`) == null) {
-              embeds.push(resEmbed.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```').addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```'));
-            }else{
-              embeds.push(resEmbed.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```').addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```').setURL(townP.get(`${town.name}.link`)));
-            }
+						if (townP.get(`${town.name}.link`) == null) {
+							embeds.push(resEmbed.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```').addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```'));
+						} else {
+							embeds.push(
+								resEmbed
+									.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```')
+									.addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```')
+									.setURL(townP.get(`${town.name}.link`))
+							);
+						}
 					} else {
-            if(townP.get(`${town.name}.link`) == null) {
-              embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
-            }else{
-              embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(townP.get(`${town.name}.link`)));
-            }
+						if (townP.get(`${town.name}.link`) == null) {
+							embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
+						} else {
+							embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(townP.get(`${town.name}.link`)));
+						}
 					}
 				}
 			});

@@ -48,6 +48,33 @@ let paginator = async (author, msg, embeds, pageNow, addReactions = true) => {
   }
 }
 
+let compare = (a, b) => {
+	const A = a.residents;
+	const B = b.residents;
+
+	let comparison = 0;
+	if (A > B) {
+		comparison = 1;
+	} else if (A < B) {
+		comparison = -1;
+	}
+	return comparison * -1;
+}
+
+let urlChecker = (string) => {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;  
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
 module.exports = {
   paginator: paginator,
+  compare: compare,
+  urlChecker: urlChecker
 }

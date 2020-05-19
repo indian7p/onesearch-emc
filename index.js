@@ -1,10 +1,10 @@
-import Discord from 'discord.js';
-import mongoose from 'mongoose';
-import fs from 'fs';
+const Discord = require('discord.js');
+const mongoose = require('mongoose');
+const fs = require('fs');
 
 const client = new Discord.Client();
 
-mongoose.connect(``, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(, { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
 
 let TownSchema = new Schema({
@@ -47,7 +47,7 @@ let TownPSchema = new Schema({
   scrating: String,
   imgLink: String,
   link: String
-})
+});
 
 var Town = mongoose.model('Town', TownSchema);
 var TownP1 = mongoose.model('TownP', TownPSchema);
@@ -93,19 +93,16 @@ client.on('message', (message) => {
 			client.commands.get('getall').execute(message, Result);
 			break;
 		case 'help':
-			client.commands.get('help').execute(message, args);
+			client.commands.get('help').execute(message);
 			break;
 		case 'info':
 			client.commands.get('info').execute(message);
 			break;
 		case 'listaudit':
-			client.commands.get('listaudit').execute(message, args, Nation);
+			client.commands.get('listaudit').execute(message, Nation);
 			break;
 		case 'listscammers':
-			client.commands.get('listscammers').execute(message, args, Nation);
-			break;
-		case 'updatecache':
-			client.commands.get('updatecache').execute(message, args);
+			client.commands.get('listscammers').execute(message, Nation);
 			break;
 		case 's':
 			client.commands.get('s').execute(message, args, Nation, Result, Town);
@@ -116,23 +113,23 @@ client.on('message', (message) => {
 			break;
 		case 'pl':
 		case 'player':
-			client.commands.get('pl').execute(message, args, Town, Nation, client);
+			client.commands.get('pl').execute(message, args, Town, client);
 			break;
 		case 'n':
 		case 'nation':
 			client.commands.get('n').execute(message, args, Town, Nation);
 			break;
 		case 'nonation':
-			client.commands.get('nonation').execute(message, args, Town, Nation);
+			client.commands.get('nonation').execute(message, Nation);
 			break;
 		case 'notown':
-			client.commands.get('notown').execute(message, args, Town);
+			client.commands.get('notown').execute(message, Town);
 			break;
 		case 'randomnumber':
 			client.commands.get('randomnumber').execute(message, args);
 			break;
 		case 'readify':
-			client.commands.get('readify').execute(message, args, Nation);
+			client.commands.get('readify').execute(message);
 			break;
 		case 'setn':
 			client.commands.get('setn').execute(message, args, Nation);
@@ -141,7 +138,7 @@ client.on('message', (message) => {
 			client.commands.get('setpl').execute(message, args, Town, Nation, client);
 			break;
 		case 'sett':
-			client.commands.get('sett').execute(message, args, Town, Nation);
+			client.commands.get('sett').execute(message, args, Town);
 			break;
 		case 'stats':
       client.commands.get('stats').execute(message, client, Town, Nation, Result)

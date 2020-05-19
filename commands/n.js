@@ -1,17 +1,21 @@
-const Discord = require('discord.js');
-const fn = require('../util/fn');
-
-const db = require('quick.db');
-const nationsP = new db.table('nationsP');
-const casst = new db.table('casst');
-const listcache = new db.table('listcache');
+const Discord = require('discord.js'),
+	fn = require('../util/fn'),
+	db = require('quick.db'),
+	nationsP = new db.table('nationsP'),
+	casst = new db.table('casst'),
+	listcache = new db.table('listcache');
 
 module.exports = {
 	name: 'n',
 	description: 'Searches for nations',
 	execute: async (message, args, Town, Nation) => {
 		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-		let nHelp = new Discord.MessageEmbed().setTitle('1!n - Help').addField('1!n [nation]', 'Finds nations').addField('1!n list', 'Lists all nations by residents').setColor(0x0071bc).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let nHelp = new Discord.MessageEmbed()
+			.setTitle('1!n - Help')
+			.addField('1!n [nation]', 'Finds nations')
+			.addField('1!n list', 'Lists all nations by residents')
+			.setColor(0x0071bc)
+			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		message.channel.startTyping();
 		switch (args[1]) {
 			case 'list':
@@ -29,12 +33,12 @@ module.exports = {
 				message.channel.stopTyping();
 				break;
 			default:
-        if(args[0] == "nation"){
-          var query = message.content.slice(9).toLowerCase().replace(/ /g, '_');
-        }else{
-          var query = message.content.slice(4).toLowerCase().replace(/ /g, '_');
-        }
-        if(query == 'no_nation') return message.channel.send(errorMessage.setDescription('Use 1!nonation'))
+				if (args[0] == 'nation') {
+					var query = message.content.slice(9).toLowerCase().replace(/ /g, '_');
+				} else {
+					var query = message.content.slice(4).toLowerCase().replace(/ /g, '_');
+				}
+				if (query == 'no_nation') return message.channel.send(errorMessage.setDescription('Use 1!nonation'));
 				Nation.findOne({ nameLower: query }, function(err, nation) {
 					if (nation == null) {
 						Town.findOne({ nameLower: query }, function(err, town) {
@@ -62,8 +66,8 @@ module.exports = {
 									var townsLength = nationByTown.townsArr.length;
 								}
 								if (nationCASST == '<:verified:696564425775251477> Verified') var nationName = '<:verified:696564425775251477> ' + nationByTown.name;
-                if (nationsP.get(`${nationByTown.nameLower}.imgLink`) != null) var imgLink = nationsP.get(`${nationByTown.nameLower}.imgLink`);
-                if (townsList.length > 1024) {
+								if (nationsP.get(`${nationByTown.nameLower}.imgLink`) != null) var imgLink = nationsP.get(`${nationByTown.nameLower}.imgLink`);
+								if (townsList.length > 1024) {
 									var counter = 0;
 									let members1 = [];
 									let members2 = [];
@@ -78,17 +82,17 @@ module.exports = {
 									var members1STR = '```' + members1.toString().replace(/,/g, ', ') + '```';
 									var members2STR = '```' + members2.toString().replace(/,/g, ', ') + '```';
 								}
-                let location = nationByTown.location.split(",")
+								let location = nationByTown.location.split(',');
 								let resEmbedN = new Discord.MessageEmbed()
 									.setTitle(nationName)
-                  .setDescription("TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command.")
+									.setDescription('TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command.')
 									.setColor(nationByTown.color)
 									.setThumbnail(imgLink)
 									.addField('Owner', '```' + nationByTown.owner + '```', true)
 									.addField('Capital', nationByTown.capital, true)
-                  .addField('CASST Status', nationCASST)
+									.addField('CASST Status', nationCASST)
 									.addField('Residents', nationByTown.residents, true)
-                  .addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
+									.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
 									.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
 								if (nationDisc == null) {
 									if (nationAMNT == null) {
@@ -137,7 +141,7 @@ module.exports = {
 						}
 						if (nationCASST == '<:verified:696564425775251477> Verified') var nationName = '<:verified:696564425775251477> ' + nation.name;
 						if (nationsP.get(`${nation.nameLower}.imgLink`) != null) var imgLink = nationsP.get(`${nation.nameLower}.imgLink`);
-							if (townsList.length > 1024) {
+						if (townsList.length > 1024) {
 							var counter = 0;
 							let members1 = [];
 							let members2 = [];
@@ -152,17 +156,17 @@ module.exports = {
 							var members1STR = '```' + members1.toString().replace(/,/g, ', ') + '```';
 							var members2STR = '```' + members2.toString().replace(/,/g, ', ') + '```';
 						}
-            let location = nation.location.split(",")
+						let location = nation.location.split(',');
 						let resEmbedN = new Discord.MessageEmbed()
 							.setTitle(nationName)
-              .setDescription("TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command.")
+							.setDescription('TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command.')
 							.setColor(nation.color)
 							.setThumbnail(imgLink)
 							.addField('Owner', '```' + nation.owner + '```')
 							.addField('Capital', nation.capital)
 							.addField('CASST Status', nationCASST)
 							.addField('Residents', nation.residents, true)
-              .addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
+							.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
 							.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
 						if (nationDisc == null) {
 							if (nationAMNT == null) {
@@ -195,8 +199,8 @@ module.exports = {
 						}
 					}
 				});
-        message.channel.stopTyping()			
-        break;
+				message.channel.stopTyping();
+				break;
 		}
 	}
 };

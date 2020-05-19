@@ -1,14 +1,14 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
 const cache = require('quick.db');
-const moment = require('moment-timezone');
-const casst = new cache.table('casst');
-const players = new cache.table('players');
+const moment = require('moment-timezone'),
+	casst = new cache.table('casst'),
+	players = new cache.table('players');
 
 module.exports = {
 	name: 'pl',
 	description: 'Searches for players',
-	execute: async (message, args, Town, Nation, client) => {
+	execute: async (message, args, Town, client) => {
 		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!pl')
@@ -20,7 +20,7 @@ module.exports = {
 			.addField('1!pl online [staff]', 'Shows online players. 1!pl online staff shows online staff.')
 			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		if (!args[1]) return message.channel.send(helpEmbed);
-      if (!args[2]) {
+		if (!args[2]) {
 			if (args[1] == 'skin') {
 				var URL = `https://playerdb.co/api/player/minecraft/${args[3]}`;
 			} else {
@@ -128,15 +128,15 @@ module.exports = {
 													});
 													break;
 												default:
-                          if(data2.players.includes(data.data.player.username)) {
-                            let onEmbed = new Discord.MessageEmbed().setTitle(data.data.player.username).setColor(0x0071bc).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-                            message.channel.send(onEmbed);
-                            message.channel.stopTyping();
-                          }else{
-                            let onEmbed = new Discord.MessageEmbed().setTitle(data.data.player.username).setColor(0x0071bc).addField('Status', 'Offline').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-                            message.channel.send(onEmbed);
-                            message.channel.stopTyping();
-                          }
+													if (data2.players.includes(data.data.player.username)) {
+														let onEmbed = new Discord.MessageEmbed().setTitle(data.data.player.username).setColor(0x0071bc).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+														message.channel.send(onEmbed);
+														message.channel.stopTyping();
+													} else {
+														let onEmbed = new Discord.MessageEmbed().setTitle(data.data.player.username).setColor(0x0071bc).addField('Status', 'Offline').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+														message.channel.send(onEmbed);
+														message.channel.stopTyping();
+													}
 													break;
 											}
 										}
@@ -324,35 +324,39 @@ module.exports = {
 								break;
 						}
 						break;
-          case 'location':
-            fetch('https://earthmc.net/map/up/world/earth/')
+					case 'location':
+						fetch('https://earthmc.net/map/up/world/earth/')
 							.then((res) => {
 								return res.json();
 							})
 							.then((data2) => {
-                let playerNames = []
-                data2.players.forEach(player => {
-                  playerNames.push(player.account)
-                })
-								if(playerNames.includes(data.data.player.username)){
-                  data2.players.forEach(player => {
-                     if(player.account == data.data.player.username) {
-                       if(player.world == '-some-other-bogus-world-'){
-                         var location = 'Unable to get the players location. Make sure they are not under a block, invisible, or underwater.'
-                         var resEmbed = new Discord.MessageEmbed().setTitle(data.data.player.username).addField('Location', `${location}`).setColor(0x0071bc).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-                       }else{
-                         var location = `${player.x}, ${player.z}`
-                         var resEmbed = new Discord.MessageEmbed().setTitle(data.data.player.username).addField('Location', `[${location}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${player.x}&y=64&z=${player.z})`).setColor(0x0071bc).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-                       }
-                       message.channel.send(resEmbed)
-                     }
-                  })
-                }else{
-                  message.channel.send(errorMessage.setDescription('Player is not online'))
-                }
+								let playerNames = [];
+								data2.players.forEach((player) => {
+									playerNames.push(player.account);
+								});
+								if (playerNames.includes(data.data.player.username)) {
+									data2.players.forEach((player) => {
+										if (player.account == data.data.player.username) {
+											if (player.world == '-some-other-bogus-world-') {
+												var location = 'Unable to get the players location. Make sure they are not under a block, invisible, or underwater.';
+												var resEmbed = new Discord.MessageEmbed().setTitle(data.data.player.username).addField('Location', `${location}`).setColor(0x0071bc).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+											} else {
+												var location = `${player.x}, ${player.z}`;
+												var resEmbed = new Discord.MessageEmbed()
+													.setTitle(data.data.player.username)
+													.addField('Location', `[${location}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${player.x}&y=64&z=${player.z})`)
+													.setColor(0x0071bc)
+													.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+											}
+											message.channel.send(resEmbed);
+										}
+									});
+								} else {
+									message.channel.send(errorMessage.setDescription('Player is not online'));
+								}
 							});
-            break;
+						break;
 				}
 			});
-    }
+	}
 };

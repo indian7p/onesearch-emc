@@ -1,11 +1,11 @@
-const Discord = require('discord.js');
-const cache = require('quick.db');
-const casst = new cache.table('casst');
+const Discord = require('discord.js'),
+	cache = require('quick.db'),
+	casst = new cache.table('casst');
 
 module.exports = {
 	name: 'listscammers',
 	description: 'Finds nations without CASST statuses',
-	execute: (message, args, Nation) => {
+	execute: (message, Nation) => {
 		if (message.author.id != '456965312886079533') return message.channel.send('You do not have permission to use this command.');
 		let nations3s = [];
 		Nation.find({}, function(err, nations2) {
