@@ -1,22 +1,10 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-const fs = require('fs');
-const http = require('http');
-const express = require('express');
-const cache = require('quick.db');
-const nationsP = new cache.table('nationsP');
-const townP = new cache.table('townP');
-const casst = new cache.table('casst');
-const players = new cache.table('players');
-const tmp = new cache.table('tmp');
-const fetch = require('node-fetch');
-const fn = require('/app/util/fn');
-const moment = require('moment-timezone');
-const listcache = new cache.table('listcache');
-const stats = new cache.table('stats');
+import Discord from 'discord.js';
+import mongoose from 'mongoose';
+import fs from 'fs';
 
-const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new Discord.Client();
+
+mongoose.connect(``, { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
 
 let TownSchema = new Schema({
@@ -75,7 +63,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-client.login(process.env.TOKEN);
+client.login();
 
 const PREFIX = '1!';
 

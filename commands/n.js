@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const fn = require('/app/util/fn');
+const fn = require('../util/fn');
 
 const db = require('quick.db');
 const nationsP = new db.table('nationsP');

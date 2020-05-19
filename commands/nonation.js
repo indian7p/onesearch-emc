@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const cache = require('quick.db');
 const nationsP = new cache.table('nationsP');
 const casst = new cache.table('casst');
-const fn = require('/app/util/fn');
+const fn = require('../util/fn');
 
 module.exports = {
 	name: 'nonation',

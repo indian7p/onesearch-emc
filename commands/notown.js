@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const cache = require('quick.db');
-const fn = require('/app/util/fn');
+const fn = require('../util/fn');
 const fetch = require('node-fetch')
 
 module.exports = {

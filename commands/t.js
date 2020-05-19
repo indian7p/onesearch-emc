@@ -3,7 +3,7 @@ const moment = require('moment-timezone');
 const cache = require('quick.db');
 const townP = new cache.table('townP');
 const listcache = new cache.table('listcache')
-const fn = require('/app/util/fn')
+const fn = require('../util/fn');
 const fetch = require("node-fetch")
 
 module.exports = {

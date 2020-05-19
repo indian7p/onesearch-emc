@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const moment = require('moment-timezone')
-const fn = require('/app/util/fn');
+const fn = require('../util/fn');
 
 const db = require('quick.db');
 const nationsP = new db.table('nationsP');
