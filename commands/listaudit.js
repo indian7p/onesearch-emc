@@ -1,11 +1,10 @@
-const Discord = require('discord.js');
-const cache = require('quick.db');
-const casst = new cache.table('casst');
+const db = require('quick.db'),
+casst = new db.table('casst');
 
 module.exports = {
 	name: 'listaudit',
 	description: 'Finds nations without CASST statuses',
-	execute: (message, args, Nation) => {
+	execute: (message, Nation) => {
 		if (message.author.id != '456965312886079533') return message.channel.send('You do not have permission to use this command.');
 		Nation.find({}, async function(err, nations) {
 			let counter = 0;
