@@ -8,13 +8,11 @@
   },
   "dependencies": {
     "discord.js": "^12.2.0",
-    "express": "^4.17.1",
-    "moment-timezone": "^0.5.28",
-    "mongoose": "^5.9.6",
+    "moment-timezone": "^0.5.31",
+    "mongoose": "^5.9.15",
     "node-fetch": "^2.6.0",
-    "node-gyp": "^6.0.1",
-    "jquery": "3.5.1",
-    "quick.db": "^7.0.0-b22"
+    "node-gyp": "^6.1.0",
+    "quick.db": "^7.1.1"
   },
   "scripts": {
     "start": "node index.js",
