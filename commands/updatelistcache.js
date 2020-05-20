@@ -18,7 +18,7 @@ module.exports = {
 				j,
 				temparray,
 				chunk = 10;
-			let timeUp = moment(towns[1].time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
+			let timeUp = moment(towns[0].time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 			let counter = 0;
 			await listcache.delete('towns');
 			for (i = 0, j = lists.length; i < j; i += chunk) {
