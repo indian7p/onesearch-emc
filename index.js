@@ -68,7 +68,7 @@ client.login("");
 const PREFIX = '1!';
 
 client.on('ready', () => {
-  let statuses = ['Search towns, nations, discords and players fast. 1!st [town name] or 1!pl [username or UUID] or 1!s [nation/anything]', 'Statuspage: bcow.statuspage.io', 'Invite me! l.bcow.tk/osbot', 'github.com/imabritishcow/onesearch-emc']
+  let statuses = ['Search towns, nations, discords and players fast. 1!s [nation/town/anything] or 1!pl [username or UUID]', 'Statuspage: bcow.statuspage.io', 'Invite me! l.bcow.tk/osbot', 'github.com/imabritishcow/onesearch-emc']
   setInterval(function() {
     let status = statuses[Math.floor(Math.random * statuses.length)];
     client.user.setActivity(status);
