@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const client = new Discord.Client();
 
-mongoose.connect(, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('', { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
 
 let TownSchema = new Schema({
@@ -63,18 +63,13 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-client.login();
+client.login("");
 
 const PREFIX = '1!';
 
 client.on('ready', () => {
-	console.log('heyyyy');
-	setInterval(function() {
-		client.user.setActivity('Updating database...');
-		setTimeout(function() {
-			client.user.setActivity('Search towns, nations, discords and players fast. 1!st [town name] or 1!pl [username or UUID] or 1!s [nation/anything]');
-		}, 120000);
-	}, 3600000 + 1800000);
+  console.log('heyyyy');
+  client.user.setActivity('Search towns, nations, discords and players fast. 1!st [town name] or 1!pl [username or UUID] or 1!s [nation/anything]');
 });
 
 client.on('message', (message) => {
