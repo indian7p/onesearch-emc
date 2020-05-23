@@ -177,11 +177,11 @@ module.exports = {
 							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 						let query = new RegExp(data.data.player.username, 'gi');
 						async function flagged(msg) {
-							msg.react(client.emoji.resolve("713483275242569838")).then(async (hej) => {
-								let reaction1 = await msg.awaitReactions((reaction, user) => user.id == message.author.id && [ client.emoji.resolve("713483275242569838").name ].includes(reaction.emoji.name), { max: 1, errors: [ 'time' ] }).catch(() => {});
+							msg.react('🏳️').then(async (hej) => {
+								let reaction1 = await msg.awaitReactions((reaction, user) => user.id == message.author.id && [ '🏳️' ].includes(reaction.emoji.name), { max: 1, errors: [ 'time' ] }).catch(() => {});
 								if (!reaction1) return msg.clearReactions().catch(() => {});
 								reaction1 = reaction1.first();
-								if (reaction1.emoji.name == client.emoji.resolve("713483275242569838").name) {
+								if (reaction1.emoji.name == '🏳️') {
 									let flagConfirm = new Discord.MessageEmbed()
 										.setColor(0x019145)
 										.setDescription(
