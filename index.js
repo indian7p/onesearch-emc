@@ -1,10 +1,11 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
 const fs = require('fs');
+const config = require('./config.json');
 
 const client = new Discord.Client();
 
-mongoose.connect('', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(config.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
 
 let TownSchema = new Schema({
@@ -63,7 +64,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-client.login("");
+client.login(config.TOKEN);
 
 const PREFIX = '1!';
 
