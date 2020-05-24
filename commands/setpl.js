@@ -76,7 +76,7 @@ module.exports = {
 							.setColor(0x019145)
 							.setDescription(message.content.slice(15 + args[2].length))
 							.setFooter('CASST', 'https://cdn.bcow.tk/assets/casst.png');
-						client.channels.get('703687483581399120').send(scsEmbed);
+						client.channels.resolve('703687483581399120').send(scsEmbed);
 						casst.set(`${data.data.player.raw_id}`, message.content.slice(15 + args[2].length));
 						if (args[3].includes('BANNED') || args[4].includes('BANNED')) {
 							players.push(`${data.data.player.raw_id}.history`, `${date} - ⛔ BANNED - Banned`);
