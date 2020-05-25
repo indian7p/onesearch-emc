@@ -1,5 +1,4 @@
-const Discord = require('discord.js'),
-	db = require('quick.db');
+const Discord = require('discord.js');
 
 module.exports = {
 	name: 'stats',
@@ -7,7 +6,6 @@ module.exports = {
 	execute(message, client, Town, Nation, Result) {
 		message.channel.startTyping();
 		Town.find({}, async function(err, towns) {
-      await db.delete('resCount');
       let counter = 0;
       let resCount = [];
 			towns.forEach((town) => {
