@@ -9,7 +9,7 @@ let paginator = async (author, msg, embeds, pageNow, addReactions = true) => {
   if (!reaction) return msg.reactions.removeAll().catch(() => {})
   reaction = reaction.first()
   
-  if (msg.channel.type == 'dm' || !msg.member.hasPermission(["MANAGE_MESSAGES"])) {
+  if (msg.channel.type == 'dm' || !msg.member.hasPermission("MANAGE_MESSAGES")) {
     if (reaction.emoji.name == "◀") {
       let m = await msg.channel.send(embeds[Math.max(pageNow-1, 0)])
       msg.delete()
