@@ -5,7 +5,7 @@ let paginator = async (author, msg, embeds, pageNow, addReactions = true) => {
     await msg.react("▶")
     await msg.react("⏩")
   }
-  let reaction = await msg.awaitReactions((reaction, user) => user.id == author && ["◀","▶","⏪","⏩"].includes(reaction.emoji.name), {time: 60*1000, max:1, errors: ['time']}).catch(() => {})
+  let reaction = await msg.awaitReactions((reaction, user) => user.id == author && ["◀","▶","⏪","⏩"].includes(reaction.emoji.name), {time: 30*1000, max:1, errors: ['time']}).catch(() => {})
   if (!reaction) return msg.reactions.removeAll().catch(() => {})
   reaction = reaction.first()
   
@@ -27,7 +27,8 @@ let paginator = async (author, msg, embeds, pageNow, addReactions = true) => {
       msg.delete()
       paginator(author, m, embeds, embeds.length-1)
     }
-  } else {
+  }
+  else {
     if (reaction.emoji.name == "◀") {
       await reaction.remove(author)
       let m = await msg.edit(embeds[Math.max(pageNow-1, 0)])
