@@ -73,8 +73,17 @@ let urlChecker = (string) => {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
+let truncate = (text, length) => {
+  if (text.length <= length) {
+    return text;
+  }
+
+  return text.substr(0, length) + '\u2026'
+}
+
 module.exports = {
   paginator: paginator,
   compare: compare,
+  truncate: truncate,
   urlChecker: urlChecker
 }
