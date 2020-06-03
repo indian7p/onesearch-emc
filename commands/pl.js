@@ -1,9 +1,9 @@
 const Discord = require('discord.js'),
 	fetch = require('node-fetch'),
 	moment = require('moment-timezone'),
-  cache = require('quick.db'),
-  fn = require('../util/fn'),
-  staffList = require('../staffList.json'),
+	cache = require('quick.db'),
+	fn = require('../util/fn'),
+	staffList = require('../staffList.json'),
 	casst = new cache.table('casst'),
 	players = new cache.table('players');
 
@@ -129,168 +129,174 @@ module.exports = {
 					});
 				break;
 			default:
-				message.channel.startTyping();
-				switch (players.get(`${data.data.player.raw_id}.rank`)) {
-					case 'admin':
-						var emColor = 0x00a8a8;
-						break;
-					case 'mod':
-						var emColor = 0x00aa00;
-						break;
-					case 'owner':
-						var emColor = 0xaa0000;
-						break;
-					default:
-						var emColor = 0x0071bc;
-						break;
-				}
-				if (casst.get(`${data.data.player.raw_id}`) == null) {
-					var name = data.data.player.username;
-				} else {
-					if (casst.get(`${data.data.player.raw_id}`).includes('Verified')) {
-						var name = '<:verified:696564425775251477> ' + data.data.player.username;
-					} else {
-						var name = data.data.player.username;
-					}
-				}
-				let resEmbed = new Discord.MessageEmbed()
-					.setTitle(name)
-					.setURL(`https://namemc.com/profile/${data.data.player.id}`)
-					.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
-					.setColor(emColor)
-					.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-				let query = new RegExp(data.data.player.username, 'gi');
-				async function flagged(msg) {
-					msg.react('🏳️').then(async (hej) => {
-						let reaction1 = await msg.awaitReactions((reaction, user) => user.id == message.author.id && [ '🏳️' ].includes(reaction.emoji.name), { max: 1, errors: [ 'time' ] }).catch(() => {});
-						if (!reaction1) return msg.clearReactions().catch(() => {});
-						reaction1 = reaction1.first();
-						if (reaction1.emoji.name == '🏳️') {
-							let flagConfirm = new Discord.MessageEmbed()
-								.setColor(0x019145)
-								.setDescription(
-									'**Report player?** By continuing, you agree that your discord username and report will be shared with the CASST. Please include evidence (attachments currently not supported, link to evidence) and the players name by sending a message after clicking :white_check_mark:'
-								)
-								.setFooter('CASST', 'https://cdn.bcow.tk/assets/casst.png');
-							message.channel.send(flagConfirm).then((m) => {
-								m
-									.react('✅')
-									.then((hey) => {
-										m.react('❌');
-									})
-									.then(async (msg2) => {
-										let reaction = await m.awaitReactions((reaction, user) => user.id == message.author.id && [ '✅', '❌' ].includes(reaction.emoji.name), { max: 1, errors: [ 'time' ] }).catch(() => {});
-										if (!reaction) return m.clearReactions().catch(() => {});
-										reaction = reaction.first();
-										if (reaction.emoji.name == '✅') {
-											const collector = new Discord.MessageCollector(message.channel, (m) => m.author.id === message.author.id, { time: 10000 });
-											collector.on('collect', (message) => {
-												let successMessage = new Discord.MessageEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07bf63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-												client.channels
-													.get('704461817094734045')
-													.send(
-														new Discord.MessageEmbed()
-															.setTitle('Flag')
-															.setColor(0xdc2e44)
-															.setDescription('```' + message.content + '```')
-															.addField('Flagged by', `<@${message.author.id}> ${message.author.username}#${message.author.discriminator}`)
-															.addField('Player flagged', args[1])
-													);
-												message.channel.send(successMessage.setDescription('Report sent! Join our [discord](https://discord.gg/Z78gsUy)'));
+				fetch(`httos://playerdb.co/api/player/minecraft/${args[3]}`)
+					.then(res => {
+						return res.json();
+					})
+					.then(data => {
+						message.channel.startTyping();
+						switch (players.get(`${data.data.player.raw_id}.rank`)) {
+							case 'admin':
+								var emColor = 0x00a8a8;
+								break;
+							case 'mod':
+								var emColor = 0x00aa00;
+								break;
+							case 'owner':
+								var emColor = 0xaa0000;
+								break;
+							default:
+								var emColor = 0x0071bc;
+								break;
+						}
+						if (casst.get(`${data.data.player.raw_id}`) == null) {
+							var name = data.data.player.username;
+						} else {
+							if (casst.get(`${data.data.player.raw_id}`).includes('Verified')) {
+								var name = '<:verified:696564425775251477> ' + data.data.player.username;
+							} else {
+								var name = data.data.player.username;
+							}
+						}
+						let resEmbed = new Discord.MessageEmbed()
+							.setTitle(name)
+							.setURL(`https://namemc.com/profile/${data.data.player.id}`)
+							.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
+							.setColor(emColor)
+							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+						let query = new RegExp(data.data.player.username, 'gi');
+						async function flagged(msg) {
+							msg.react('🏳️').then(async (hej) => {
+								let reaction1 = await msg.awaitReactions((reaction, user) => user.id == message.author.id && ['🏳️'].includes(reaction.emoji.name), { max: 1, errors: ['time'] }).catch(() => { });
+								if (!reaction1) return msg.clearReactions().catch(() => { });
+								reaction1 = reaction1.first();
+								if (reaction1.emoji.name == '🏳️') {
+									let flagConfirm = new Discord.MessageEmbed()
+										.setColor(0x019145)
+										.setDescription(
+											'**Report player?** By continuing, you agree that your discord username and report will be shared with the CASST. Please include evidence (attachments currently not supported, link to evidence) and the players name by sending a message after clicking :white_check_mark:'
+										)
+										.setFooter('CASST', 'https://cdn.bcow.tk/assets/casst.png');
+									message.channel.send(flagConfirm).then((m) => {
+										m
+											.react('✅')
+											.then((hey) => {
+												m.react('❌');
+											})
+											.then(async (msg2) => {
+												let reaction = await m.awaitReactions((reaction, user) => user.id == message.author.id && ['✅', '❌'].includes(reaction.emoji.name), { max: 1, errors: ['time'] }).catch(() => { });
+												if (!reaction) return m.clearReactions().catch(() => { });
+												reaction = reaction.first();
+												if (reaction.emoji.name == '✅') {
+													const collector = new Discord.MessageCollector(message.channel, (m) => m.author.id === message.author.id, { time: 10000 });
+													collector.on('collect', (message) => {
+														let successMessage = new Discord.MessageEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07bf63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+														client.channels
+															.get('704461817094734045')
+															.send(
+																new Discord.MessageEmbed()
+																	.setTitle('Flag')
+																	.setColor(0xdc2e44)
+																	.setDescription('```' + message.content + '```')
+																	.addField('Flagged by', `<@${message.author.id}> ${message.author.username}#${message.author.discriminator}`)
+																	.addField('Player flagged', args[1])
+															);
+														message.channel.send(successMessage.setDescription('Report sent! Join our [discord](https://discord.gg/Z78gsUy)'));
+													});
+												}
+												if (reaction.emoji.name == '❌') {
+													message.channel.send(new Discord.MessageEmbed().setColor(0x019145).setDescription('Cancelled flagging.').setFooter('CASST', 'https://cdn.bcow.tk/assets/casst.png'));
+												}
 											});
-										}
-										if (reaction.emoji.name == '❌') {
-											message.channel.send(new Discord.MessageEmbed().setColor(0x019145).setDescription('Cancelled flagging.').setFooter('CASST', 'https://cdn.bcow.tk/assets/casst.png'));
-										}
 									});
+								}
 							});
 						}
-					});
-				}
-				Town.findOne({ membersArr: { $in: [ data.data.player.username ] } }, async function(err, town) {
-					message.channel.stopTyping();
-					if (name.includes('<:verified:696564425775251477>')) {
-						if (town == null) {
-							if (casst.get(data.data.player.raw_id) == null) {
-								message.channel.send(resEmbed.addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'));
-							} else {
-								message.channel.send(resEmbed.addField('CASST Status', casst.get(data.data.player.raw_id)));
-							}
-						} else {
-							if (town.mayor == data.data.player.username) {
-								if (town.capital == true) {
+						Town.findOne({ membersArr: { $in: [data.data.player.username] } }, async function (err, town) {
+							message.channel.stopTyping();
+							if (name.includes('<:verified:696564425775251477>')) {
+								if (town == null) {
 									if (casst.get(data.data.player.raw_id) == null) {
-										message.channel
-											.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'))
-											.then((msg) => {
+										message.channel.send(resEmbed.addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'));
+									} else {
+										message.channel.send(resEmbed.addField('CASST Status', casst.get(data.data.player.raw_id)));
+									}
+								} else {
+									if (town.mayor == data.data.player.username) {
+										if (town.capital == true) {
+											if (casst.get(data.data.player.raw_id) == null) {
+												message.channel
+													.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'))
+													.then((msg) => {
+														flagged(msg);
+													});
+											} else {
+												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('CASST Status', casst.get(data.data.player.raw_id)));
+											}
+										} else {
+											if (casst.get(data.data.player.raw_id) == null) {
+												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'));
+											} else {
+												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('CASST Status', casst.get(data.data.player.raw_id)));
+											}
+										}
+									} else {
+										if (casst.get(data.data.player.raw_id) == null) {
+											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'));
+										} else {
+											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('CASST Status', casst.get(data.data.player.raw_id)));
+										}
+									}
+								}
+							} else {
+								if (town == null) {
+									if (casst.get(data.data.player.raw_id) == null) {
+										message.channel.send(resEmbed.addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'));
+									} else {
+										message.channel.send(resEmbed.addField('CASST Status', casst.get(data.data.player.raw_id)));
+									}
+								} else {
+									if (town.mayor == data.data.player.username) {
+										if (town.capital == true) {
+											if (casst.get(data.data.player.raw_id) == null) {
+												message.channel
+													.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'))
+													.then((msg) => {
+														flagged(msg);
+													});
+											} else {
+												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('CASST Status', casst.get(data.data.player.raw_id))).then((msg) => {
+													flagged(msg);
+												});
+											}
+										} else {
+											if (casst.get(data.data.player.raw_id) == null) {
+												message.channel
+													.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'))
+													.then((msg) => {
+														flagged(msg);
+													});
+											} else {
+												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('CASST Status', casst.get(data.data.player.raw_id))).then((msg) => {
+													flagged(msg);
+												});
+											}
+										}
+									} else {
+										if (casst.get(data.data.player.raw_id) == null) {
+											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).')).then((msg) => {
 												flagged(msg);
 											});
-									} else {
-										message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('CASST Status', casst.get(data.data.player.raw_id)));
-									}
-								} else {
-									if (casst.get(data.data.player.raw_id) == null) {
-										message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'));
-									} else {
-										message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('CASST Status', casst.get(data.data.player.raw_id)));
-									}
-								}
-							} else {
-								if (casst.get(data.data.player.raw_id) == null) {
-									message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'));
-								} else {
-									message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('CASST Status', casst.get(data.data.player.raw_id)));
-								}
-							}
-						}
-					} else {
-						if (town == null) {
-							if (casst.get(data.data.player.raw_id) == null) {
-								message.channel.send(resEmbed.addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'));
-							} else {
-								message.channel.send(resEmbed.addField('CASST Status', casst.get(data.data.player.raw_id)));
-							}
-						} else {
-							if (town.mayor == data.data.player.username) {
-								if (town.capital == true) {
-									if (casst.get(data.data.player.raw_id) == null) {
-										message.channel
-											.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'))
-											.then((msg) => {
+										} else {
+											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('CASST Status', casst.get(data.data.player.raw_id))).then((msg) => {
 												flagged(msg);
 											});
-									} else {
-										message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('CASST Status', casst.get(data.data.player.raw_id))).then((msg) => {
-											flagged(msg);
-										});
+										}
 									}
-								} else {
-									if (casst.get(data.data.player.raw_id) == null) {
-										message.channel
-											.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).'))
-											.then((msg) => {
-												flagged(msg);
-											});
-									} else {
-										message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('CASST Status', casst.get(data.data.player.raw_id))).then((msg) => {
-											flagged(msg);
-										});
-									}
-								}
-							} else {
-								if (casst.get(data.data.player.raw_id) == null) {
-									message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('CASST Status', 'This player is not on the list. Scammer? Report now on the [CASST discord](https://discord.gg/Z78gsUy).')).then((msg) => {
-										flagged(msg);
-									});
-								} else {
-									message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('CASST Status', casst.get(data.data.player.raw_id))).then((msg) => {
-										flagged(msg);
-									});
 								}
 							}
-						}
-					}
-				});
+						});
+					})
 				break;
 			case 'location':
 				fetch(`https://playerdb.co/api/player/minecraft/${args[3]}`)
