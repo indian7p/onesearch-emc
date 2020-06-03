@@ -129,7 +129,7 @@ module.exports = {
 					});
 				break;
 			default:
-				fetch(`httos://playerdb.co/api/player/minecraft/${args[2]}`)
+				fetch(`https://playerdb.co/api/player/minecraft/${args[1]}`)
 					.then(res => {
 						return res.json();
 					})
@@ -299,7 +299,7 @@ module.exports = {
 					})
 				break;
 			case 'location':
-				fetch(`https://playerdb.co/api/player/minecraft/${args[3]}`)
+				fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
 					.then((res) => {
 						return res.json();
 					})
