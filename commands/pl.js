@@ -129,7 +129,7 @@ module.exports = {
 					});
 				break;
 			default:
-				fetch(`httos://playerdb.co/api/player/minecraft/${args[3]}`)
+				fetch(`httos://playerdb.co/api/player/minecraft/${args[2]}`)
 					.then(res => {
 						return res.json();
 					})
