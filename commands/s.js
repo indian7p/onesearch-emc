@@ -50,8 +50,8 @@ module.exports = {
 					.setTitle(nationName)
 					.setColor(nation.color)
 					.setThumbnail(imgLink)
-					.addField('Owner', '```' + nation.owner + '```')
-					.addField('Capital', nation.capital)
+					.addField('Owner', `\`\`\`${nation.owner}\`\`\``, true)
+					.addField('Capital', nation.capital, true)
 					.addField('CASST Status', CASSTstatus)
 					.addField('Residents', nation.residents, true)
 					.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true);
