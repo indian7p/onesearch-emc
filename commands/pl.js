@@ -1,9 +1,9 @@
 const Discord = require('discord.js'),
 	fetch = require('node-fetch'),
 	moment = require('moment-timezone'),
-  cache = require('quick.db'),
-  fn = require('../util/fn'),
-  staffList = require('../staffList.json'),
+	cache = require('quick.db'),
+	fn = require('../util/fn'),
+	staffList = require('../staffList.json'),
 	casst = new cache.table('casst'),
 	players = new cache.table('players');
 
@@ -21,48 +21,55 @@ module.exports = {
 			.addField('1!pl online [staff]', 'Shows online players. 1!pl online staff shows online staff.')
 			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		if (!args[1]) return message.channel.send(helpEmbed);
-		if (!args[2]) {
-			var URL = `https://playerdb.co/api/player/minecraft/${args[1]}`;
-		} else {
-			var URL = `https://playerdb.co/api/player/minecraft/${args[2]}`;
-		}
 		switch (args[1]) {
 			case 'chistory':
-				if (players.get(`${data.data.player.raw_id}.history`) == null) return message.channel.send(errorMessage.setDescription('History not found'));
-				let resEmbedPl = new Discord.MessageEmbed()
-					.setTitle(`Player History - ${data.data.player.username}`)
-					.setDescription('⚠ Player event history started on 4/17/2020. Previous events are missing.')
-					.setColor(0x009245)
-					.addField('Current Status', casst.get(`${data.data.player.raw_id}`))
-					.addField('Player History', '```' + players.get(`${data.data.player.raw_id}.history`).toString().replace(/,/g, '\n') + '```')
-					.setFooter('CASST', 'https://cdn.bcow.tk/assets/casst.png');
-				message.channel.send(resEmbedPl);
+				fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
+					.then((res) => {
+						return res.json();
+					})
+					.then((data) => {
+						if (players.get(`${data.data.player.raw_id}.history`) == null) return message.channel.send(errorMessage.setDescription('History not found'));
+						let resEmbedPl = new Discord.MessageEmbed()
+							.setTitle(`Player History - ${data.data.player.username}`)
+							.setDescription('⚠ Player event history started on 4/17/2020. Previous events are missing.')
+							.setColor(0x009245)
+							.addField('Current Status', casst.get(`${data.data.player.raw_id}`))
+							.addField('Player History', '```' + players.get(`${data.data.player.raw_id}.history`).toString().replace(/,/g, '\n') + '```')
+							.setFooter('CASST', 'https://cdn.bcow.tk/assets/casst.png');
+						message.channel.send(resEmbedPl);
+					});
 				break;
 			case 'nhistory':
-				let dates = [];
-				let names = [];
-				let namesD = [];
-				let counter = 0;
-				data.data.player.meta.name_history.forEach((name) => {
-					dates.push(moment(name.changedToAt / 1000, 'X').tz('America/New_York').format('MM/DD/YYYY h:mm A z'));
-					names.push(name.name);
-				});
-				names.forEach((name) => {
-					if (counter == 0) {
-						namesD.push(name);
-					} else {
-						let date = dates[counter];
-						namesD.push(`${date} - ${name}`);
-					}
-					counter++;
-				});
-				let resEmbedN = new Discord.MessageEmbed()
-					.setTitle(`Name History - ${data.data.player.username}`)
-					.setColor(0x0071bc)
-					.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
-					.setDescription('```' + `test\n` + namesD.toString().replace(/,/g, '\n') + '```')
-					.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-				message.channel.send(resEmbedN);
+				fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
+					.then((res) => {
+						return res.json();
+					})
+					.then((data) => {
+						let dates = [];
+						let names = [];
+						let namesD = [];
+						let counter = 0;
+						data.data.player.meta.name_history.forEach((name) => {
+							dates.push(moment(name.changedToAt / 1000, 'X').tz('America/New_York').format('MM/DD/YYYY h:mm A z'));
+							names.push(name.name);
+						});
+						names.forEach((name) => {
+							if (counter == 0) {
+								namesD.push(name);
+							} else {
+								let date = dates[counter];
+								namesD.push(`${date} - ${name}`);
+							}
+							counter++;
+						});
+						let resEmbedN = new Discord.MessageEmbed()
+							.setTitle(`Name History - ${data.data.player.username}`)
+							.setColor(0x0071bc)
+							.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
+							.setDescription('```' + `test\n` + namesD.toString().replace(/,/g, '\n') + '```')
+							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+						message.channel.send(resEmbedN);
+					});
 				break;
 			case 'online':
 				fetch('https://earthmc.net/map/up/world/earth/')
