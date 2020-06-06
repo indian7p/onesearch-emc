@@ -28,6 +28,7 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
+            if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 						if (players.get(`${data.data.player.raw_id}.history`) == null) return message.channel.send(errorMessage.setDescription('History not found'));
 						let resEmbedPl = new Discord.MessageEmbed()
 							.setTitle(`Player History - ${data.data.player.username}`)
@@ -45,6 +46,7 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
+            if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 						let dates = [];
 						let names = [];
 						let namesD = [];
@@ -82,6 +84,7 @@ module.exports = {
 						}
 					})
 					.then((data) => {
+            if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 						switch (args[2]) {
 							case 'staff':
 								let playersOnline = [];
@@ -141,6 +144,7 @@ module.exports = {
 						return res.json();
 					})
 					.then(data => {
+            if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 						message.channel.startTyping();
 						switch (players.get(`${data.data.player.raw_id}.rank`)) {
 							case 'admin':
@@ -316,6 +320,7 @@ module.exports = {
 								return res.json();
 							})
 							.then((data2) => {
+                if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 								let playerNames = [];
 								data2.players.forEach((player) => {
 									playerNames.push(player.account);
