@@ -18,7 +18,8 @@ OneSearch is split into 2 things to increase reliability and uptime. For the upd
 
 ## Links
 
+* [API](https://github.com/imabritishcow/onesearch-api)
+* [Updater](https://github.com/imabritishcow/onesearch-updater)
 * [Status](https://bcow.statuspage.io/)
 * [Bot Invite](https://l.bcow.tk/osbot)
 * [Trello](https://trello.com/b/LVy0jGYg/onesearch)
-* [Updater](https://github.com/imabritishcow/onesearch-updater)
