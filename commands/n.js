@@ -33,11 +33,7 @@ module.exports = {
 				message.channel.stopTyping();
 				break;
 			default:
-				if (args[0] == 'nation') {
-					var query = message.content.slice(9).toLowerCase().replace(/ /g, '_');
-				} else {
-					var query = message.content.slice(4).toLowerCase().replace(/ /g, '_');
-				}
+        let query = args[0] == 'nation' ? message.content.slice(9).toLowerCase().replace(/ /g, '_'): message.content.slice(4).toLowerCase().replace(/ /g, '_');
 				if (query == 'no_nation') return message.channel.send(errorMessage.setDescription('Use 1!nonation'));
 				Nation.findOne({ nameLower: query }, function(err, nation) {
 					if (nation == null) {
@@ -52,21 +48,12 @@ module.exports = {
 								message.channel.send(errorMessage.setDescription('Town is not in a nation.'));
 							}
 							Nation.findOne({ name: town.nation }, function(err, nationByTown) {
-								var townsList = '```Error getting towns```';
-								var townsLength = '0';
-
 								let nationCASST = casst.get(`${nationByTown.nameLower}`);
 								let nationDisc = nationsP.get(`${nationByTown.nameLower}.discord`);
 								let nationAMNT = nationsP.get(`${nationByTown.nameLower}.amenities`);
-								var nationName = nationByTown.name;
-								var imgLink = 'https://cdn.bcow.tk/assets/logo.png';
-
-								if (nationByTown.townsArr.toString() != null) {
-									var townsList = nationByTown.townsArr.toString().replace(/,/g, ', ');
-									var townsLength = nationByTown.townsArr.length;
-								}
-								if (nationCASST == '<:verified:696564425775251477> Verified') var nationName = '<:verified:696564425775251477> ' + nationByTown.name;
-								if (nationsP.get(`${nationByTown.nameLower}.imgLink`) != null) var imgLink = nationsP.get(`${nationByTown.nameLower}.imgLink`);
+                let nationName = nationCASST == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nationByTown.name}`: nationByTown.name;
+                let imgLink = nationsP.get(`${nationByTown.nameLower}.imgLink`) != null ? nationsP.get(`${nationByTown.nameLower}.imgLink`): 'https://cdn.bcow.tk/assets/logo.png'; 
+                let townsList = nationByTown.townsArr.toString() != null ? nationByTown.townsArr.toString().replace(/,/g, ', '): '```Error getting towns```';
 								if (townsList.length > 1024) {
 									var counter = 0;
 									let members1 = [];
@@ -91,7 +78,8 @@ module.exports = {
 									.addField('Owner', '```' + nationByTown.owner + '```', true)
 									.addField('Capital', nationByTown.capital, true)
 									.addField('CASST Status', nationCASST)
-									.addField('Residents', nationByTown.residents, true)
+                  .addField('Residents', nationByTown.residents, true)
+                  .addField('Area', nationByTown.area, true)
 									.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
 									.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
 								if (nationDisc == null) {
@@ -126,21 +114,12 @@ module.exports = {
 							});
 						});
 					} else {
-						var townsList = '```Error getting towns```';
-						var townsLength = '0';
-
 						let nationCASST = casst.get(`${nation.nameLower}`);
 						let nationDisc = nationsP.get(`${nation.nameLower}.discord`);
 						let nationAMNT = nationsP.get(`${nation.nameLower}.amenities`);
-						var nationName = nation.name;
-						var imgLink = 'https://cdn.bcow.tk/assets/logo.png';
-
-						if (nation.townsArr.toString() != null) {
-							var townsList = nation.townsArr.toString().replace(/,/g, ', ');
-							var townsLength = nation.townsArr.length;
-						}
-						if (nationCASST == '<:verified:696564425775251477> Verified') var nationName = '<:verified:696564425775251477> ' + nation.name;
-						if (nationsP.get(`${nation.nameLower}.imgLink`) != null) var imgLink = nationsP.get(`${nation.nameLower}.imgLink`);
+            let nationName = nationCASST == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}`: nation.name;
+            let townsList = nation.townsArr.toString() != null ? nation.townsArr.toString().replace(/,/g, ', '): '```Error getting towns```';
+            let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) != null ? nationsP.get(`${nation.nameLower}.imgLink`): 'https://cdn.bcow.tk/assets/logo.png';
 						if (townsList.length > 1024) {
 							var counter = 0;
 							let members1 = [];
@@ -165,7 +144,8 @@ module.exports = {
 							.addField('Owner', '```' + nation.owner + '```', true)
 							.addField('Capital', nation.capital, true)
 							.addField('CASST Status', nationCASST)
-							.addField('Residents', nation.residents, true)
+              .addField('Residents', nation.residents, true)
+              .addField('Area', nation.area, true)
 							.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
 							.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
 						if (nationDisc == null) {
