@@ -18,16 +18,14 @@ module.exports = {
 
 		let nationQuery = query.replace(/ /g, '_');
 		Nation.findOne({ nameLower: nationQuery }, function(err, nation) {
+      if(err) return message.channel.send(errorMessage.setDescription("An error occurred."));
 			if (nation != null) {
 				let townsList = nation.townsArr.toString().replace(/,/g, ', ');
 				let CASSTstatus = casst.get(`${nation.nameLower}`);
-				var imgLink = nationsP.get(`${nation.nameLower}.imgLink`);
-				var nationName = nation.name;
+				let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) == null ? nationsP.get(`${nation.nameLower}.imgLink`): 'https://cdn.bcow.tk/assets/logo.png';
+				let nationName = CASSTstatus == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}`: nation.name;
 				let nationDisc = nationsP.get(`${nation.nameLower}.discord`);
 				let nationAMNT = nationsP.get(`${nation.nameLower}.amenities`);
-
-				if (CASSTstatus == '<:verified:696564425775251477> Verified') var nationName = `<:verified:696564425775251477> ${nation.name}`;
-				if (imgLink == null) var imgLink = 'https://cdn.bcow.tk/assets/logo.png';
 
 				if (townsList.length > 1024) {
 					var counter = 0;
@@ -53,7 +51,8 @@ module.exports = {
 					.addField('Owner', `\`\`\`${nation.owner}\`\`\``, true)
 					.addField('Capital', nation.capital, true)
 					.addField('CASST Status', CASSTstatus)
-					.addField('Residents', nation.residents, true)
+          .addField('Residents', nation.residents, true)
+          .addField('Area', nation.area, true)
 					.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true);
 
 				if (nationDisc == null) {
@@ -88,34 +87,13 @@ module.exports = {
 			}
 
 			Town.findOne({ nameLower: nationQuery }, function(err, town) {
+        if(err) return message.channel.send(errorMessage.setDescription("An error occurred."));
 				if (town != null) {
-					switch (town.color) {
-						case '#FFFFFF':
-							var color = '#FEFEFE';
-							break;
-						case '#000000':
-							var color = '#010101';
-							break;
-						default:
-							if (town.nation == 'No Nation') {
-								var color = 0x69a841;
-							} else {
-								var color = town.color;
-							}
-							break;
-					}
-					if (town.capital == true) {
-						var tName = ':star: ' + town.name + ' (' + town.nation + ')';
-					} else {
-						var tName = town.name + ' (' + town.nation + ')';
-					}
-					if (townP.get(`${town.name}.scrating`) == null) {
-						var description = 'Information may be slightly out of date.';
-					} else {
-						var description = `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]**` + ' Information may be slightly out of date.';
-					}
+          let color = town.nation == 'No Nation' ? 0x69a841: town.color == '#000000' ? 0x010101: town.color == '#FFFFFF' ? 0xFEFEFE: town.color;
+          let tName = town.capital == true ? `:star: ${town.name} (${town.nation})`: `${town.name} (${town.nation})`;
+          let description = townP.get(`${town.name}.scrating`) == null ? 'Information may be slightly out of date.': `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]** Information may be slightly out of date.`;
 					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
-					let memberList = '```' + town.members + '```';
+					let memberList = `\`\`\`${town.members}\`\`\``;
 					let resEmbed = new Discord.MessageEmbed()
 						.setTitle(tName)
 						.setDescription(description)
