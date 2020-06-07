@@ -14,7 +14,8 @@ module.exports = {
 		let nHelp = new Discord.MessageEmbed()
 			.setTitle('1!n - Help')
 			.addField('1!n [nation]', 'Finds nations')
-			.addField('1!n list', 'Lists all nations by residents')
+      .addField('1!n list', 'Lists all nations by residents')
+      .addField('1!n online [nation]', 'Lists all online players in a specified nation.')
 			.setColor(0x0071bc)
 			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		message.channel.startTyping();
