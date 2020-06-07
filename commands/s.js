@@ -22,7 +22,7 @@ module.exports = {
 			if (nation != null) {
 				let townsList = nation.townsArr.toString().replace(/,/g, ', ');
 				let CASSTstatus = casst.get(`${nation.nameLower}`);
-				let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) == null ? nationsP.get(`${nation.nameLower}.imgLink`): 'https://cdn.bcow.tk/assets/logo.png';
+				let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) != null ? nationsP.get(`${nation.nameLower}.imgLink`): 'https://cdn.bcow.tk/assets/logo.png';
 				let nationName = CASSTstatus == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}`: nation.name;
 				let nationDisc = nationsP.get(`${nation.nameLower}.discord`);
 				let nationAMNT = nationsP.get(`${nation.nameLower}.amenities`);
