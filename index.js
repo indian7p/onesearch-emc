@@ -49,7 +49,8 @@ let SResultSchema = new Schema({
 	imgLink: String,
 	link: String,
 	name: String,
-	themeColor: String,
+  themeColor: String,
+  sImgLink: String,
 	nsfw: String,
   match: String
 })
