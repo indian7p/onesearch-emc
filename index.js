@@ -44,15 +44,8 @@ let ResultSchema = new Schema({
 	nsfw: String,
 	id: String
 });
-let TownPSchema = new Schema({
-  name: String,
-  scrating: String,
-  imgLink: String,
-  link: String
-});
 
 var Town = mongoose.model('Town', TownSchema);
-var TownP1 = mongoose.model('TownP', TownPSchema);
 var Nation = mongoose.model('Nation', NationSchema);
 var Result = mongoose.model('Result', ResultSchema);
 
