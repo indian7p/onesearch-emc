@@ -37,13 +37,25 @@ module.exports = {
 						.setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
 					if (data.nsfw != undefined) {
 						if (message.channel.type == 'dm') {
-							embeds.push(resEmbed);
+              if(data.sImgLink != null){
+                embeds.push(resEmbed.setImage(data.sImgLink));
+              }else{
+                embeds.push(resEmbed);
+              }
 						} else {
 							NSFWcount++;
-							message.author.send(resEmbed);
+              if(data.sImgLink != null){
+                embeds.push(resEmbed.setImage(data.sImgLink));
+              }else{
+                embeds.push(resEmbed);
+              }
 						}
 					} else {
-						embeds.push(resEmbed);
+						if(data.sImgLink != null){
+              embeds.push(resEmbed.setImage(data.sImgLink));
+            }else{
+              embeds.push(resEmbed);
+            }
 					}
 				}
 			});
