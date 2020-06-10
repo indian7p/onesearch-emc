@@ -11,7 +11,15 @@ module.exports = {
 	description: 'Searches for towns',
 	execute: (message, args, Town) => {
 		message.channel.startTyping();
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+    let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+    let helpEmbed = new Discord.MessageEmbed()
+			.setTitle('1!t - Help')
+			.addField('1!t [town]', 'Gets town info')
+      .addField('1!t list', 'Lists all towns by residents')
+      .addField('1!t online [town]', 'Lists all online players in the specified town.')
+			.setColor(0x0071bc)
+      .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+    if(!args[1]) return message.channel.send(helpEmbed)
 		switch (args[1]) {
 			case 'list':
 				if (listcache.get('towns') == null) return message.channel.send(errorMessage.setDescription('Town list not found. The database may be updating, try again in a minute.'));
