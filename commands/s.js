@@ -40,7 +40,7 @@ module.exports = {
               if(data.sImgLink != null){
                 embeds.push(resEmbed.setImage(data.sImgLink));
               }else{
-                embeds.push(resEmbed);
+                embeds.push(resEmbed.setImage(data.sImgLink));
               }
 						} else {
 							NSFWcount++;
@@ -54,7 +54,7 @@ module.exports = {
 						if(data.sImgLink != null){
               embeds.push(resEmbed.setImage(data.sImgLink));
             }else{
-              embeds.push(resEmbed);
+              embeds.push(resEmbed.setImage(data.sImgLink));
             }
 					}
 				}
