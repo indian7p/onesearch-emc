@@ -90,33 +90,11 @@ module.exports = {
 						message.channel.stopTyping();
 						return message.channel.send(errorMessage.setDescription('Town not found. The database may be updating, try again in a minute.'));
 					}
-					switch (town.color) {
-						case '#FFFFFF':
-							var color = '#FEFEFE';
-							break;
-						case '#000000':
-							var color = '#010101';
-							break;
-						default:
-							if (town.nation == 'No Nation') {
-								var color = 0x69a841;
-							} else {
-								var color = town.color;
-							}
-							break;
-					}
-					if (town.capital == true) {
-						var tName = ':star: ' + town.name + ' (' + town.nation + ')';
-					} else {
-						var tName = town.name + ' (' + town.nation + ')';
-					}
-					if (townP.get(`${town.name}.scrating`) == null) {
-						var description = 'Information may be slightly out of date. Size may be inaccurate due to hollow claims.';
-					} else {
-						var description = `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]**` + ' Information may be slightly out of date. Size may be inaccurate due to hollow claims.';
-					}
+          let color = town.nation == 'No Nation' ? 0x69a841: town.color == '#000000' ? 0x010101: town.color == '#FFFFFF' ? 0xFEFEFE: town.color;
+          let tName = town.capital == true ? `:star: ${town.name} (${town.nation})`: `${town.name} (${town.nation})`;
+          let description = townP.get(`${town.name}.scrating`) == null ? 'Information may be slightly out of date.': `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]** Information may be slightly out of date.`;
 					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
-					let memberList = '```' + town.members + '```';
+					let memberList = `\`\`\`${town.members}\`\`\``;
 					let resEmbed = new Discord.MessageEmbed()
 						.setTitle(tName)
 						.setDescription(description)
