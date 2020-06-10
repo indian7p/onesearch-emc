@@ -79,7 +79,6 @@ module.exports = {
 					});
 				break;
 			default:
-				if (!args[1]) return message.channel.send(errorMessage.setDescription('No results for ""'));
 				if (args[0] == 'town') {
 					var query = message.content.slice(7).toLowerCase().replace(/ /g, '_');
 				} else {
