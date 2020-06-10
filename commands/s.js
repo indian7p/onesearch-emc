@@ -16,45 +16,45 @@ module.exports = {
 
 		let embeds = [];
 
-    let nationQuery = query.replace(/ /g, '_');
+		let nationQuery = query.replace(/ /g, '_');
 
-    SResult.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
-      let pageNum = 0;
-      let NSFWcount = 0;
-      await results.forEach((data) => {
-        if (data.desc == null) {
-          console.log(data.name + ' Missing desc.');
-        } else {
-          pageNum++;
-          var themeColor = 0x0071bc;
-          if (data.themeColor != undefined) var themeColor = data.themeColor;
-          let resEmbed = new Discord.MessageEmbed()
-            .setTitle(data.name)
-            .setURL(data.link)
-            .setDescription(data.desc)
-            .setThumbnail(data.imgLink)
-            .setColor(themeColor)
-            .setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
-          if (data.nsfw != undefined) {
-            if (message.channel.type == 'dm') {
-              embeds.push(resEmbed);
-            } else {
-              NSFWcount++;
-              message.author.send(resEmbed);
-            }
-          } else {
-            embeds.push(resEmbed);
-          }
-        }
-      });
-    });
+		SResult.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
+			let pageNum = 0;
+			let NSFWcount = 0;
+			await results.forEach((data) => {
+				if (data.desc == null) {
+					console.log(data.name + ' Missing desc.');
+				} else {
+					pageNum++;
+					var themeColor = 0x0071bc;
+					if (data.themeColor != undefined) var themeColor = data.themeColor;
+					let resEmbed = new Discord.MessageEmbed()
+						.setTitle(data.name)
+						.setURL(data.link)
+						.setDescription(data.desc)
+						.setThumbnail(data.imgLink)
+						.setColor(themeColor)
+						.setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+					if (data.nsfw != undefined) {
+						if (message.channel.type == 'dm') {
+							embeds.push(resEmbed);
+						} else {
+							NSFWcount++;
+							message.author.send(resEmbed);
+						}
+					} else {
+						embeds.push(resEmbed);
+					}
+				}
+			});
+		});
 		Nation.findOne({ nameLower: nationQuery }, function(err, nation) {
-      if(err) return message.channel.send(errorMessage.setDescription("An error occurred."));
+			if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 			if (nation != null) {
 				let townsList = nation.townsArr.toString().replace(/,/g, ', ');
 				let CASSTstatus = casst.get(`${nation.nameLower}`);
-				let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) != null ? nationsP.get(`${nation.nameLower}.imgLink`): 'https://cdn.bcow.tk/assets/logo.png';
-				let nationName = CASSTstatus == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}`: nation.name;
+				let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) != null ? nationsP.get(`${nation.nameLower}.imgLink`) : 'https://cdn.bcow.tk/assets/logo.png';
+				let nationName = CASSTstatus == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}` : nation.name;
 				let nationDisc = nationsP.get(`${nation.nameLower}.discord`);
 				let nationAMNT = nationsP.get(`${nation.nameLower}.amenities`);
 
@@ -82,8 +82,8 @@ module.exports = {
 					.addField('Owner', `\`\`\`${nation.owner}\`\`\``, true)
 					.addField('Capital', nation.capital, true)
 					.addField('CASST Status', CASSTstatus)
-          .addField('Residents', nation.residents, true)
-          .addField('Area', nation.area, true)
+					.addField('Residents', nation.residents, true)
+					.addField('Area', nation.area, true)
 					.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true);
 
 				if (nationDisc == null) {
@@ -115,14 +115,15 @@ module.exports = {
 						}
 					}
 				}
-			}
-
-			Town.findOne({ nameLower: nationQuery }, function(err, town) {
-        if(err) return message.channel.send(errorMessage.setDescription("An error occurred."));
-				if (town != null) {
-          let color = town.nation == 'No Nation' ? 0x69a841: town.color == '#000000' ? 0x010101: town.color == '#FFFFFF' ? 0xFEFEFE: town.color;
-          let tName = town.capital == true ? `:star: ${town.name} (${town.nation})`: `${town.name} (${town.nation})`;
-          let description = townP.get(`${town.name}.scrating`) == null ? 'Information may be slightly out of date.': `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]** Information may be slightly out of date.`;
+      }
+      
+			Town.find({ $text: { $search: nationQuery } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
+				let pageNum = 0;
+				let NSFWcount = 0;
+				await results.forEach((town) => {
+					let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
+					let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
+					let description = townP.get(`${town.name}.scrating`) == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]** Information may be slightly out of date.`;
 					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 					let memberList = `\`\`\`${town.members}\`\`\``;
 					let resEmbed = new Discord.MessageEmbed()
@@ -163,7 +164,7 @@ module.exports = {
 							embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(townP.get(`${town.name}.link`)));
 						}
 					}
-				}
+				});
 			});
 
 			Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
@@ -203,7 +204,7 @@ module.exports = {
 					}
 					message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
 				}
-      });
+			});
 		});
 	}
 };
