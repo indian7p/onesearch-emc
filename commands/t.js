@@ -19,7 +19,7 @@ module.exports = {
       .addField('1!t online [town]', 'Lists all online players in the specified town.')
 			.setColor(0x0071bc)
       .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-    if(!args[1]) return message.channel.send(helpEmbed)
+    if(!args[1]) return message.channel.send(helpEmbed).then(m => message.channel.stopTyping())
 		switch (args[1]) {
 			case 'list':
 				if (listcache.get('towns') == null) return message.channel.send(errorMessage.setDescription('Town list not found. The database may be updating, try again in a minute.'));
