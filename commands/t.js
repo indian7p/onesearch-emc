@@ -42,7 +42,7 @@ module.exports = {
 					})
 					.then((data) => {
 						let query = message.content.slice(args[0].length + args[1].length + 4).toLowerCase().replace(/ /g, '_');
-						Town.findOne({ $text: { $search: query } }, function(err, town) {
+						Town.findOne({ name: query }, function(err, town) {
 							if (town == null || err) {
 								message.channel.stopTyping();
 								return message.channel.send(errorMessage.setDescription('Town not found. The database may be updating, try again in a minute.'));
@@ -80,7 +80,7 @@ module.exports = {
 				break;
 			default:
 				let query = args[0] == 'town' ? message.content.slice(7).toLowerCase().replace(/ /g, '_') : message.content.slice(4).toLowerCase().replace(/ /g, '_');
-				Town.findOne({ $text: { $search: query } }, function(err, town) {
+				Town.findOne({ nameLower: query }, function(err, town) {
 					if (town == null || err) {
 						message.channel.stopTyping();
 						return message.channel.send(errorMessage.setDescription('Town not found. The database may be updating, try again in a minute.'));

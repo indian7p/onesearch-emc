@@ -47,57 +47,54 @@ module.exports = {
 					}
 				}
 			});
-    });
-    
-    Town.find({ $text: { $search: nationQuery } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
-      let pageNum = 0;
-      let NSFWcount = 0;
-      await results.forEach((town) => {
-        let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
-        let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
-        let description = townP.get(`${town.name}.scrating`) == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]** Information may be slightly out of date.`;
-        let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
-        let memberList = `\`\`\`${town.members}\`\`\``;
-        let resEmbed = new Discord.MessageEmbed()
-          .setTitle(tName)
-          .setDescription(description)
-          .setColor(color)
-          .setThumbnail(townP.get(`${town.name}.imgLink`))
-          .addField('Owner', '```' + town.mayor + '```', true)
-          .addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
-          .addField('Size', town.area, true)
-          .setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo.png');
-        if (memberList.length > 1024) {
-          var counter = 0;
-          let members1 = [];
-          let members2 = [];
-          town.membersArr.forEach((member) => {
-            counter++;
-            if (counter <= 50) {
-              members1.push(member);
-            } else {
-              members2.push(member);
-            }
-          });
-          if (townP.get(`${town.name}.link`) == null) {
-            embeds.push(resEmbed.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```').addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```'));
-          } else {
-            embeds.push(
-              resEmbed
-                .addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```')
-                .addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```')
-                .setURL(townP.get(`${town.name}.link`))
-            );
-          }
-        } else {
-          if (townP.get(`${town.name}.link`) == null) {
-            embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
-          } else {
-            embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(townP.get(`${town.name}.link`)));
-          }
-        }
-      });
-    });
+		});
+
+		Town.findOne({ nameLower: nationQuery }, function(err, town) {
+			if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+			let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
+			let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
+			let description = townP.get(`${town.name}.scrating`) == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]** Information may be slightly out of date.`;
+			let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
+			let memberList = `\`\`\`${town.members}\`\`\``;
+			let resEmbed = new Discord.MessageEmbed()
+				.setTitle(tName)
+				.setDescription(description)
+				.setColor(color)
+				.setThumbnail(townP.get(`${town.name}.imgLink`))
+				.addField('Owner', '```' + town.mayor + '```', true)
+				.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
+				.addField('Size', town.area, true)
+				.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo.png');
+			if (memberList.length > 1024) {
+				var counter = 0;
+				let members1 = [];
+				let members2 = [];
+				town.membersArr.forEach((member) => {
+					counter++;
+					if (counter <= 50) {
+						members1.push(member);
+					} else {
+						members2.push(member);
+					}
+				});
+				if (townP.get(`${town.name}.link`) == null) {
+					embeds.push(resEmbed.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```').addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```'));
+				} else {
+					embeds.push(
+						resEmbed
+							.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```')
+							.addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```')
+							.setURL(townP.get(`${town.name}.link`))
+					);
+				}
+			} else {
+				if (townP.get(`${town.name}.link`) == null) {
+					embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
+				} else {
+					embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(townP.get(`${town.name}.link`)));
+				}
+			}
+		});
 
 		Nation.findOne({ nameLower: nationQuery }, function(err, nation) {
 			if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
@@ -166,7 +163,7 @@ module.exports = {
 						}
 					}
 				}
-      }
+			}
 
 			Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
 				let pageNum = 0;

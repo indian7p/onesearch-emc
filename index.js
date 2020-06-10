@@ -9,7 +9,7 @@ mongoose.connect(config.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: t
 const Schema = mongoose.Schema;
 
 let TownSchema = new Schema({
-	name: {type: String, text: true},
+	name: String,
 	nameLower: String,
 	nation: String,
 	color: String,
