@@ -14,7 +14,7 @@ module.exports = {
 			}
 		}
 		let query = args[2].toLowerCase();
-		Town.findOne({ nameLower: query }, function(err, town) {
+		Town.findOne({ $text: { $search: query } }, function(err, town) {
 			switch (args[1]) {
 				case 'img':
 					townP.set(`${town.name}.imgLink`, message.content.slice(9 + args[1].length + args[2].length).replace(/^(http|https):\/\//, 'https://cdn.statically.io/img/'));
