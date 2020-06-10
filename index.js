@@ -44,10 +44,21 @@ let ResultSchema = new Schema({
 	nsfw: String,
 	id: String
 });
+let SResultSchema = new Schema({
+  desc: String,
+	imgLink: String,
+	link: String,
+	name: String,
+	themeColor: String,
+	nsfw: String,
+  match: String
+})
 
 var Town = mongoose.model('Town', TownSchema);
 var Nation = mongoose.model('Nation', NationSchema);
 var Result = mongoose.model('Result', ResultSchema);
+var SResult = mongoose.model('SResult', SResultSchema);
+SResult.createIndexes({match: "text"})
 
 client.commands = new Discord.Collection();
 
@@ -100,7 +111,7 @@ client.on('message', (message) => {
 			client.commands.get('listscammers').execute(message, Nation);
 			break;
 		case 's':
-			client.commands.get('s').execute(message, args, Nation, Result, Town);
+			client.commands.get('s').execute(message, args, Nation, Result, Town, SResult);
 			break;
 		case 't':
 		case 'town':
