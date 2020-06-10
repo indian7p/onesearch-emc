@@ -9,7 +9,7 @@ const Discord = require('discord.js'),
 module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
-	execute(message, args, Nation, Result, Town) {
+	execute(message, args, Nation, Result, Town, SResult) {
 		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
 		if (!args[1]) return message.channel.send(errorMessage.setDescription('No search query'));
 		let query = message.content.slice(4).toLowerCase();
@@ -17,7 +17,37 @@ module.exports = {
 		let embeds = [];
 
     let nationQuery = query.replace(/ /g, '_');
-    console.log(nationQuery)
+
+    SResult.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
+      let pageNum = 0;
+      let NSFWcount = 0;
+      await results.forEach((data) => {
+        if (data.desc == null) {
+          console.log(data.name + ' Missing desc.');
+        } else {
+          pageNum++;
+          var themeColor = 0x0071bc;
+          if (data.themeColor != undefined) var themeColor = data.themeColor;
+          let resEmbed = new Discord.MessageEmbed()
+            .setTitle(data.name)
+            .setURL(data.link)
+            .setDescription(data.desc)
+            .setThumbnail(data.imgLink)
+            .setColor(themeColor)
+            .setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+          if (data.nsfw != undefined) {
+            if (message.channel.type == 'dm') {
+              embeds.push(resEmbed);
+            } else {
+              NSFWcount++;
+              message.author.send(resEmbed);
+            }
+          } else {
+            embeds.push(resEmbed);
+          }
+        }
+      });
+    });
 		Nation.findOne({ nameLower: nationQuery }, function(err, nation) {
       if(err) return message.channel.send(errorMessage.setDescription("An error occurred."));
 			if (nation != null) {
@@ -173,7 +203,7 @@ module.exports = {
 					}
 					message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
 				}
-			});
+      });
 		});
 	}
 };
