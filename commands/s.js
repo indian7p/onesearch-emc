@@ -16,7 +16,8 @@ module.exports = {
 
 		let embeds = [];
 
-		let nationQuery = query.replace(/ /g, '_');
+    let nationQuery = query.replace(/ /g, '_');
+    console.log(nationQuery)
 		Nation.findOne({ nameLower: nationQuery }, function(err, nation) {
       if(err) return message.channel.send(errorMessage.setDescription("An error occurred."));
 			if (nation != null) {
