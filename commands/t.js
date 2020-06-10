@@ -11,15 +11,15 @@ module.exports = {
 	description: 'Searches for towns',
 	execute: (message, args, Town) => {
 		message.channel.startTyping();
-    let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-    let helpEmbed = new Discord.MessageEmbed()
+		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!t - Help')
 			.addField('1!t [town]', 'Gets town info')
-      .addField('1!t list', 'Lists all towns by residents')
-      .addField('1!t online [town]', 'Lists all online players in the specified town.')
+			.addField('1!t list', 'Lists all towns by residents')
+			.addField('1!t online [town]', 'Lists all online players in the specified town.')
 			.setColor(0x0071bc)
-      .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
-    if(!args[1]) return message.channel.send(helpEmbed).then(m => message.channel.stopTyping())
+			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		if (!args[1]) return message.channel.send(helpEmbed).then((m) => message.channel.stopTyping());
 		switch (args[1]) {
 			case 'list':
 				if (listcache.get('towns') == null) return message.channel.send(errorMessage.setDescription('Town list not found. The database may be updating, try again in a minute.'));
@@ -42,8 +42,8 @@ module.exports = {
 					})
 					.then((data) => {
 						let query = message.content.slice(args[0].length + args[1].length + 4).toLowerCase().replace(/ /g, '_');
-						Town.findOne({ nameLower: query }, function(err, town) {
-							if (town == null) {
+						Town.findOne({ name: query }, function(err, town) {
+							if (town == null || err) {
 								message.channel.stopTyping();
 								return message.channel.send(errorMessage.setDescription('Town not found. The database may be updating, try again in a minute.'));
 							}
@@ -79,20 +79,15 @@ module.exports = {
 					});
 				break;
 			default:
-				if (args[0] == 'town') {
-					var query = message.content.slice(7).toLowerCase().replace(/ /g, '_');
-				} else {
-					var query = message.content.slice(4).toLowerCase().replace(/ /g, '_');
-				}
+				let query = args[0] == 'town' ? message.content.slice(7).toLowerCase().replace(/ /g, '_') : message.content.slice(4).toLowerCase().replace(/ /g, '_');
 				Town.findOne({ nameLower: query }, function(err, town) {
-					if (err) return console.log(err);
-					if (town == null) {
+					if (town == null || err) {
 						message.channel.stopTyping();
 						return message.channel.send(errorMessage.setDescription('Town not found. The database may be updating, try again in a minute.'));
 					}
-          let color = town.nation == 'No Nation' ? 0x69a841: town.color == '#000000' ? 0x010101: town.color == '#FFFFFF' ? 0xFEFEFE: town.color;
-          let tName = town.capital == true ? `:star: ${town.name} (${town.nation})`: `${town.name} (${town.nation})`;
-          let description = townP.get(`${town.name}.scrating`) == null ? 'Information may be slightly out of date.': `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]** Information may be slightly out of date.`;
+					let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
+					let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
+					let description = townP.get(`${town.name}.scrating`) == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]** Information may be slightly out of date.`;
 					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 					let memberList = `\`\`\`${town.members}\`\`\``;
 					let resEmbed = new Discord.MessageEmbed()
@@ -134,7 +129,7 @@ module.exports = {
 						}
 					}
 					message.channel.stopTyping();
-				});
+        })
 				break;
 		}
 	}
