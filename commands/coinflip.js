@@ -6,10 +6,10 @@ module.exports = {
 	execute(message) {
 		let x = Math.floor(Math.random() * 2) + 1;
 		if (x == 1) {
-			const coinEmbedHeads = new Discord.MessageEmbed().setTitle('Coin Flip').addField('Result', 'Heads').setColor(0xfefefe).setThumbnail('https://cdn.bcow.tk/assets/heads.png').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+			const coinEmbedHeads = new Discord.MessageEmbed().setTitle('Coin Flip').addField('Result', 'Heads').setColor(0xfefefe).setThumbnail('https://cdn.bcow.tk/assets/heads.png').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 			message.channel.send(coinEmbedHeads);
 		} else {
-			const coinEmbedTails = new Discord.MessageEmbed().setTitle('Coin Flip').addField('Result', 'Tails').setColor(0xfefefe).setThumbnail('https://cdn.bcow.tk/assets/tails.png').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+			const coinEmbedTails = new Discord.MessageEmbed().setTitle('Coin Flip').addField('Result', 'Tails').setColor(0xfefefe).setThumbnail('https://cdn.bcow.tk/assets/tails.png').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 			message.channel.send(coinEmbedTails);
 		}
 	}

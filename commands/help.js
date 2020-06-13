@@ -6,7 +6,7 @@ module.exports = {
 	execute(message) {
 		const helpEmbed = new Discord.MessageEmbed()
 			.setTitle('Help')
-			.setThumbnail('https://cdn.bcow.tk/assets/logo.png')
+			.setThumbnail('https://cdn.bcow.tk/assets/logo-new.png')
 			.setColor(0x0071bc)
 			.addField('1!info', 'Shows bot info')
 			.addField('1!s [search term]', 'Search OneSearch for towns, nations, discords, and more.')
@@ -20,7 +20,7 @@ module.exports = {
 			.addField('1!calculator [num1] [operator] [num2]', 'Supports addition, subtraction, multiplication, exponents, and division')
 			.addField('1!coinflip', 'Flips a coin')
 			.addField('1!randomnumber [min] [max]', 'Generates a random number')
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		message.channel.send(helpEmbed);
 	}
 };

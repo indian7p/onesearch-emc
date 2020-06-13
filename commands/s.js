@@ -10,7 +10,7 @@ module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
 	execute(message, args, Nation, Result, Town, SResult) {
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		if (!args[1]) return message.channel.send(errorMessage.setDescription('No search query'));
 		let query = message.content.slice(4).toLowerCase();
 
@@ -34,7 +34,7 @@ module.exports = {
 						.setDescription(data.desc)
 						.setThumbnail(data.imgLink)
 						.setColor(themeColor)
-						.setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+						.setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
 					if (data.nsfw != undefined) {
 						if (message.channel.type == 'dm') {
               if(data.sImgLink != null){
@@ -77,7 +77,7 @@ module.exports = {
 					.addField('Owner', '```' + town.mayor + '```', true)
 					.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
 					.addField('Size', town.area, true)
-					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo.png');
+					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
 				if (memberList.length > 1024) {
 					var counter = 0;
 					let members1 = [];
@@ -115,7 +115,7 @@ module.exports = {
 			if (nation != null) {
 				let townsList = nation.townsArr.toString().replace(/,/g, ', ');
 				let CASSTstatus = casst.get(`${nation.nameLower}`);
-				let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) != null ? nationsP.get(`${nation.nameLower}.imgLink`) : 'https://cdn.bcow.tk/assets/logo.png';
+				let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) != null ? nationsP.get(`${nation.nameLower}.imgLink`) : 'https://cdn.bcow.tk/assets/logo-new.png';
 				let nationName = CASSTstatus == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}` : nation.name;
 				let nationDisc = nationsP.get(`${nation.nameLower}.discord`);
 				let nationAMNT = nationsP.get(`${nation.nameLower}.amenities`);
@@ -195,7 +195,7 @@ module.exports = {
 							.setDescription(data.desc)
 							.setThumbnail(data.imgLink)
 							.setColor(themeColor)
-							.setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+							.setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
 						if (data.nsfw != undefined) {
 							if (message.channel.type == 'dm') {
 								embeds.push(resEmbed);

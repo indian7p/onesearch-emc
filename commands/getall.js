@@ -16,7 +16,7 @@ module.exports = {
 					.setDescription(result.desc)
 					.setURL(result.link)
 					.setThumbnail(result.imgLink)
-					.setFooter(`Page ${pageCount}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+					.setFooter(`Page ${pageCount}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
 
 				embeds.push(resEmbed);
 				if (pageCount == results.length) {

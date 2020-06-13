@@ -11,14 +11,14 @@ module.exports = {
 	description: 'Searches for towns',
 	execute: (message, args, Town) => {
 		message.channel.startTyping();
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!t - Help')
 			.addField('1!t [town]', 'Gets town info')
 			.addField('1!t list', 'Lists all towns by residents')
 			.addField('1!t online [town]', 'Lists all online players in the specified town.')
 			.setColor(0x0071bc)
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		if (!args[1]) return message.channel.send(helpEmbed).then((m) => message.channel.stopTyping());
 		switch (args[1]) {
 			case 'list':
@@ -27,7 +27,7 @@ module.exports = {
 				let counter = 0;
 				listcache.get('towns').forEach((townsL) => {
 					counter++;
-					let embed = new Discord.MessageEmbed().setTitle('Town List').setColor(0x0071bc).setDescription(townsL).setFooter(`OneSearch | Page ${counter}/${listcache.get('towns').length}`, 'https://cdn.bcow.tk/assets/logo.png');
+					let embed = new Discord.MessageEmbed().setTitle('Town List').setColor(0x0071bc).setDescription(townsL).setFooter(`OneSearch | Page ${counter}/${listcache.get('towns').length}`, 'https://cdn.bcow.tk/assets/logo-new.png');
 					embeds.push(embed);
 				});
 				message.channel.send(embeds[0]).then((m) => {
@@ -69,7 +69,7 @@ module.exports = {
 											.setTitle(`Players Online - ${town.name}`)
 											.setColor(0x0071bc)
 											.setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ', ')}\`\`\``)
-											.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo.png');
+											.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
 										message.channel.send(embed);
 										message.channel.stopTyping();
 									}
@@ -98,7 +98,7 @@ module.exports = {
 						.addField('Mayor', '```' + town.mayor + '```', true)
 						.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
 						.addField('Size', town.area, true)
-						.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo.png');
+						.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
 					if (memberList.length > 1024) {
 						var counter = 0;
 						let members1 = [];

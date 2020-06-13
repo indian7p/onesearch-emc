@@ -11,7 +11,7 @@ module.exports = {
 	name: 'pl',
 	description: 'Searches for players',
 	execute: async (message, args, Town, client) => {
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!pl')
 			.setColor(0x055e9a)
@@ -19,7 +19,7 @@ module.exports = {
 			.addField('1!pl chistory [player]', 'Searches CASST player history, events before Apr 17, 2020 are missing.')
 			.addField('1!pl nhistory [player]', 'Gets players name history')
 			.addField('1!pl online [staff]', 'Shows online players. 1!pl online staff shows online staff.')
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		if (!args[1]) return message.channel.send(helpEmbed);
 		switch (args[1]) {
 			case 'chistory':
@@ -69,7 +69,7 @@ module.exports = {
 							.setColor(0x0071bc)
 							.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
 							.setDescription('```' + `test\n` + namesD.toString().replace(/,/g, '\n') + '```')
-							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 						message.channel.send(resEmbedN);
 					});
 				break;
@@ -102,7 +102,7 @@ module.exports = {
 									.setTitle('Players Online - Staff')
 									.setColor(0x0071bc)
 									.setDescription(`**Players [${playerList.length}]**\`\`\`${playerList.toString().replace(/,/g, ', ')}\`\`\``)
-									.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+									.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 								message.channel.send(embed);
 								break;
 							default:
@@ -115,7 +115,7 @@ module.exports = {
 										.setTitle('Players Online')
 										.setColor(0x0071bc)
 										.setDescription(`**Players [${playerList.length}]**\`\`\`${playerList.toString().replace(/,/g, ', ')}\`\`\``)
-										.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+										.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 									message.channel.send(embed);
 								} else {
 									let playerList = [];
@@ -127,10 +127,10 @@ module.exports = {
 										}
 									});
 									if (playerList.includes(args[2])) {
-										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x0071bc).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x0071bc).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 										message.channel.send(embed);
 									} else {
-										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x0071bc).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x0071bc).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 										message.channel.send(embed);
 									}
 								}
@@ -174,7 +174,7 @@ module.exports = {
 							.setURL(`https://namemc.com/profile/${data.data.player.id}`)
 							.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
 							.setColor(emColor)
-							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 						let query = new RegExp(data.data.player.username, 'gi');
 						async function flagged(msg) {
 							msg.react('🏳️').then(async (hej) => {
@@ -201,7 +201,7 @@ module.exports = {
 												if (reaction.emoji.name == '✅') {
 													const collector = new Discord.MessageCollector(message.channel, (m) => m.author.id === message.author.id, { time: 10000 });
 													collector.on('collect', (message) => {
-														let successMessage = new Discord.MessageEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07bf63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+														let successMessage = new Discord.MessageEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07bf63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 														client.channels
 															.get('704461817094734045')
 															.send(
@@ -333,14 +333,14 @@ module.exports = {
 													.setTitle(data.data.player.username)
 													.addField('Location', 'Unable to get the players location. Make sure they are not under a block, invisible, or underwater.')
 													.setColor(0x0071bc)
-													.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+													.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 											} else {
 												var location = `${player.x}, ${player.z}`;
 												var resEmbed = new Discord.MessageEmbed()
 													.setTitle(data.data.player.username)
 													.addField('Location', `[${location}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${player.x}&y=64&z=${player.z})`)
 													.setColor(0x0071bc)
-													.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+													.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 											}
 											message.channel.send(resEmbed);
 										}

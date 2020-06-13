@@ -25,7 +25,7 @@ module.exports = {
 			.addField('Answer', num)
 			.setColor(0xfefefe)
 			.setThumbnail('https://cdn.bcow.tk/assets/calculator.png')
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo.png');
+			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		message.channel.send(calcEmbed);
 	}
 };

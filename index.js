@@ -13,7 +13,7 @@ let TownSchema = new Schema({
 	nameLower: String,
 	nation: String,
 	color: String,
-  area: Number,
+	area: Number,
 	mayor: String,
 	members: String,
 	membersArr: Array,
@@ -28,8 +28,8 @@ let NationSchema = new Schema({
 	nameLower: String,
 	color: String,
 	towns: String,
-  townsArr: Array,
-  area: Number,
+	townsArr: Array,
+	area: Number,
 	residents: Number,
 	owner: String,
 	capital: String,
@@ -45,21 +45,21 @@ let ResultSchema = new Schema({
 	id: String
 });
 let SResultSchema = new Schema({
-  desc: String,
+	desc: String,
 	imgLink: String,
 	link: String,
 	name: String,
-  themeColor: String,
-  sImgLink: String,
+	themeColor: String,
+	sImgLink: String,
 	nsfw: String,
-  match: String
-})
+	match: String
+});
 
 var Town = mongoose.model('Town', TownSchema);
 var Nation = mongoose.model('Nation', NationSchema);
 var Result = mongoose.model('Result', ResultSchema);
 var SResult = mongoose.model('SResult', SResultSchema);
-SResult.createIndexes({match: "text"})
+SResult.createIndexes({ match: 'text' });
 
 client.commands = new Discord.Collection();
 
@@ -75,13 +75,13 @@ client.login(config.TOKEN);
 const PREFIX = '1!';
 
 client.on('ready', () => {
-  let statuses = ['Search towns, nations, discords and players fast. 1!s [nation/town/anything] or 1!pl [username or UUID]', 'Statuspage: bcow.statuspage.io', 'Invite me! l.bcow.tk/osbot', 'github.com/imabritishcow/onesearch-emc']
-  setInterval(function() {
-    let status = statuses[Math.floor(Math.random() * statuses.length)];
-    client.user.setActivity(status);
-  }, 60000)
+	let statuses = [ 'Search towns, nations, discords and players fast. 1!s [nation/town/anything] or 1!pl [username or UUID]', 'Statuspage: bcow.statuspage.io', 'Invite me! l.bcow.tk/osbot', 'github.com/imabritishcow/onesearch-emc' ];
+	setInterval(function() {
+		let status = statuses[Math.floor(Math.random() * statuses.length)];
+		client.user.setActivity(status);
+	}, 60000);
 
-  console.log('heyyyy');
+	console.log('heyyyy');
 });
 
 client.on('message', (message) => {
@@ -148,8 +148,8 @@ client.on('message', (message) => {
 			client.commands.get('sett').execute(message, args, Town);
 			break;
 		case 'stats':
-      client.commands.get('stats').execute(message, client, Town, Nation, Result)
-      break;
+			client.commands.get('stats').execute(message, client, Town, Nation, Result);
+			break;
 		case 'stopTyping':
 			message.channel.stopTyping();
 			break;
@@ -163,8 +163,11 @@ client.on('message', (message) => {
       client.commands.get("updatenations").execute(Town, Nation);
       break;*/
 		case 'updatelistcache':
-      message.delete()
+			message.delete();
 			client.commands.get('updatelistcache').execute(Town, Nation);
+			break;
+		case 'assist':
+      client.commands.get('assist').execute(message);
 			break;
 	}
 });
