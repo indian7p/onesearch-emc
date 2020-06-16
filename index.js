@@ -67,7 +67,7 @@ var Result = mongoose.model('Result', ResultSchema);
 var SResult = mongoose.model('SResult', SResultSchema);
 SResult.createIndexes({ match: 'text' });
 var Image = mongoose.model('Image', ImageSchema);
-Image.collection.ensureIndexes({ desc: 'text', meta: 'text'})
+Image.collection.ensureIndex({ desc: 'text', meta: 'text'})
 
 client.commands = new Discord.Collection();
 
