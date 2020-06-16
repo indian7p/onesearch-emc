@@ -54,12 +54,20 @@ let SResultSchema = new Schema({
 	nsfw: String,
 	match: String
 });
+let ImageSchema = new Schema({
+  desc: String,
+  meta: String,
+  link: String,
+  nsfw: String
+})
 
 var Town = mongoose.model('Town', TownSchema);
 var Nation = mongoose.model('Nation', NationSchema);
 var Result = mongoose.model('Result', ResultSchema);
 var SResult = mongoose.model('SResult', SResultSchema);
 SResult.createIndexes({ match: 'text' });
+var Image = mongoose.model('Image', ImageSchema);
+Image.collection.ensureIndexes({ desc: 'text', meta: 'text'})
 
 client.commands = new Discord.Collection();
 
@@ -152,22 +160,16 @@ client.on('message', (message) => {
 			break;
 		case 'stopTyping':
 			message.channel.stopTyping();
-			break;
-		//On separate bot
-		/*case 'updatedb':
-      if(message.author.id != '456965312886079533')return message.channel.send('You do not have permission to use this command.')
-      client.commands.get("updatedb").execute(Town, Nation);
       break;
-    case 'updatenations':
-      if(message.author.id != '456965312886079533')return message.channel.send('You do not have permission to use this command.')
-      client.commands.get("updatenations").execute(Town, Nation);
-      break;*/
+    case 'si':
+      client.commands.get('si').execute(message, args, Image);
+      break;
 		case 'updatelistcache':
 			message.delete();
 			client.commands.get('updatelistcache').execute(Town, Nation);
 			break;
 		case 'assist':
       client.commands.get('assist').execute(message);
-			break;
+      break;
 	}
 });
