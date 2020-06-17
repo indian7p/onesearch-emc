@@ -26,13 +26,25 @@ module.exports = {
         .setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
 				if (data.nsfw != undefined) {
 					if (message.channel.type == 'dm') {
-						embeds.push(resEmbed);
+						if(data.rlink == null) {
+              embeds.push(resEmbed);
+            }else{
+              embeds.push(resEmbed.setURL(data.rlink));
+            }
 					} else {
-						NSFWcount++;
-						message.author.send(resEmbed);
+            NSFWcount++;
+            if(data.rlink == null) {
+              message.author.send(resEmbed);
+            }else{
+              message.author.send(resEmbed.setURL(data.rlink));
+            }
 					}
 				} else {
-					embeds.push(resEmbed);
+					if(data.rlink == null) {
+            embeds.push(resEmbed);
+          }else{
+            embeds.push(resEmbed.setURL(data.rlink));
+          }
 				}
 			});
 			if (embeds.length == 0) {
