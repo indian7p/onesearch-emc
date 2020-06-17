@@ -39,7 +39,7 @@ let ResultSchema = new Schema({
 	desc: String,
 	imgLink: String,
 	link: String,
-	name: String,
+  name: String,
 	themeColor: String,
 	nsfw: String,
 	id: String
@@ -58,6 +58,7 @@ let ImageSchema = new Schema({
   desc: String,
   meta: String,
   link: String,
+  rlink: String,
   nsfw: String
 })
 
