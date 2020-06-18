@@ -26,7 +26,7 @@ module.exports = {
 					const voiceChannel = message.member.voice.channel;
 
 					if (!voiceChannel) {
-						return message.channel.send('Music player requires you to be in a voice channel. Meant to search? Add --no-music to your search.');
+						return message.channel.send(errorMessage.setDescription('Music player requires you to be in a voice channel. Meant to search? Add --no-music to your search.'));
 					}
 
 					search(msQuery, { maxResults: 1, key: config.YT_API_KEY }, function(err, result) {
