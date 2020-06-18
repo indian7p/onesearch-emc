@@ -228,18 +228,18 @@ module.exports = {
 				}
 
 				search(msQuery, { maxResults: 1, key: config.YT_API_KEY }, function(err, result) {
-					if (err) return console.log(err);
+          if (err) return console.log(err);
 
 					voiceChannel.join().then((connection) => {
 						let playerEmbed = new Discord.MessageEmbed()
 							.setTitle(`Now playing ${result[0].title.replace(/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/gim, '')}`)
 							.setColor(0x003175)
-							.setDescription('Meant to search? Add --no-music to your search. React with ⏹️ to stop playing and have the bot leave the channel.')
+							.setDescription('Meant to search? Add --no-music to your search. React with ⏹️ or use 1!leavechannel to stop playing and have the bot leave the channel.')
 							.setURL(`https://www.youtube.com/watch?v=${result[0].id}`)
 							.setImage(result[0].thumbnails.high.url)
 							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 						message.channel.send(playerEmbed).then(async (m) => {
-							const stream = await ytdl(`https://www.youtube.com/watch?v=${result[0].id}`, { filter: 'audioonly' });
+              const stream = await ytdl(`https://www.youtube.com/watch?v=${result[0].id}`, { filter: format => format.codecs === 'opus' });
 							await connection.play(stream);
 							stream.on('end', () => {
 								voiceChannel.leave();
