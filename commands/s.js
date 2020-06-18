@@ -20,7 +20,7 @@ module.exports = {
 		if (query.includes('--no-music')) {
 		} else {
 			if (config.ENABLE_MUSIC) {
-				if (args[1]) {
+				if (args[1] == "play") {
 					const ytdl = require('ytdl-core');
 					let msQuery = message.content.slice(4).replace('play ', '');
 					const voiceChannel = message.member.voice.channel;
