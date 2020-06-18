@@ -2,9 +2,8 @@ const Discord = require('discord.js'),
 	moment = require('moment-timezone'),
 	fn = require('../util/fn'),
 	db = require('quick.db'),
-	nationsP = new db.table('nationsP'),
-	townP = new db.table('townP'),
-	casst = new db.table('casst');
+	config = require('../config.json');
+(nationsP = new db.table('nationsP')), (townP = new db.table('townP')), (search = require('youtube-search')), (casst = new db.table('casst'));
 
 module.exports = {
 	name: 's',
@@ -18,6 +17,52 @@ module.exports = {
 
 		let nationQuery = query.replace(/ /g, '_');
 
+		if (query.includes('--no-music')) {
+		} else {
+			if (config.ENABLE_MUSIC) {
+				if (args[1]) {
+					const ytdl = require('ytdl-core');
+					let msQuery = message.content.slice(4).replace('play ', '');
+					const voiceChannel = message.member.voice.channel;
+
+					if (!voiceChannel) {
+						return message.channel.send('Music player requires you to be in a voice channel. Meant to search? Add --no-music to your search.');
+					}
+
+					search(msQuery, { maxResults: 1, key: config.YT_API_KEY }, function(err, result) {
+						if (err) return console.log(err);
+
+						voiceChannel.join().then((connection) => {
+							let playerEmbed = new Discord.MessageEmbed()
+								.setTitle(`Now playing ${result[0].title.replace(/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/gmi, "")}`)
+								.setColor(0x003175)
+								.setDescription('Meant to search? Add --no-music to your search. React with ⏹️ to stop playing and have the bot leave the channel.')
+								.setURL(`https://www.youtube.com/watch?v=${result[0].id}`)
+								.setImage(result[0].thumbnails.high.url)
+								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+							message.channel.send(playerEmbed).then(async (m) => {
+                const stream = await ytdl(`https://www.youtube.com/watch?v=${result[0].id}`, { filter: 'audioonly' });
+								await connection.play(stream);
+								stream.on('end', () => {
+									voiceChannel.leave();
+									m.reactions.removeAll().catch(() => {});
+                });
+                
+								await m.react('⏹️');
+								let reaction = await m.awaitReactions((reaction, user) => user.bot == false && reaction.emoji.name == '⏹️', { time: 240 * 1000, max: 1, errors: [ 'time' ] }).catch(() => {});
+								if (!reaction) return m.reactions.removeAll().catch(() => {});
+								reaction = reaction.first();
+								if (reaction) {
+									voiceChannel.leave();
+                }
+							});
+						});
+					});
+				}
+			}
+			return;
+		}
+
 		SResult.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
 			let pageNum = 0;
 			let NSFWcount = 0;
@@ -26,8 +71,7 @@ module.exports = {
 					console.log(data.name + ' Missing desc.');
 				} else {
 					pageNum++;
-					var themeColor = 0x0071bc;
-					if (data.themeColor != undefined) var themeColor = data.themeColor;
+					let themeColor = data.themeColor != null ? data.themeColor : 0x0071bc;
 					let resEmbed = new Discord.MessageEmbed()
 						.setTitle(data.name)
 						.setURL(data.link)
@@ -37,25 +81,25 @@ module.exports = {
 						.setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
 					if (data.nsfw != undefined) {
 						if (message.channel.type == 'dm') {
-              if(data.sImgLink != null){
-                embeds.push(resEmbed.setImage(data.sImgLink));
-              }else{
-                embeds.push(resEmbed);
-              }
+							if (data.sImgLink != null) {
+								embeds.push(resEmbed.setImage(data.sImgLink));
+							} else {
+								embeds.push(resEmbed);
+							}
 						} else {
 							NSFWcount++;
-              if(data.sImgLink != null){
-                embeds.push(resEmbed.setImage(data.sImgLink));
-              }else{
-                embeds.push(resEmbed);
-              }
+							if (data.sImgLink != null) {
+								embeds.push(resEmbed.setImage(data.sImgLink));
+							} else {
+								embeds.push(resEmbed);
+							}
 						}
 					} else {
-						if(data.sImgLink != null){
-              embeds.push(resEmbed.setImage(data.sImgLink));
-            }else{
-              embeds.push(resEmbed);
-            }
+						if (data.sImgLink != null) {
+							embeds.push(resEmbed.setImage(data.sImgLink));
+						} else {
+							embeds.push(resEmbed);
+						}
 					}
 				}
 			});

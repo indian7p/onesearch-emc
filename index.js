@@ -94,6 +94,7 @@ client.on('ready', () => {
 });
 
 client.on('message', (message) => {
+  let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 	let args = message.content.substring(PREFIX.length).split(' ');
 	if (!message.content.includes(PREFIX)) return;
 	if (message.content.startsWith(PREFIX) == false) return;
@@ -171,6 +172,13 @@ client.on('message', (message) => {
 			break;
 		case 'assist':
       client.commands.get('assist').execute(message);
+      break;
+    case 'leavechannel':
+      try {
+        message.member.voice.channel.leave()
+      }catch(e){
+        message.channel.send(errorMessage.setDescription("An error occured."))
+      }
       break;
 	}
 });
