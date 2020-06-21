@@ -170,15 +170,15 @@ client.on('message', (message) => {
 			message.delete();
 			client.commands.get('updatelistcache').execute(Town, Nation);
 			break;
-		case 'assist':
-      client.commands.get('assist').execute(message);
-      break;
     case 'leavechannel':
       try {
         message.member.voice.channel.leave()
       }catch(e){
         message.channel.send(errorMessage.setDescription("An error occured."))
       }
+      break;
+    case 'crawl':
+      client.commands.get('crawl').execute(message, Result);
       break;
 	}
 });
