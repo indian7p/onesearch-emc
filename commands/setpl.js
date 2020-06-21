@@ -23,14 +23,12 @@ module.exports = {
 			.addField('1!setpl status', 'Sets a players CASST status. Valid statuses: <:verified:696564425775251477> Verified, ⚠️ Scammer, ⛔ BANNED')
 			.addField('1!setpl rank', 'Sets the players in-game rank. Valid ranks: Mod, Admin, Owner')
 			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-		if (message.author.id != '456965312886079533') {
-			if (message.author.id != '345720683076124673') {
-				message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
-			}
-		}
+    
+    if(!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription("You do not have permission to use this command."));
+
 		if (!args[2]) return message.channel.send(errorMessage.setDescription('Missing username or UUID. Command usage: 1!setpl [type] [player] <- Missing [value]'));
 		if (!args[3]) return message.channel.send(errorMessage.setDescription('Missing value, use null to delete. Command usage: 1!setpl [type] [player] [value] <- Missing'));
-		let playerRes = fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
+		fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
 			.then((res) => {
 				return res.json();
 			})
