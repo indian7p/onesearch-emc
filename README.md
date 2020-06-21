@@ -18,7 +18,7 @@ OneSearch is split into 2 things to increase reliability and uptime. For the upd
   "YT_API_KEY": "YOUR YOUTUBE API KEY"
 }
 ```
-A YouTube API key is not required if `ENABLE_MUSIC` is false. `BOT_ADMINS` implementation is currently WIP (only used in 1!crawl).
+A YouTube API key is not required if `ENABLE_MUSIC` is false.
 
 ## Links
 
