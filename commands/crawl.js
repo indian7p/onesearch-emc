@@ -10,7 +10,7 @@ module.exports = {
 
 		if (!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
 
-		const options = { url: message.content.slice(9) };
+		const options = { url: message.content.slice(8) };
 
 		function sendPreview() {
 			let query = message.content.slice(8);
