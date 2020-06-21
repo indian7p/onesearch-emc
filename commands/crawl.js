@@ -53,7 +53,8 @@ module.exports = {
 						if (err) return console.log(err);
 						let newResult = new Result({
 							name: `${results.ogTitle} - ${results.ogSiteName}`,
-							desc: results.ogDescription,
+              desc: results.ogDescription,
+              themeColor: "ff0000",
 							imgLink: result[0].thumbnails.medium.url,
 							link: message.content.slice(8)
 						});
