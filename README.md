@@ -6,15 +6,19 @@ Find towns, nations, and Discord servers with OneSearch for EarthMC. Gets data f
 
 This does not include Discord servers for security and privacy reasons.<br>
 
-OneSearch is split into 2 things to increase reliability and uptime. For the updater service that grabs info from the map and runs the [API](https://docs.bcow.tk/). See https://github.com/imabritishcow/onesearch-updater
+OneSearch is split into 2 things to increase reliability and uptime. For the updater service that grabs info from the map and runs the [API](https://github.com/imabritishcow/onesearch-api). See https://github.com/imabritishcow/onesearch-updater
 
 ## Example config.json
 ```
 {
   "MONGOURL": "YOUR MONGODB CONNECTION STRING",
-  "TOKEN": "YOUR DISCORD BOT TOKEN"
+  "TOKEN": "YOUR DISCORD BOT TOKEN",
+  "BOT_ADMINS": ["YOUR DISCORD ID"],
+  "ENABLE_MUSIC": true/false,
+  "YT_API_KEY": "YOUR YOUTUBE API KEY"
 }
 ```
+A YouTube API key is not required if `ENABLE_MUSIC` is false. `BOT_ADMINS` implementation is currently WIP (only used in 1!crawl).
 
 ## Links
 
