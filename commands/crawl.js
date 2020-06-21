@@ -48,7 +48,7 @@ module.exports = {
 					let newResult = new Result({
 						name: `${results.ogTitle}`,
 						desc: results.ogDescription,
-						imgLink: results.ogImage.replace("https://", "https://cdn.statically.io/img/"),
+						imgLink: results.ogImage.url.replace("https://", "https://cdn.statically.io/img/"),
 						link: message.content.slice(8)
 					});
           await newResult.save();
@@ -67,7 +67,7 @@ module.exports = {
 					let newResult = new Result({
 						name: `${results.ogTitle} - ${results.ogSiteName}`,
 						desc: results.ogDescription,
-						imgLink: results.ogImage.replace("https://", "https://cdn.statically.io/img/"),
+						imgLink: results.ogImage.url.replace("https://", "https://cdn.statically.io/img/"),
 						link: message.content.slice(8)
 					});
           await newResult.save();
