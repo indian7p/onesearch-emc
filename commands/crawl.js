@@ -33,10 +33,10 @@ module.exports = {
 
 			if (results.ogTitle == null) return message.channel.send(errorMessage.setDescription('Missing og:title tag.'));
 			if (results.ogDescription == null) return message.channel.send(errorMessage.setDescription('Missing og:description tag.'));
-			if (results.ogImage == null) return message.channel.send(errorMessage.setDescription('Missing og:image tag.'));
+			if (results.ogImage == null) message.channel.send(errorMessage.setDescription('Missing og:image tag.'));
 
 			if (!results.ogSiteName) {
-				if (!results.imgLink) {
+				if (!results.ogImage) {
 					let newResult = new Result({
 						name: `${results.ogTitle}`,
 						desc: results.ogDescription,
@@ -55,7 +55,7 @@ module.exports = {
           sendPreview();
 				}
 			} else {
-				if (!results.imgLink) {
+				if (!results.ogImage) {
 					let newResult = new Result({
 						name: `${results.ogTitle} - ${results.ogSiteName}`,
 						desc: results.ogDescription,
