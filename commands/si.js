@@ -20,7 +20,7 @@ module.exports = {
         let resEmbed = new Discord.MessageEmbed()
         .setTitle('Image')
         .setColor(0x0b59a4)
-        .setDescription(data.desc)
+        .setDescription("Images may be subject to copyright. "+data.desc)
         .addField('Info', data.meta.replace(/\(CC BY 4.0\)/, "[(CC BY 4.0)](https://creativecommons.org/licenses/by/4.0)"))
         .setImage(data.link)
         .setFooter(`Page ${pageNum}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
