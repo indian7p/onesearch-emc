@@ -1,7 +1,8 @@
 const Discord = require('discord.js'),
 	cache = require('quick.db'),
 	fetch = require('node-fetch'),
-	moment = require('moment-timezone'),
+  moment = require('moment-timezone'),
+  config = require('../config.json')
 	casst = new cache.table('casst'),
 	players = new cache.table('players');
 
