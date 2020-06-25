@@ -37,11 +37,12 @@ let NationSchema = new Schema({
 });
 let ResultSchema = new Schema({
 	desc: String,
-	imgLink: String,
+	keywords: String,
 	link: String,
   name: String,
 	themeColor: String,
 	nsfw: String,
+	imgLink: String,
 	id: String
 });
 let SResultSchema = new Schema({
@@ -65,8 +66,9 @@ let ImageSchema = new Schema({
 var Town = mongoose.model('Town', TownSchema);
 var Nation = mongoose.model('Nation', NationSchema);
 var Result = mongoose.model('Result', ResultSchema);
+Result.collection.ensureIndex({ name: 'text', keywords: 'text' });
 var SResult = mongoose.model('SResult', SResultSchema);
-SResult.createIndexes({ match: 'text' });
+SResult.collection.ensureIndex({ match: 'text' });
 var Image = mongoose.model('Image', ImageSchema);
 Image.collection.ensureIndex({ desc: 'text', meta: 'text'})
 
