@@ -28,7 +28,7 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
-            if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 						if (players.get(`${data.data.player.raw_id}.history`) == null) return message.channel.send(errorMessage.setDescription('History not found'));
 						let resEmbedPl = new Discord.MessageEmbed()
 							.setTitle(`Player History - ${data.data.player.username}`)
@@ -46,7 +46,7 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
-            if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 						let dates = [];
 						let names = [];
 						let namesD = [];
@@ -73,6 +73,23 @@ module.exports = {
 						message.channel.send(resEmbedN);
 					});
 				break;
+			case 'uuid':
+				fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
+					.then((res) => {
+						return res.json();
+					})
+					.then((data) => {
+						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"));
+						let resEmbedU = new Discord.MessageEmbed()
+							.setTitle(`UUID - ${data.data.player.username}`)
+							.setColor(0x003175)
+							.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
+							.addField('UUID', data.data.player.raw_id)
+							.addField('Formatted', data.data.player.id)
+							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+						message.channel.send(resEmbedU);
+					})
+				break;
 			case 'online':
 				fetch('https://earthmc.net/map/up/world/earth/')
 					.then((res) => {
@@ -84,7 +101,7 @@ module.exports = {
 						}
 					})
 					.then((data) => {
-            if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 						switch (args[2]) {
 							case 'staff':
 								let playersOnline = [];
@@ -144,7 +161,7 @@ module.exports = {
 						return res.json();
 					})
 					.then(data => {
-            if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 						message.channel.startTyping();
 						switch (players.get(`${data.data.player.raw_id}.rank`)) {
 							case 'admin':
@@ -320,7 +337,7 @@ module.exports = {
 								return res.json();
 							})
 							.then((data2) => {
-                if(data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+								if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
 								let playerNames = [];
 								data2.players.forEach((player) => {
 									playerNames.push(player.account);
