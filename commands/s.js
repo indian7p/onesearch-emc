@@ -28,7 +28,7 @@ module.exports = {
 						console.log(data.name + ' Missing desc.');
 					} else {
 						pageNum++;
-						let themeColor = data.themeColor != null ? data.themeColor : 0x0071bc;
+						let themeColor = data.themeColor != null ? data.themeColor : 0x003175;
 						let resEmbed = new Discord.MessageEmbed()
 							.setTitle(data.name)
 							.setURL(data.link)
@@ -186,7 +186,7 @@ module.exports = {
 							console.log(data.name + ' Missing desc.');
 						} else {
 							pageNum++;
-							var themeColor = 0x0071bc;
+							var themeColor = 0x003175;
 							if (data.themeColor != undefined) var themeColor = data.themeColor;
 							let resEmbed = new Discord.MessageEmbed()
 								.setTitle(data.name)

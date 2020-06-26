@@ -107,7 +107,7 @@ module.exports = {
 					pageNum++;
 					let resEmbed = new Discord.MessageEmbed()
 						.setTitle('No Nation')
-						.setColor(0x0071bc)
+						.setColor(0x003175)
 						.addField('Residents', nation2.residents)
 						.addField(`Towns [${nation2.townsArr.length}]`, townsList)
 						.setFooter(`Page ${pageNum}-${arraysArr.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');

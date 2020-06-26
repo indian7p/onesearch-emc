@@ -12,7 +12,7 @@ module.exports = {
 		if (!isFinite(range1)) return message.channel.send(errorMessage.setDescription('Command usage: 1!randomnumber [min] <- Needs to be a number [max]'));
 		if (!isFinite(range2)) return message.channel.send(errorMessage.setDescription('Command usage: 1!randomnumber [min] [max] <- Needs to be a number'));
 		let rng1 = Math.floor(Math.random() * (range2 - range1 + 1) + range1);
-		const rngEmbed1 = new Discord.MessageEmbed().setTitle('Random Number').setColor(0x0071bc).addField('Range', range1 + '-' + range2).addField('Number', rng1).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+		const rngEmbed1 = new Discord.MessageEmbed().setTitle('Random Number').setColor(0x003175).addField('Range', range1 + '-' + range2).addField('Number', rng1).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		message.channel.send(rngEmbed1);
 	}
 };

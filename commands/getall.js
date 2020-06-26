@@ -12,7 +12,7 @@ module.exports = {
 				pageCount++;
 				let resEmbed = new Discord.MessageEmbed()
 					.setTitle(result.name)
-					.setColor(0x0071bc)
+					.setColor(0x003175)
 					.setDescription(result.desc)
 					.setURL(result.link)
 					.setThumbnail(result.imgLink)

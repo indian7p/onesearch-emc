@@ -19,7 +19,7 @@ module.exports = {
               let statsEmbed = new Discord.MessageEmbed()
                 .setTitle('Stats')
                 .setThumbnail('https://cdn.bcow.tk/assets/logo-new.png')
-                .setColor(0x0071bc)
+                .setColor(0x003175)
                 .addField('**Towny Stats**', '⠀', false)
                 .addField('Nations', nations.length, true)
                 .addField('Towns', towns.length, true)

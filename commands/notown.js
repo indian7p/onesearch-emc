@@ -22,7 +22,7 @@ module.exports = {
 						if (counter == data.players.length) {
 							let resEmbed = new Discord.MessageEmbed()
 								.setTitle('Townless Players')
-								.setColor(0x0071bc)
+								.setColor(0x003175)
 								.setDescription(`**Players [${townless.length}]**\n` + '```' + townless.toString().replace(/,/g, ', ') + '```')
 								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 							message.channel.send(resEmbed);

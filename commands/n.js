@@ -16,7 +16,7 @@ module.exports = {
 			.addField('1!n [nation]', 'Finds nations')
       .addField('1!n list', 'Lists all nations by residents')
       .addField('1!n online [nation]', 'Lists all online players in a specified nation.')
-			.setColor(0x0071bc)
+			.setColor(0x003175)
 			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		message.channel.startTyping();
 		switch (args[1]) {
@@ -26,7 +26,7 @@ module.exports = {
 				let counter = 0;
 				listcache.get('nations').forEach((nationsL) => {
 					counter++;
-					let embed = new Discord.MessageEmbed().setTitle('Nation List').setColor(0x0071bc).setDescription(nationsL).setFooter(`OneSearch | Page ${counter}/${listcache.get('nations').length}`, 'https://cdn.bcow.tk/assets/logo-new.png');
+					let embed = new Discord.MessageEmbed().setTitle('Nation List').setColor(0x003175).setDescription(nationsL).setFooter(`OneSearch | Page ${counter}/${listcache.get('nations').length}`, 'https://cdn.bcow.tk/assets/logo-new.png');
 					embeds.push(embed);
 				});
 				message.channel.send(embeds[0]).then((m) => {
@@ -67,7 +67,7 @@ module.exports = {
                       }
                       let embed = new Discord.MessageEmbed()
                         .setTitle(`Players Online - ${nation.name}`)
-                        .setColor(0x0071bc)
+                        .setColor(0x003175)
                         .setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ', ')}\`\`\``)
                         .setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
                       message.channel.send(embed);

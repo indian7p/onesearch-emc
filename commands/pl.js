@@ -66,7 +66,7 @@ module.exports = {
 						});
 						let resEmbedN = new Discord.MessageEmbed()
 							.setTitle(`Name History - ${data.data.player.username}`)
-							.setColor(0x0071bc)
+							.setColor(0x003175)
 							.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
 							.setDescription('```' + `test\n` + namesD.toString().replace(/,/g, '\n') + '```')
 							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
@@ -100,7 +100,7 @@ module.exports = {
 								console.log(playerList);
 								let embed = new Discord.MessageEmbed()
 									.setTitle('Players Online - Staff')
-									.setColor(0x0071bc)
+									.setColor(0x003175)
 									.setDescription(`**Players [${playerList.length}]**\`\`\`${playerList.toString().replace(/,/g, ', ')}\`\`\``)
 									.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 								message.channel.send(embed);
@@ -113,7 +113,7 @@ module.exports = {
 									});
 									let embed = new Discord.MessageEmbed()
 										.setTitle('Players Online')
-										.setColor(0x0071bc)
+										.setColor(0x003175)
 										.setDescription(`**Players [${playerList.length}]**\`\`\`${playerList.toString().replace(/,/g, ', ')}\`\`\``)
 										.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 									message.channel.send(embed);
@@ -127,10 +127,10 @@ module.exports = {
 										}
 									});
 									if (playerList.includes(args[2])) {
-										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x0071bc).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x003175).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 										message.channel.send(embed);
 									} else {
-										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x0071bc).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x003175).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 										message.channel.send(embed);
 									}
 								}
@@ -157,7 +157,7 @@ module.exports = {
 								var emColor = 0xaa0000;
 								break;
 							default:
-								var emColor = 0x0071bc;
+								var emColor = 0x003175;
 								break;
 						}
 						if (casst.get(`${data.data.player.raw_id}`) == null) {
@@ -332,14 +332,14 @@ module.exports = {
 												var resEmbed = new Discord.MessageEmbed()
 													.setTitle(data.data.player.username)
 													.addField('Location', 'Unable to get the players location. Make sure they are not under a block, invisible, or underwater.')
-													.setColor(0x0071bc)
+													.setColor(0x003175)
 													.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 											} else {
 												var location = `${player.x}, ${player.z}`;
 												var resEmbed = new Discord.MessageEmbed()
 													.setTitle(data.data.player.username)
 													.addField('Location', `[${location}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${player.x}&y=64&z=${player.z})`)
-													.setColor(0x0071bc)
+													.setColor(0x003175)
 													.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 											}
 											message.channel.send(resEmbed);
