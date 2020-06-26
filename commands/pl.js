@@ -155,6 +155,16 @@ module.exports = {
 						}
 					});
 				break;
+			case 'staff':
+				let staffArray = staffList.staffList;
+				let embed = new Discord.MessageEmbed()
+					.setTitle('Players - Staff')
+					.setColor(0x003175)
+					.setDescription('List inaccurate? Open a pull request or issue on [GitHub](https://github.com/imabritishcow/onesearch-emc).')
+					.addField(`Staff [${staffArray.length}]`,`\`\`\`${staffArray.toString().replace(/,/g, ', ')}\`\`\``)
+					.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+				message.channel.send(embed);
+				break;
 			default:
 				fetch(`https://playerdb.co/api/player/minecraft/${args[1]}`)
 					.then(res => {
