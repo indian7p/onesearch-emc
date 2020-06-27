@@ -176,7 +176,7 @@ client.on('message', (message) => {
       try {
         message.member.voice.channel.leave()
       }catch(e){
-        message.channel.send(errorMessage.setDescription("An error occured."))
+        message.channel.send(errorMessage.setDescription("An error occurred."))
       }
       break;
     case 'crawl':
