@@ -14,11 +14,10 @@ OneSearch is split into 2 things to increase reliability and uptime. For the upd
   "MONGOURL": "YOUR MONGODB CONNECTION STRING",
   "TOKEN": "YOUR DISCORD BOT TOKEN",
   "BOT_ADMINS": ["YOUR DISCORD ID"],
-  "ENABLE_MUSIC": true/false,
   "YT_API_KEY": "YOUR YOUTUBE API KEY"
 }
 ```
-A YouTube API key is not required if `ENABLE_MUSIC` is false or if you are not using 1!crawl with YouTube.
+A YouTube API key is not required if you are not using 1!crawl with YouTube.
 
 ## Links
 
