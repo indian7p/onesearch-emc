@@ -1,6 +1,7 @@
 const Discord = require('discord.js'),
 	cache = require('quick.db'),
 	fn = require('../util/fn'),
+	config = require('../config.json')
 	casst = new cache.table('casst'),
 	nationsP = new cache.table('nationsP');
 
