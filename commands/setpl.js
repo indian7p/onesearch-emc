@@ -68,14 +68,6 @@ module.exports = {
 							message.channel.send(successMessage.setDescription(`Cleared the player's status`));
 							return;
 						}
-						let scsEmbed = new Discord.MessageEmbed()
-							.setTitle(data.data.player.username)
-							.setURL(`https://namemc.com/${data.data.player.raw_id}`)
-							.setThumbnail(`https://crafatar.com/avatars/${data.data.player.raw_id}?overlay`)
-							.setColor(0x019145)
-							.setDescription(message.content.slice(15 + args[2].length))
-							.setFooter('CASST', 'https://cdn.bcow.tk/assets/casst.png');
-						client.channels.resolve('703687483581399120').send(scsEmbed);
 						casst.set(`${data.data.player.raw_id}`, message.content.slice(15 + args[2].length));
 						if (args[3].includes('BANNED') || args[4].includes('BANNED')) {
 							players.push(`${data.data.player.raw_id}.history`, `${date} - ⛔ BANNED - Banned`);
