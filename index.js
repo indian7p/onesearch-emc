@@ -102,12 +102,6 @@ client.on('message', (message) => {
 	if (message.content.startsWith(PREFIX) == false) return;
 
 	switch (args[0]) {
-		case 'calculator':
-			client.commands.get('calculator').execute(message, args);
-			break;
-		case 'coinflip':
-			client.commands.get('coinflip').execute(message);
-			break;
 		case 'getall':
 			client.commands.get('getall').execute(message, Result);
 			break;
@@ -144,12 +138,6 @@ client.on('message', (message) => {
 		case 'notown':
 			client.commands.get('notown').execute(message, Town);
 			break;
-		case 'randomnumber':
-			client.commands.get('randomnumber').execute(message, args);
-			break;
-		case 'readify':
-			client.commands.get('readify').execute(message);
-			break;
 		case 'setn':
 			client.commands.get('setn').execute(message, args, Nation);
 			break;
@@ -172,13 +160,6 @@ client.on('message', (message) => {
 			message.delete();
 			client.commands.get('updatelistcache').execute(Town, Nation);
 			break;
-    case 'leavechannel':
-      try {
-        message.member.voice.channel.leave()
-      }catch(e){
-        message.channel.send(errorMessage.setDescription("An error occurred."))
-      }
-      break;
     case 'crawl':
       client.commands.get('crawl').execute(message, Result);
       break;
