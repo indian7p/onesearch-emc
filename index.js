@@ -102,9 +102,6 @@ client.on('message', (message) => {
 	if (message.content.startsWith(PREFIX) == false) return;
 
 	switch (args[0]) {
-		case 'getall':
-			client.commands.get('getall').execute(message, Result);
-			break;
 		case 'help':
 			client.commands.get('help').execute(message);
 			break;

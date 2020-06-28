@@ -10,7 +10,29 @@ module.exports = {
 	description: 'Searches OneSearch',
 	execute(message, args, Nation, Result, Town, SResult) {
 		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-		if (!args[1]) return message.channel.send(errorMessage.setDescription('No search query'));
+		if (!args[1]) {
+			let embeds = [];
+			Result.find({}, function (err, results) {
+				let pageCount = 0;
+				results.forEach((result) => {
+					pageCount++;
+					let resEmbed = new Discord.MessageEmbed()
+						.setTitle(result.name)
+						.setColor(0x003175)
+						.setDescription(result.desc)
+						.setURL(result.link)
+						.setThumbnail(result.imgLink)
+						.setFooter(`Page ${pageCount}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+
+					embeds.push(resEmbed);
+					if (pageCount == results.length) {
+						message.channel.send(embeds[0]).then((m) => {
+							fn.paginator(message.author.id, m, embeds, 0);
+						});
+					}
+				});
+			});
+		}
 		let query = message.content.slice(4).toLowerCase();
 
 		let embeds = [];
