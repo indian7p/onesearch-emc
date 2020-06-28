@@ -114,9 +114,9 @@ module.exports = {
 			if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 			if (nation != null) {
 				let townsList = nation.townsArr.toString().replace(/,/g, ', ');
-				let CASSTstatus = casst.get(`${nation.nameLower}`);
+				let status = casst.get(`${nation.nameLower}`);
 				let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) != null ? nationsP.get(`${nation.nameLower}.imgLink`) : 'https://cdn.bcow.tk/assets/logo-new.png';
-				let nationName = CASSTstatus == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}` : nation.name;
+				let nationName = status == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}` : nation.name;
 				let nationDisc = nationsP.get(`${nation.nameLower}.discord`);
 				let nationAMNT = nationsP.get(`${nation.nameLower}.amenities`);
 
@@ -143,10 +143,11 @@ module.exports = {
 					.setThumbnail(imgLink)
 					.addField('Owner', `\`\`\`${nation.owner}\`\`\``, true)
 					.addField('Capital', nation.capital, true)
-					.addField('CASST Status', CASSTstatus)
+					.addField('Status', status)
 					.addField('Residents', nation.residents, true)
 					.addField('Area', nation.area, true)
-					.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true);
+					.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
+					.addField('Report this nation', '[Google Form](https://l.bcow.tk/report-nation)');
 
 				if (nationDisc == null) {
 					if (nationAMNT == null) {

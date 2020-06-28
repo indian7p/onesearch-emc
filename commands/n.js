@@ -94,10 +94,10 @@ module.exports = {
 								message.channel.send(errorMessage.setDescription('Town is not in a nation.'));
 							}
 							Nation.findOne({ name: town.nation }, function(err, nationByTown) {
-								let nationCASST = casst.get(`${nationByTown.nameLower}`);
+								let nationStatus = casst.get(`${nationByTown.nameLower}`);
 								let nationDisc = nationsP.get(`${nationByTown.nameLower}.discord`);
 								let nationAMNT = nationsP.get(`${nationByTown.nameLower}.amenities`);
-                let nationName = nationCASST == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nationByTown.name}`: nationByTown.name;
+                let nationName = nationStatus == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nationByTown.name}`: nationByTown.name;
                 let imgLink = nationsP.get(`${nationByTown.nameLower}.imgLink`) != null ? nationsP.get(`${nationByTown.nameLower}.imgLink`): 'https://cdn.bcow.tk/assets/logo-new.png'; 
                 let townsList = nationByTown.townsArr.toString() != null ? nationByTown.townsArr.toString().replace(/,/g, ', '): '```Error getting towns```';
 								if (townsList.length > 1024) {
@@ -118,12 +118,12 @@ module.exports = {
 								let location = nationByTown.location.split(',');
 								let resEmbedN = new Discord.MessageEmbed()
 									.setTitle(nationName)
-									.setDescription('TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command.')
+									.setDescription('TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command. Looking to report a nation? [Click here](https://l.bcow.tk/report-nation).')
 									.setColor(nationByTown.color)
 									.setThumbnail(imgLink)
 									.addField('Owner', '```' + nationByTown.owner + '```', true)
 									.addField('Capital', nationByTown.capital, true)
-									.addField('CASST Status', nationCASST)
+									.addField('Status', nationStatus)
                   .addField('Residents', nationByTown.residents, true)
                   .addField('Area', nationByTown.area, true)
 									.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
@@ -160,10 +160,10 @@ module.exports = {
 							});
 						});
 					} else {
-						let nationCASST = casst.get(`${nation.nameLower}`);
+						let nationStatus = casst.get(`${nation.nameLower}`);
 						let nationDisc = nationsP.get(`${nation.nameLower}.discord`);
 						let nationAMNT = nationsP.get(`${nation.nameLower}.amenities`);
-            let nationName = nationCASST == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}`: nation.name;
+            let nationName = nationStatus == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}`: nation.name;
             let townsList = nation.townsArr.toString() != null ? nation.townsArr.toString().replace(/,/g, ', '): '```Error getting towns```';
             let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) != null ? nationsP.get(`${nation.nameLower}.imgLink`): 'https://cdn.bcow.tk/assets/logo-new.png';
 						if (townsList.length > 1024) {
@@ -184,12 +184,12 @@ module.exports = {
 						let location = nation.location.split(',');
 						let resEmbedN = new Discord.MessageEmbed()
 							.setTitle(nationName)
-							.setDescription('TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command.')
+							.setDescription('TIP: You can now search for nations using 1!s. Nations, towns, discords, and more all in one command. Looking to report a nation? [Click here](https://l.bcow.tk/report-nation).')
 							.setColor(nation.color)
 							.setThumbnail(imgLink)
 							.addField('Owner', '```' + nation.owner + '```', true)
 							.addField('Capital', nation.capital, true)
-							.addField('CASST Status', nationCASST)
+							.addField('Status', nationStatus)
               .addField('Residents', nation.residents, true)
               .addField('Area', nation.area, true)
 							.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
