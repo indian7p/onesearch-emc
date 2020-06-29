@@ -54,7 +54,7 @@ module.exports = {
 						let newResult = new Result({
 							name: `${results.ogTitle} - ${results.ogSiteName}`,
               desc: results.ogDescription,
-              themeColor: "ff0000",
+              themeColor: 'ff0000',
 							imgLink: result[0].thumbnails.medium.url,
 							link: message.content.slice(8)
 						});
