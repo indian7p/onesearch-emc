@@ -120,47 +120,26 @@ module.exports = {
 								.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
 								.addField('Size', town.area, true)
 								.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
-		
-							if (townp != null) {
-								if (memberList.length > 1024) {
-									var counter = 0;
-									let members1 = [];
-									let members2 = [];
-									town.membersArr.forEach((member) => {
-										counter++;
-										if (counter <= 50) {
-											members1.push(member);
-										} else {
-											members2.push(member);
-										}
-									});
-		
-									members1 = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
-									members2 = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
-									message.channel.send(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2));
-								} else {
-									message.channel.send(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
-								}
+
+							if (memberList.length > 1024) {
+								var counter = 0;
+								let members1 = [];
+								let members2 = [];
+								town.membersArr.forEach((member) => {
+									counter++;
+									if (counter <= 50) {
+										members1.push(member);
+									} else {
+										members2.push(member);
+									}
+								});
+								members1 = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
+								members2 = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
+								message.channel.send(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2));
 							} else {
-								if (memberList.length > 1024) {
-									var counter = 0;
-									let members1 = [];
-									let members2 = [];
-									town.membersArr.forEach((member) => {
-										counter++;
-										if (counter <= 50) {
-											members1.push(member);
-										} else {
-											members2.push(member);
-										}
-									});
-									members1 = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
-									members2 = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
-									message.channel.send(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2));
-								} else {
-									message.channel.send(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
-								}
+								message.channel.send(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
 							}
+							message.channel.stopTyping()
 						})
 					}
 				});
