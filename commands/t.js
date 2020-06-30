@@ -19,15 +19,15 @@ module.exports = {
 		if (!args[1]) return message.channel.send(helpEmbed).then((m) => message.channel.stopTyping());
 		switch (args[1]) {
 			case 'list':
-				Nation.find({}).sort({ residents: 'desc' }).exec(async function (err, nations) {
+				Town.find({}).sort({ residents: 'desc' }).exec(async function (err, towns) {
 					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 
-					let nationList = [];
-					nations.forEach(nation => {
-						nationList.push(`${nation.name} - Members: ${nation.residents} - Area: ${nation.area}`);
+					let townList = [];
+					towns.forEach(town => {
+						townList.push(`${town.name} - Members: ${town.residents} - Area: ${town.area}`);
 					})
 
-					let pages = nationList.map(() => nationList.splice(0, 10)).filter(a => a);
+					let pages = townList.map(() => townList.splice(0, 10)).filter(a => a);
 					let embeds = [];
 
 					let pageNum = 0;
@@ -35,7 +35,7 @@ module.exports = {
 						pageNum++
 						let list = page.toString().replace(/,/g, '\n');
 						let embed = new Discord.MessageEmbed()
-							.setTitle('Nation List')
+							.setTitle('Town List')
 							.setDescription(`\`\`\`${list}\`\`\``)
 							.setColor(0x003175)
 							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
