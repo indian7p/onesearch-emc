@@ -39,7 +39,7 @@ module.exports = {
 							.setDescription(`\`\`\`${list}\`\`\``)
 							.setColor(0x003175)
 							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
-						message.channel.send(embed);
+						embeds.push(embed);
 					})
 
 					message.channel.send(embeds[0]).then((m) => {
