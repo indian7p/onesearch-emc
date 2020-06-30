@@ -1,26 +1,24 @@
 const Discord = require('discord.js'),
 	fetch = require('node-fetch'),
 	moment = require('moment-timezone'),
-	cache = require('quick.db'),
-	fn = require('../util/fn'),
-	staffList = require('../staffList.json'),
-	casst = new cache.table('casst'),
-	players = new cache.table('players');
+	staffList = require('../staffList.json');
 
 module.exports = {
 	name: 'pl',
 	description: 'Searches for players',
-	execute: async (message, args, Town, client) => {
+	execute: async (message, args, Town, Player) => {
 		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!pl')
-			.setColor(0x055e9a)
+			.setColor(0x003175)
 			.addField('1!pl [player]', 'Finds player info such as town and scammer status.')
 			.addField('1!pl chistory [player]', 'Searches CASST player history, events before Apr 17, 2020 are missing.')
 			.addField('1!pl nhistory [player]', 'Gets players name history')
-			.addField('1!pl online [staff]', 'Shows online players. 1!pl online staff shows online staff.')
+			.addField('1!pl uuid [player]', 'Gets a players UUID')
+			.addField('1!pl online [staff/player name/UUID]', 'Shows online players. 1!pl online staff shows online staff and 1!pl online [player] checks if that user is online.')
 			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		if (!args[1]) return message.channel.send(helpEmbed);
+
 		switch (args[1]) {
 			case 'chistory':
 				fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
@@ -28,16 +26,20 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
-						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
-						if (players.get(`${data.data.player.raw_id}.history`) == null) return message.channel.send(errorMessage.setDescription('History not found'));
-						let resEmbedPl = new Discord.MessageEmbed()
-							.setTitle(`Player History - ${data.data.player.username}`)
-							.setDescription('⚠ Player event history started on 4/17/2020. Previous events are missing.')
-							.setColor(0x009245)
-							.addField('Current Status', casst.get(`${data.data.player.raw_id}`))
-							.addField('Player History', '```' + players.get(`${data.data.player.raw_id}.history`).toString().replace(/,/g, '\n') + '```')
-							.setFooter('CASST', 'https://cdn.bcow.tk/assets/casst.png');
-						message.channel.send(resEmbedPl);
+						if (data.success == false) return message.channel.send(errorMessage.setDescription('Invalid username or UUID'));
+
+						Player.findOne({ id: data.data.player.raw_id }, function (err, player) {
+							if (!player || !player.history || player.history.length == 0) return message.channel.send(errorMessage.setDescription('History not found'));
+
+							let resEmbedPl = new Discord.MessageEmbed()
+								.setTitle(`Player History - ${data.data.player.username}`)
+								.setDescription('⚠ Player event history started on 4/17/2020. Previous events are missing.')
+								.setColor(0x003175)
+								.addField('Current Status', player.status)
+								.addField('Player History', '```' + player.history.toString().replace(/,/g, '\n') + '```')
+								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+							message.channel.send(resEmbedPl);
+						})
 					});
 				break;
 			case 'nhistory':
@@ -46,7 +48,7 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
-						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+						if (data.success == false) return message.channel.send(errorMessage.setDescription('Invalid username or UUID'))
 						let dates = [];
 						let names = [];
 						let namesD = [];
@@ -79,7 +81,7 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
-						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"));
+						if (data.success == false) return message.channel.send(errorMessage.setDescription('Invalid username or UUID'));
 						let resEmbedU = new Discord.MessageEmbed()
 							.setTitle(`UUID - ${data.data.player.username}`)
 							.setColor(0x003175)
@@ -100,8 +102,7 @@ module.exports = {
 							return;
 						}
 					})
-					.then((data) => {
-						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+					.then(data => {
 						switch (args[2]) {
 							case 'staff':
 								let playersOnline = [];
@@ -111,14 +112,15 @@ module.exports = {
 								let playerList = playersOnline.filter((player) => {
 									return staffList.staffList.includes(player);
 								});
+								let listLength = playerList.length;
 								if (playerList.length == 0) {
 									playerList.push('No staff found. Try again later.');
+									listLength = 0;
 								}
-								console.log(playerList);
 								let embed = new Discord.MessageEmbed()
 									.setTitle('Players Online - Staff')
 									.setColor(0x003175)
-									.setDescription(`**Players [${playerList.length}]**\`\`\`${playerList.toString().replace(/,/g, ', ')}\`\`\``)
+									.setDescription(`**Players [${listLength}]**\`\`\`${playerList.toString().replace(/,/g, ', ')}\`\`\``)
 									.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 								message.channel.send(embed);
 								break;
@@ -135,25 +137,78 @@ module.exports = {
 										.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 									message.channel.send(embed);
 								} else {
-									let playerList = [];
-									var playerName;
-									data.players.forEach((player) => {
-										playerList.push(player.account.toLowerCase());
-										if (player.account.toLowerCase() == args[2].toLowerCase()) {
-											var playerName = player.account;
-										}
-									});
-									if (playerList.includes(args[2])) {
-										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x003175).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-										message.channel.send(embed);
-									} else {
-										let embed = new Discord.MessageEmbed().setTitle(playerName).setColor(0x003175).addField('Status', 'Online').setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-										message.channel.send(embed);
-									}
+									fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
+										.then(res => {
+											return res.json();
+										})
+										.then(playerData => {
+											if (playerData.success == false) return message.channel.send(errorMessage.setDescription('Invalid username/UUID.'));
+
+											let playerList = [];
+
+											data.players.forEach(player => {
+												playerList.push(player.account);
+											});
+
+											let status = 'Offline';
+											if (playerList.includes(playerData.data.player.username)) {
+												status = 'Online';
+											}
+
+											let embed = new Discord.MessageEmbed()
+												.setTitle(playerData.data.player.username).setColor(0x003175)
+												.addField('Status', status)
+												.setThumbnail(`https://crafatar.com/avatars/${playerData.data.player.raw_id}?overlay`)
+												.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+											message.channel.send(embed);
+										})
 								}
 								break;
 						}
 					});
+				break;
+			case 'location':
+				fetch('https://earthmc.net/map/up/world/earth/')
+					.then((res) => {
+						try {
+							return res.json();
+						} catch (err) {
+							message.channel.send('Unable to get map data.');
+							return;
+						}
+					})
+					.then(data => {
+						fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
+							.then(res => {
+								return res.json();
+							})
+							.then(playerData => {
+								if (playerData.success == false) return message.channel.send(errorMessage.setDescription('Invalid username/UUID.'));
+
+								let playerList = [];
+
+								let location = 'Unable to get the players location. Make sure they are not under a block, invisible, or underwater.';
+								data.players.forEach(player => {
+									playerList.push(player.account);
+
+									if (player.account == playerData.data.player.username) {
+										if (player.world != 'earth') return;
+										location = `[${player.x}, ${player.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${player.x}&y=64&z=${player.z})`;
+									}
+								});
+
+								if (!playerList.includes(playerData.data.player.username)) return message.channel.send(errorMessage.setDescription('Player is not online.'))
+
+								let embed = new Discord.MessageEmbed()
+									.setTitle(playerData.data.player.username)
+									.setThumbnail(`https://crafatar.com/avatars/${playerData.data.player.raw_id}?overlay`)
+									.addField('Location', location)
+									.setColor(0x003175)
+									.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+
+								message.channel.send(embed);
+							})
+					})
 				break;
 			case 'staff':
 				let staffArray = staffList.staffList;
@@ -161,7 +216,7 @@ module.exports = {
 					.setTitle('Players - Staff')
 					.setColor(0x003175)
 					.setDescription('List inaccurate? Open a pull request or issue on [GitHub](https://github.com/imabritishcow/onesearch-emc).')
-					.addField(`Staff [${staffArray.length}]`,`\`\`\`${staffArray.toString().replace(/,/g, ', ')}\`\`\``)
+					.addField(`Staff [${staffArray.length}]`, `\`\`\`${staffArray.toString().replace(/,/g, ', ')}\`\`\``)
 					.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 				message.channel.send(embed);
 				break;
@@ -171,179 +226,54 @@ module.exports = {
 						return res.json();
 					})
 					.then(data => {
-						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+						if (data.success == false) return message.channel.send(errorMessage.setDescription('Invalid username or UUID'))
 						message.channel.startTyping();
-						switch (players.get(`${data.data.player.raw_id}.rank`)) {
-							case 'admin':
-								var emColor = 0x00a8a8;
-								break;
-							case 'mod':
-								var emColor = 0x00aa00;
-								break;
-							case 'owner':
-								var emColor = 0xaa0000;
-								break;
-							default:
-								var emColor = 0x003175;
-								break;
+
+						let emColor = 0x003175;
+						if (staffList.staffList.includes(data.data.player.username)) {
+							emColor = 0x00aa00;
 						}
-						if (casst.get(`${data.data.player.raw_id}`) == null) {
-							var name = data.data.player.username;
-						} else {
-							if (casst.get(`${data.data.player.raw_id}`).includes('Verified')) {
-								var name = '<:verified:696564425775251477> ' + data.data.player.username;
-							} else {
-								var name = data.data.player.username;
-							}
-						}
-						let resEmbed = new Discord.MessageEmbed()
-							.setTitle(name)
-							.setURL(`https://namemc.com/profile/${data.data.player.id}`)
-							.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
-							.setColor(emColor)
-							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-						let query = new RegExp(data.data.player.username, 'gi');
-						async function flagged(msg) {
-							msg.react('🏳️').then(async (hej) => {
-								let reaction1 = await msg.awaitReactions((reaction, user) => user.id == message.author.id && ['🏳️'].includes(reaction.emoji.name), { max: 1, errors: ['time'] }).catch(() => { });
-								if (!reaction1) return msg.clearReactions().catch(() => { });
-								reaction1 = reaction1.first();
-								if (reaction1.emoji.name == '🏳️') {
-									let flagConfirm = new Discord.MessageEmbed()
-										.setColor(0xdc2e44)
-										.setDescription('**Discontinued Service**\n The CASST has been discontinued. Please report players to [EarthMC Scams](https://discord.gg/8V6kTxW).')
-										.setFooter('Discontinued Service', 'https://cdn.bcow.tk/img/no-entry-emoji.png');
-									message.channel.send(flagConfirm)
+
+						Player.findOne({ id: data.data.player.raw_id }, function (err, player) {
+							if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+
+							let name = data.data.player.username;
+							let status = 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).';
+							if (player) {
+								if (player.status.includes('Verified')) {
+									name = '<:verified:726833035999182898> ' + data.data.player.username;
 								}
-							});
-						}
-						Town.findOne({ membersArr: { $in: [data.data.player.username] } }, async function (err, town) {
-							message.channel.stopTyping();
-							if (name.includes('<:verified:696564425775251477>')) {
-								if (town == null) {
-									if (casst.get(data.data.player.raw_id) == null) {
-										message.channel.send(resEmbed.addField('Status', 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).'));
-									} else {
-										message.channel.send(resEmbed.addField('Status', casst.get(data.data.player.raw_id)));
-									}
+								status = player.status;
+							}
+
+							let resEmbed = new Discord.MessageEmbed()
+								.setTitle(name)
+								.setURL(`https://namemc.com/profile/${data.data.player.id}`)
+								.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
+								.setColor(emColor)
+								.addField('Status', status)
+								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+
+							Town.findOne({ membersArr: { $in: [data.data.player.username] } }, async function (err, town) {
+								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+
+								if (!town) {
+									message.channel.send(resEmbed);
 								} else {
 									if (town.mayor == data.data.player.username) {
 										if (town.capital == true) {
-											if (casst.get(data.data.player.raw_id) == null) {
-												message.channel
-													.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('Status', 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).'))
-													.then((msg) => {
-														flagged(msg);
-													});
-											} else {
-												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('Status', casst.get(data.data.player.raw_id)));
-											}
+											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`));
 										} else {
-											if (casst.get(data.data.player.raw_id) == null) {
-												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('Status', 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).'));
-											} else {
-												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('Status', casst.get(data.data.player.raw_id)));
-											}
+											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`));
 										}
 									} else {
-										if (casst.get(data.data.player.raw_id) == null) {
-											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('Status', 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).'));
-										} else {
-											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('Status', casst.get(data.data.player.raw_id)));
-										}
+										message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`));
 									}
 								}
-							} else {
-								if (town == null) {
-									if (casst.get(data.data.player.raw_id) == null) {
-										message.channel.send(resEmbed.addField('Status', 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).'));
-									} else {
-										message.channel.send(resEmbed.addField('Status', casst.get(data.data.player.raw_id)));
-									}
-								} else {
-									if (town.mayor == data.data.player.username) {
-										if (town.capital == true) {
-											if (casst.get(data.data.player.raw_id) == null) {
-												message.channel
-													.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('Status', 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).'))
-													.then((msg) => {
-														flagged(msg);
-													});
-											} else {
-												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`).addField('Status', casst.get(data.data.player.raw_id))).then((msg) => {
-													flagged(msg);
-												});
-											}
-										} else {
-											if (casst.get(data.data.player.raw_id) == null) {
-												message.channel
-													.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('Status', 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).'))
-													.then((msg) => {
-														flagged(msg);
-													});
-											} else {
-												message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`).addField('Status', casst.get(data.data.player.raw_id))).then((msg) => {
-													flagged(msg);
-												});
-											}
-										}
-									} else {
-										if (casst.get(data.data.player.raw_id) == null) {
-											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('Status', 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).')).then((msg) => {
-												flagged(msg);
-											});
-										} else {
-											message.channel.send(resEmbed.addField('Town', `${town.name} (${town.nation})`).addField('Status', casst.get(data.data.player.raw_id))).then((msg) => {
-												flagged(msg);
-											});
-										}
-									}
-								}
-							}
-						});
-					})
-				break;
-			case 'location':
-				fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
-					.then((res) => {
-						return res.json();
-					})
-					.then((data) => {
-						fetch('https://earthmc.net/map/up/world/earth/')
-							.then((res) => {
-								return res.json();
-							})
-							.then((data2) => {
-								if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
-								let playerNames = [];
-								data2.players.forEach((player) => {
-									playerNames.push(player.account);
-								});
-								if (playerNames.includes(data.data.player.username)) {
-									data2.players.forEach((player) => {
-										if (player.account == data.data.player.username) {
-											if (player.world == '-some-other-bogus-world-') {
-												var resEmbed = new Discord.MessageEmbed()
-													.setTitle(data.data.player.username)
-													.addField('Location', 'Unable to get the players location. Make sure they are not under a block, invisible, or underwater.')
-													.setColor(0x003175)
-													.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-											} else {
-												var location = `${player.x}, ${player.z}`;
-												var resEmbed = new Discord.MessageEmbed()
-													.setTitle(data.data.player.username)
-													.addField('Location', `[${location}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${player.x}&y=64&z=${player.z})`)
-													.setColor(0x003175)
-													.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-											}
-											message.channel.send(resEmbed);
-										}
-									});
-								} else {
-									message.channel.send(errorMessage.setDescription('Player is not online'));
-								}
+								message.channel.stopTyping();
 							});
-					});
+						})
+					})
 				break;
 		}
 	}

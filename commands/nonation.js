@@ -1,122 +1,65 @@
-const Discord = require('discord.js');
-const cache = require('quick.db'),
+const Discord = require('discord.js'),
 	fn = require('../util/fn');
 
 module.exports = {
 	name: 'nonation',
 	description: 'Searches for towns without nations',
-	execute: async (message, Nation) => {
+	execute(message, args, Town, Nation) {
 		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+
 		message.channel.startTyping();
-		var query = message.content.slice(5).toLowerCase().replace(/ /g, '_');
-		Nation.findOne({ nameLower: 'no_nation' }, async function(err, nation2) {
-			if (nation2 == null) {
+		Nation.findOne({ nameLower: 'no_nation' }, function (err, nation) {
+			if (nation == null) {
 				message.channel.stopTyping();
 				message.channel.send(errorMessage.setDescription('The database may be updating, try again in a minute.'));
 			}
-			if (nation2.townsArr.toString().length > 1024) {
-				var counter = 0;
-				let members1 = [];
-				let members2 = [];
-				let members3 = [];
-				let members4 = [];
-				let members5 = [];
-				let members6 = [];
-				let members7 = [];
-				let members8 = [];
-				let members9 = [];
-				let members10 = [];
-				let arraysArr = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
-				var pageNum = 0;
-				nation2.townsArr.forEach((member) => {
-					counter++;
-					if (counter <= 50) {
-						members1.push(member);
-					} else {
-						if (counter <= 100) {
-							members2.push(member);
-						} else {
-							if (counter <= 150) {
-								members3.push(member);
-							} else {
-								if (counter <= 200) {
-									members4.push(member);
-								} else {
-									if (counter <= 250) {
-										members5.push(member);
-									} else {
-										if (counter <= 300) {
-											members6.push(member);
-										} else {
-											if (counter <= 350) {
-												members7.push(member);
-											} else {
-												if (counter <= 400) {
-													members8.push(member);
-												} else {
-													if (counter <= 450) {
-														members9.push(member);
-													} else {
-														if (counter <= 500) {
-															members10.push(member);
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				});
-				let embedsArr = [];
-				arraysArr.forEach((value) => {
-					switch (value) {
-						case 1:
-							var townsList = '```' + members1.toString().replace(/,/g, ', ') + '```';
-							break;
-						case 2:
-							var townsList = '```' + members2.toString().replace(/,/g, ', ') + '```';
-							break;
-						case 3:
-							var townsList = '```' + members3.toString().replace(/,/g, ', ') + '```';
-							break;
-						case 4:
-							var townsList = '```' + members4.toString().replace(/,/g, ', ') + '```';
-							break;
-						case 5:
-							var townsList = '```' + members5.toString().replace(/,/g, ', ') + '```';
-							break;
-						case 6:
-							var townsList = '```' + members6.toString().replace(/,/g, ', ') + '```';
-							break;
-						case 7:
-							var townsList = '```' + members7.toString().replace(/,/g, ', ') + '```';
-							break;
-						case 8:
-							var townsList = '```' + members8.toString().replace(/,/g, ', ') + '```';
-							break;
-						case 9:
-							var townsList = '```' + members9.toString().replace(/,/g, ', ') + '```';
-							break;
-						case 10:
-							var townsList = '```' + members10.toString().replace(/,/g, ', ') + '```';
-							break;
-					}
-					pageNum++;
-					let resEmbed = new Discord.MessageEmbed()
-						.setTitle('No Nation')
-						.setColor(0x003175)
-						.addField('Residents', nation2.residents)
-						.addField(`Towns [${nation2.townsArr.length}]`, townsList)
-						.setFooter(`Page ${pageNum}-${arraysArr.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
-					embedsArr.push(resEmbed);
-				});
-				let m = await message.channel.send(embedsArr[0]);
-				fn.paginator(message.author.id, m, embedsArr, 0);
-				message.channel.stopTyping();
-			}
 		});
+
+		let sortingOpts;
+		switch (args[1]) {
+			default:
+			case 'members':
+				sortingOpts = { residents: 'desc' };
+				break;
+			case 'area':
+				sortingOpts = { area: 'desc' };
+				break;
+		}
+
+		Town.find({ nation: 'No Nation' }).sort(sortingOpts).exec(async function (err, towns) {
+			if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+			if (!towns) return message.channel.send(errorMessage.setDescription('The database may be updating. Try again later.'));
+			Nation.findOne({ name: "No_Nation" }, function (err, nation) {
+				if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+				if (!nation) return message.channel.send(errorMessage.setDescription('The database may be updating. Try again later.'));
+
+				let townList = [];
+				towns.forEach(town => {
+					townList.push(`${town.name.replace(/_/g, '\_')} - Members: ${town.residents} - Area: ${town.area}`);
+				})
+
+				let pages = townList.map(() => townList.splice(0, 10)).filter(a => a);
+				let embeds = [];
+
+				let pageNum = 0;
+				pages.forEach(page => {
+					pageNum++
+					let list = page.toString().replace(/,/g, '\n');
+					let embed = new Discord.MessageEmbed()
+						.setTitle('No Nation')
+						.addField('Towns', townList.length, true)
+						.addField('Residents', nation.residents, true)
+						.setDescription(`\`\`\`${list}\`\`\``)
+						.setColor(0x003175)
+						.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+					embeds.push(embed);
+				})
+
+				message.channel.send(embeds[0]).then((m) => {
+					fn.paginator(message.author.id, m, embeds, 0);
+				});
+				message.channel.stopTyping();
+			})
+		})
 	}
 };
