@@ -1,11 +1,8 @@
 {
   "name": "onesearch",
   "version": "3.0.0",
-  "description": "",
+  "description": "Find towns, nations, and discords with OneSearch for EarthMC.",
   "main": "index.js",
-  "engines": {
-    "node": "12.x"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/imabritishcow/onesearch-emc.git"
@@ -17,8 +14,7 @@
     "mongoose": "^5.9.15",
     "node-fetch": "^2.6.0",
     "open-graph-scraper": "^4.1.1",
-    "youtube-search": "^1.1.4",
-    "ytdl-core": "^2.1.7"
+    "youtube-search": "^1.1.4"
   },
   "scripts": {
     "start": "node index.js",
