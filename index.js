@@ -23,6 +23,13 @@ let TownSchema = new Schema({
 	capital: Boolean,
 	time: { type: Date, default: Date.now }
 });
+let TownPSchema = new Schema({
+	name: String,
+	imgLink: String,
+	desc: String,
+	scrating: String,
+	link: String
+});
 let NationSchema = new Schema({
 	name: String,
 	nameLower: String,
@@ -35,11 +42,18 @@ let NationSchema = new Schema({
 	capital: String,
 	location: String
 });
+let NationPSchema = new Schema({
+	name: String,
+	link: String,
+	imgLink: String,
+	amenities: String,
+	status: String
+});
 let ResultSchema = new Schema({
 	desc: String,
 	keywords: String,
 	link: String,
-  name: String,
+	name: String,
 	themeColor: String,
 	nsfw: String,
 	imgLink: String,
@@ -56,21 +70,29 @@ let SResultSchema = new Schema({
 	match: String
 });
 let ImageSchema = new Schema({
-  desc: String,
-  meta: String,
-  link: String,
-  rlink: String,
-  nsfw: String
+	desc: String,
+	meta: String,
+	link: String,
+	rlink: String,
+	nsfw: String
+})
+let PlayerSchema = new Schema({
+	id: String,
+	history: Array,
+	status: String
 })
 
 var Town = mongoose.model('Town', TownSchema);
+var TownP = mongoose.model('TownP', TownPSchema);
 var Nation = mongoose.model('Nation', NationSchema);
+var NationP = mongoose.model('NationP', NationPSchema);
+let Player = mongoose.model('Player', PlayerSchema)
 var Result = mongoose.model('Result', ResultSchema);
 Result.collection.ensureIndex({ name: 'text', keywords: 'text' });
 var SResult = mongoose.model('SResult', SResultSchema);
 SResult.collection.ensureIndex({ match: 'text' });
 var Image = mongoose.model('Image', ImageSchema);
-Image.collection.ensureIndex({ desc: 'text', meta: 'text'})
+Image.collection.ensureIndex({ desc: 'text', meta: 'text' })
 
 client.commands = new Discord.Collection();
 
@@ -86,8 +108,8 @@ client.login(config.TOKEN);
 const PREFIX = '1!';
 
 client.on('ready', () => {
-	let statuses = [ 'Search towns, nations, discords and players fast. 1!s [nation/town/anything] or 1!pl [username or UUID]', 'Statuspage: bcow.statuspage.io', 'Invite me! l.bcow.tk/osbot', 'github.com/imabritishcow/onesearch-emc' ];
-	setInterval(function() {
+	let statuses = ['Search towns, nations, discords and players fast. 1!s [nation/town/anything] or 1!pl [username or UUID]', 'Statuspage: bcow.statuspage.io', 'Invite me! l.bcow.tk/osbot', 'github.com/imabritishcow/onesearch-emc'];
+	setInterval(function () {
 		let status = statuses[Math.floor(Math.random() * statuses.length)];
 		client.user.setActivity(status);
 	}, 60000);
@@ -96,7 +118,7 @@ client.on('ready', () => {
 });
 
 client.on('message', (message) => {
-  let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+	let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 	let args = message.content.substring(PREFIX.length).split(' ');
 	if (!message.content.includes(PREFIX)) return;
 	if (message.content.startsWith(PREFIX) == false) return;
@@ -109,56 +131,52 @@ client.on('message', (message) => {
 			client.commands.get('info').execute(message);
 			break;
 		case 'listaudit':
-			client.commands.get('listaudit').execute(message, Nation);
+			client.commands.get('listaudit').execute(message, Nation, NationP);
 			break;
-		case 'listscammers':
-			client.commands.get('listscammers').execute(message, Nation);
+		case 'listplayers':
+			client.commands.get('listplayers').execute(message, Player);
 			break;
 		case 's':
-			client.commands.get('s').execute(message, args, Nation, Result, Town, SResult);
+			client.commands.get('s').execute(message, args, Nation, NationP, Result, Town, TownP, SResult);
 			break;
 		case 't':
 		case 'town':
-			client.commands.get('t').execute(message, args, Town);
+			client.commands.get('t').execute(message, args, Town, TownP);
 			break;
 		case 'pl':
 		case 'player':
-			client.commands.get('pl').execute(message, args, Town, client);
+			client.commands.get('pl').execute(message, args, Town, Player);
 			break;
 		case 'n':
 		case 'nation':
-			client.commands.get('n').execute(message, args, Town, Nation);
+			client.commands.get('n').execute(message, args, Nation, NationP, Town);
 			break;
 		case 'nonation':
-			client.commands.get('nonation').execute(message, Nation);
+			client.commands.get('nonation').execute(message, args, Town, Nation);
 			break;
 		case 'notown':
 			client.commands.get('notown').execute(message, Town);
 			break;
 		case 'setn':
-			client.commands.get('setn').execute(message, args, Nation);
+			client.commands.get('setn').execute(message, args, Nation, NationP);
 			break;
 		case 'setpl':
-			client.commands.get('setpl').execute(message, args, Town, Nation, client);
+			client.commands.get('setpl').execute(message, args, Player);
 			break;
 		case 'sett':
-			client.commands.get('sett').execute(message, args, Town);
+			client.commands.get('sett').execute(message, args, Town, TownP);
 			break;
 		case 'stats':
 			client.commands.get('stats').execute(message, client, Town, Nation, Result);
 			break;
 		case 'stopTyping':
 			message.channel.stopTyping();
-      break;
-    case 'si':
-      client.commands.get('si').execute(message, args, Image);
-      break;
-		case 'updatelistcache':
-			message.delete();
-			client.commands.get('updatelistcache').execute(Town, Nation);
 			break;
-    case 'crawl':
-      client.commands.get('crawl').execute(message, Result);
-      break;
+		case 'si':
+			client.commands.get('si').execute(message, args, Image);
+			break;
+		case 'crawl':
+			client.commands.get('crawl').execute(message, Result);
+			break;
 	}
 });
