@@ -82,6 +82,7 @@ module.exports = {
 		});
 
 		Town.findOne({ nameLower: nationQuery }, function (err, town) {
+			if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 			if (town != null) {
 				TownP.findOne({ name: town.name }, function (err, townp) {
 					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
