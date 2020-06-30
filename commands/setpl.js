@@ -39,7 +39,7 @@ module.exports = {
 									player.save();
 								}
 
-								message.channel.send(successMessage.setDescription(`Cleared the player's history`));
+								message.channel.send(successMessage.setDescription(`Cleared the player's history.`));
 								return;
 							}
 
@@ -48,11 +48,14 @@ module.exports = {
 								let newElement = [`${date} - ${player.status} - ${message.content.slice(10 + args[1].length + args[2].length)}`];
 
 								player.history = old.concat(newElement);
+
+								player.save(function (err) {
+									if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+									message.channel.send(successMessage.setDescription(`Added a history event for ${data.data.player.username}.`));
+								})
 							}else{
 								return message.channel.send(errorMessage.setDescription('Set a status before adding a history event.'))
 							}
-
-							message.channel.send(successMessage.setDescription(`Added a history event for ${data.data.player.username}`));
 							break;
 						case 'status':
 							if (args[3] == 'null') {
@@ -61,7 +64,7 @@ module.exports = {
 									player.save();
 								}
 
-								message.channel.send(successMessage.setDescription(`Cleared the player's status`));
+								message.channel.send(successMessage.setDescription(`Cleared the player's status.`));
 								return;
 							}
 
@@ -72,9 +75,11 @@ module.exports = {
 									id: data.data.player.raw_id,
 									status: message.content.slice(15 + args[2].length)
 								})
-								newDoc.save()
+								newDoc.save(function (err) {
+									if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+									message.channel.send(successMessage.setDescription(`Set ${args[2]}'s status to ${message.content.slice(15 + args[2].length)}.`));
+								})
 							}
-							message.channel.send(successMessage.setDescription(`Set ${args[2]}'s status to ${message.content.slice(15 + args[2].length)}`));
 							break;
 						default:
 							message.channel.send(helpEmbed);

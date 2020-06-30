@@ -44,7 +44,10 @@ module.exports = {
 								name: nation.nameLower,
 								amenities: AMNTString
 							})
-							newDoc.save()
+							newDoc.save(function (err) {
+								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+								message.channel.send(successMessage.setDescription(`Set ${nation.nameLower}'s amenities to ${AMNTString}`));
+							})
 						} else {
 							NationP.update({ name: nation.nameLower }, { amenities: AMNTString }, { multi: false }, function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
@@ -58,7 +61,7 @@ module.exports = {
 								nationp.link = null;
 								nationp.save()
 							}
-							message.channel.send(successMessage.setDescription(`Cleared the nation's discord`));
+							message.channel.send(successMessage.setDescription(`Cleared the nation's discord.`));
 							return;
 						}
 
@@ -71,7 +74,10 @@ module.exports = {
 								name: nation.nameLower,
 								link: link
 							})
-							newDoc.save()
+							newDoc.save(function (err) {
+								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+								message.channel.send(successMessage.setDescription(`Set ${nation.nameLower}'s discord to ${link}`));
+							})
 						} else {
 							NationP.update({ name: nation.nameLower }, { link: link }, { multi: false }, function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
@@ -86,7 +92,7 @@ module.exports = {
 								nationp.link = null;
 								nationp.save()
 							}
-							message.channel.send(successMessage.setDescription(`Cleared the nation's image`));
+							message.channel.send(successMessage.setDescription(`Cleared the nation's image.`));
 							return;
 						}
 
@@ -107,7 +113,10 @@ module.exports = {
 								name: nation.nameLower,
 								imgLink: imgLink
 							})
-							newDoc.save()
+							newDoc.save(function (err) {
+								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+								message.channel.send(successMessage.setDescription(`Sucessfully set the nation's image`));
+							})
 						} else {
 							NationP.update({ name: nation.nameLower }, { imgLink: imgLink }, { multi: false }, function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
@@ -132,7 +141,10 @@ module.exports = {
 								name: nation.nameLower,
 								status: status
 							})
-							newDoc.save()
+							newDoc.save(function (err) {
+								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+								message.channel.send(successMessage.setDescription(`'Set ${nation.nameLower}'s status to ${status}`));
+							})
 						} else {
 							NationP.update({ name: nation.nameLower }, { status: status }, { multi: false }, function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
