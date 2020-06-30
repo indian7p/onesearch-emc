@@ -1,18 +1,16 @@
 const Discord = require('discord.js'),
 	moment = require('moment-timezone'),
-	fn = require('../util/fn'),
-	db = require('quick.db'),
-	config = require('../config.json');
-(nationsP = new db.table('nationsP')), (townP = new db.table('townP')), (search = require('youtube-search')), (casst = new db.table('casst'));
+	fn = require('../util/fn');
 
 module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
-	execute(message, args, Nation, Result, Town, SResult) {
+	execute(message, args, Nation, NationP, Result, Town, TownP, SResult) {
 		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		if (!args[1]) {
 			let embeds = [];
 			Result.find({}, function (err, results) {
+				if (err) return message.channel.send(errorMessage.setDescription("An error occurred."))
 				let pageCount = 0;
 				results.forEach((result) => {
 					pageCount++;
@@ -84,94 +82,129 @@ module.exports = {
 		});
 
 		Town.findOne({ nameLower: nationQuery }, function (err, town) {
-			if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 			if (town != null) {
-				let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
-				let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
-				let description = townP.get(`${town.name}.scrating`) == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townP.get(`${town.name}.scrating`)}]** Information may be slightly out of date.`;
-				let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
-				let memberList = `\`\`\`${town.members}\`\`\``;
-				let resEmbed = new Discord.MessageEmbed()
-					.setTitle(tName)
-					.setDescription(description)
-					.setColor(color)
-					.setThumbnail(townP.get(`${town.name}.imgLink`))
-					.addField('Owner', '```' + town.mayor + '```', true)
-					.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
-					.addField('Size', town.area, true)
-					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
-				if (memberList.length > 1024) {
-					var counter = 0;
-					let members1 = [];
-					let members2 = [];
-					town.membersArr.forEach((member) => {
-						counter++;
-						if (counter <= 50) {
-							members1.push(member);
+				TownP.findOne({ name: town.name }, function (err, townp) {
+					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+					let description;
+					let imgLink;
+					if (!townp) {
+						imgLink = "https://cdn.bcow.tk/assets/logo-new.png";
+					} else {
+						imgLink = townp.imgLink == null ? "https://cdn.bcow.tk/assets/logo-new.png" : townp.imgLink;
+						description = townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
+					}
+					let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
+					let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
+					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
+					let memberList = `\`\`\`${town.members}\`\`\``;
+					let resEmbed = new Discord.MessageEmbed()
+						.setTitle(tName.replace(/_/g, "\_"))
+						.setURL(townp.link)
+						.setDescription(description)
+						.setColor(color)
+						.setThumbnail(imgLink)
+						.addField('Owner', '```' + town.mayor + '```', true)
+						.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
+						.addField('Size', town.area, true)
+						.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
+
+					if (townp != null) {
+						if (memberList.length > 1024) {
+							var counter = 0;
+							let members1 = [];
+							let members2 = [];
+							town.membersArr.forEach((member) => {
+								counter++;
+								if (counter <= 50) {
+									members1.push(member);
+								} else {
+									members2.push(member);
+								}
+							});
+
+							members1 = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
+							members2 = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
+							embeds.push(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2));
 						} else {
-							members2.push(member);
+							embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
 						}
-					});
-					if (townP.get(`${town.name}.link`) == null) {
-						embeds.push(resEmbed.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```').addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```'));
 					} else {
-						embeds.push(
-							resEmbed
-								.addField(`Members [1-50]`, '```' + members1.toString().replace(/,/g, ', ') + '```')
-								.addField(`Members [51-${town.membersArr.length}]`, '```' + members2.toString().replace(/,/g, ', ') + '```')
-								.setURL(townP.get(`${town.name}.link`))
-						);
+						if (memberList.length > 1024) {
+							var counter = 0;
+							let members1 = [];
+							let members2 = [];
+							town.membersArr.forEach((member) => {
+								counter++;
+								if (counter <= 50) {
+									members1.push(member);
+								} else {
+									members2.push(member);
+								}
+							});
+							members1 = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
+							members2 = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
+							embeds.push(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2));
+						} else {
+							embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
+						}
 					}
-				} else {
-					if (townP.get(`${town.name}.link`) == null) {
-						embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
-					} else {
-						embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(townP.get(`${town.name}.link`)));
-					}
-				}
+				})
 			}
 		});
 
 		Nation.findOne({ nameLower: nationQuery }, function (err, nation) {
 			if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 			if (nation != null) {
-				let townsList = nation.townsArr.toString().replace(/,/g, ', ');
-				let status = casst.get(`${nation.nameLower}`);
-				let imgLink = nationsP.get(`${nation.nameLower}.imgLink`) != null ? nationsP.get(`${nation.nameLower}.imgLink`) : 'https://cdn.bcow.tk/assets/logo-new.png';
-				let nationName = status == '<:verified:696564425775251477> Verified' ? `<:verified:696564425775251477> ${nation.name}` : nation.name;
-				let nationDisc = nationsP.get(`${nation.nameLower}.discord`);
-				let nationAMNT = nationsP.get(`${nation.nameLower}.amenities`);
+				NationP.findOne({ name: nation.nameLower }, function (err, nationp) {
+					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+					let status;
+					let imgLink;
+					let nationName;
+					let nationLink;
+					let nationAMNT;
+					if (!nationp) {
+						status = ':grey_question: Unknown';
+						imgLink = 'https://cdn.bcow.tk/assets/logo-new.png';
+						nationName = nation.name;
+					} else {
+						status = !nationp.status ? ':grey_question: Unknown' : nationp.status;
+						imgLink = !nationp.imgLink ? 'https://cdn.bcow.tk/assets/logo-new.png' : nationp.imgLink;
+						nationName = status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, "\_")}` : nation.name.replace(/_/g, "\_");
+						nationLink = nationp.link;
+						nationAMNT = nationp.amenities;
+					}
+					let townsList = nation.townsArr.toString().replace(/,/g, ', ');
 
-				if (townsList.length > 1024) {
-					var counter = 0;
-					let members1 = [];
-					let members2 = [];
-					nation.townsArr.forEach((member) => {
-						counter++;
-						if (counter <= 50) {
-							members1.push(member);
-						} else {
-							members2.push(member);
-						}
-					});
-					var members1STR = '```' + members1.toString().replace(/,/g, ', ') + '```';
-					var members2STR = '```' + members2.toString().replace(/,/g, ', ') + '```';
-				}
+					if (townsList.length > 1024) {
+						var counter = 0;
+						let members1 = [];
+						let members2 = [];
+						nation.townsArr.forEach((member) => {
+							counter++;
+							if (counter <= 50) {
+								members1.push(member);
+							} else {
+								members2.push(member);
+							}
+						});
+						var members1STR = '```' + members1.toString().replace(/,/g, ', ') + '```';
+						var members2STR = '```' + members2.toString().replace(/,/g, ', ') + '```';
+					}
 
-				let location = nation.location.split(',');
-				let resEmbedN = new Discord.MessageEmbed()
-					.setTitle(nationName)
-					.setColor(nation.color)
-					.setThumbnail(imgLink)
-					.addField('Owner', `\`\`\`${nation.owner}\`\`\``, true)
-					.addField('Capital', nation.capital, true)
-					.addField('Status', status)
-					.addField('Residents', nation.residents, true)
-					.addField('Area', nation.area, true)
-					.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
-					.addField('Report this nation', '[Google Form](https://l.bcow.tk/report-nation)');
+					let location = nation.location.split(',');
+					let resEmbedN = new Discord.MessageEmbed()
+						.setTitle(nationName.replace(/_/g, "\_"))
+						.setURL(nationLink)
+						.setColor(nation.color)
+						.setThumbnail(imgLink)
+						.addField('Owner', `\`\`\`${nation.owner}\`\`\``, true)
+						.addField('Capital', nation.capital, true)
+						.addField('Status', status)
+						.addField('Residents', nation.residents, true)
+						.addField('Area', nation.area, true)
+						.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
+						.addField('Report this nation', '[Google Form](https://l.bcow.tk/report-nation)');
 
-				if (nationDisc == null) {
 					if (nationAMNT == null) {
 						if (members2STR == null) {
 							embeds.push(resEmbedN.addField(`Towns [${nation.townsArr.length}]`, '```' + townsList + '```'));
@@ -185,21 +218,7 @@ module.exports = {
 							embeds.push(resEmbedN.addField(`Towns [1-50]`, '```' + members1STR + '```').addField(`Towns [51-${nation.townsArr.length}]`, '```' + members2STR + '```'));
 						}
 					}
-				} else {
-					if (nationAMNT == null) {
-						if (members2STR == null) {
-							embeds.push(resEmbedN.addField(`Towns [${nation.townsArr.length}]`, '```' + townsList + '```').setURL(nationDisc));
-						} else {
-							embeds.push(resEmbedN.addField(`Towns [1-50]`, '```' + members1STR + '```').addField(`Towns [51-${nation.townsArr.length}]`, '```' + members2STR + '```').setURL(nationDisc));
-						}
-					} else {
-						if (members2STR == null) {
-							embeds.push(resEmbedN.addField(`Towns [${nation.townsArr.length}]`, '```' + townsList + '```').setDescription(nationAMNT).setURL(nationDisc));
-						} else {
-							embeds.push(resEmbedN.addField(`Towns [1-50]`, '```' + members1STR + '```').addField(`Towns [51-${nation.townsArr.length}]`, '```' + members2STR + '```').setURL(nationDisc).setDescription(nationAMNT));
-						}
-					}
-				}
+				})
 			}
 
 			Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
