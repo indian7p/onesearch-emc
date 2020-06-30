@@ -26,7 +26,7 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
-						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"));
+						if (data.success == false) return message.channel.send(errorMessage.setDescription('Invalid username or UUID'));
 
 						Player.findOne({ id: data.data.player.raw_id }, function (err, player) {
 							if (!player || !player.history || player.history.length == 0) return message.channel.send(errorMessage.setDescription('History not found'));
@@ -48,7 +48,7 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
-						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+						if (data.success == false) return message.channel.send(errorMessage.setDescription('Invalid username or UUID'))
 						let dates = [];
 						let names = [];
 						let namesD = [];
@@ -81,7 +81,7 @@ module.exports = {
 						return res.json();
 					})
 					.then((data) => {
-						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"));
+						if (data.success == false) return message.channel.send(errorMessage.setDescription('Invalid username or UUID'));
 						let resEmbedU = new Discord.MessageEmbed()
 							.setTitle(`UUID - ${data.data.player.username}`)
 							.setColor(0x003175)
@@ -226,7 +226,7 @@ module.exports = {
 						return res.json();
 					})
 					.then(data => {
-						if (data.success == false) return message.channel.send(errorMessage.setDescription("Invalid username or UUID"))
+						if (data.success == false) return message.channel.send(errorMessage.setDescription('Invalid username or UUID'))
 						message.channel.startTyping();
 
 						let emColor = 0x003175;

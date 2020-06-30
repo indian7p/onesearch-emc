@@ -17,10 +17,10 @@ module.exports = {
 					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 
 					if (!nationp) {
-						message.channel.send(nation.name.replace(/_/g, "\_"));
+						message.channel.send(nation.name.replace(/_/g, '\_'));
 						counter++;
 					}else if(!nationp.status || nationp.status == ':grey_question: Unknown') {
-						message.channel.send(nation.name.replace(/_/g, "\_"));
+						message.channel.send(nation.name.replace(/_/g, '\_'));
 						counter++;
 					}
 				})

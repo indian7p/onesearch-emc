@@ -26,13 +26,13 @@ module.exports = {
 				break;
 		}
 
-		Town.find({ nation: "No Nation" }).sort(sortingOpts).exec(async function (err, towns) {
+		Town.find({ nation: 'No Nation' }).sort(sortingOpts).exec(async function (err, towns) {
 			if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 			if (!towns) return message.channel.send(errorMessage.setDescription('The database may be updating. Try again later.'));
 
 			let townList = [];
 			towns.forEach(town => {
-				townList.push(`${town.name.replace(/_/g, "\_")} - Members: ${town.residents} - Area: ${town.area}`);
+				townList.push(`${town.name.replace(/_/g, '\_')} - Members: ${town.residents} - Area: ${town.area}`);
 			})
 
 			let pages = townList.map(() => townList.splice(0, 10)).filter(a => a);

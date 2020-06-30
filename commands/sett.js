@@ -16,7 +16,7 @@ module.exports = {
 			.addField('1!setpl link', 'Sets a towns link')
 			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
     
-		if(!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription("You do not have permission to use this command."));
+		if(!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
     
 		let query = args[2].toLowerCase();
 		Town.findOne({ nameLower: query }, function(err, town) {

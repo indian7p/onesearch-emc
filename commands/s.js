@@ -10,7 +10,7 @@ module.exports = {
 		if (!args[1]) {
 			let embeds = [];
 			Result.find({}, function (err, results) {
-				if (err) return message.channel.send(errorMessage.setDescription("An error occurred."))
+				if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'))
 				let pageCount = 0;
 				results.forEach((result) => {
 					pageCount++;
@@ -89,9 +89,9 @@ module.exports = {
 					let description;
 					let imgLink;
 					if (!townp) {
-						imgLink = "https://cdn.bcow.tk/assets/logo-new.png";
+						imgLink = 'https://cdn.bcow.tk/assets/logo-new.png';
 					} else {
-						imgLink = townp.imgLink == null ? "https://cdn.bcow.tk/assets/logo-new.png" : townp.imgLink;
+						imgLink = townp.imgLink == null ? 'https://cdn.bcow.tk/assets/logo-new.png' : townp.imgLink;
 						description = townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
 					}
 					let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
@@ -99,7 +99,7 @@ module.exports = {
 					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 					let memberList = `\`\`\`${town.members}\`\`\``;
 					let resEmbed = new Discord.MessageEmbed()
-						.setTitle(tName.replace(/_/g, "\_"))
+						.setTitle(tName.replace(/_/g, '\_'))
 						.setURL(townp.link)
 						.setDescription(description)
 						.setColor(color)
@@ -170,7 +170,7 @@ module.exports = {
 					} else {
 						status = !nationp.status ? ':grey_question: Unknown' : nationp.status;
 						imgLink = !nationp.imgLink ? 'https://cdn.bcow.tk/assets/logo-new.png' : nationp.imgLink;
-						nationName = status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, "\_")}` : nation.name.replace(/_/g, "\_");
+						nationName = status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
 						nationLink = nationp.link;
 						nationAMNT = nationp.amenities;
 					}
@@ -194,7 +194,7 @@ module.exports = {
 
 					let location = nation.location.split(',');
 					let resEmbedN = new Discord.MessageEmbed()
-						.setTitle(nationName.replace(/_/g, "\_"))
+						.setTitle(nationName.replace(/_/g, '\_'))
 						.setURL(nationLink)
 						.setColor(nation.color)
 						.setThumbnail(imgLink)

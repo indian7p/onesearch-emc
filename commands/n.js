@@ -36,7 +36,7 @@ module.exports = {
 
 					let nationList = [];
 					nations.forEach(nation => {
-						nationList.push(`${nation.name.replace(/_/g, "\_")} - Members: ${nation.residents} - Area: ${nation.area}`);
+						nationList.push(`${nation.name.replace(/_/g, '\_')} - Members: ${nation.residents} - Area: ${nation.area}`);
 					})
 
 					let pages = nationList.map(() => nationList.splice(0, 10)).filter(a => a);
@@ -92,9 +92,9 @@ module.exports = {
 											var onlineCount = online.length;
 										}
 										let embed = new Discord.MessageEmbed()
-											.setTitle(`Players Online - ${nation.name.replace(/_/g, "\_")}`)
+											.setTitle(`Players Online - ${nation.name.replace(/_/g, '\_')}`)
 											.setColor(0x003175)
-											.setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ', ').replace(/_/g, "\_")}\`\`\``)
+											.setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ', ').replace(/_/g, '\_')}\`\`\``)
 											.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
 										message.channel.send(embed);
 										message.channel.stopTyping();
@@ -125,7 +125,7 @@ module.exports = {
 							} else {
 								status = !nationp.status ? ':grey_question: Unknown' : nationp.status;
 								imgLink = !nationp.imgLink ? 'https://cdn.bcow.tk/assets/logo-new.png' : nationp.imgLink;
-								nationName = status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, "\_")}` : nation.name.replace(/_/g, "\_");
+								nationName = status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
 								nationLink = nationp.link;
 								nationAMNT = nationp.amenities;
 							}
