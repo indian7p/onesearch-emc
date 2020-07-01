@@ -106,13 +106,20 @@ module.exports = {
 								imgLink = townp.imgLink == null ? 'https://cdn.bcow.tk/assets/logo-new.png' : townp.imgLink;
 								description = townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
 							}
+
+							let link;
+							try {
+								link = townp.link;
+							} catch {
+								link = null
+							}
+
 							let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
 							let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
 							let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 							let memberList = `\`\`\`${town.members}\`\`\``;
 							let resEmbed = new Discord.MessageEmbed()
 								.setTitle(tName.replace(/_/g, '\_'))
-								.setURL(townp.link)
 								.setDescription(description)
 								.setColor(color)
 								.setThumbnail(imgLink)
@@ -135,9 +142,17 @@ module.exports = {
 								});
 								members1 = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
 								members2 = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
-								message.channel.send(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2));
+								if (!link) {
+									message.channel.send(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2));
+								} else {
+									message.channel.send(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2).setURL(link));
+								}
 							} else {
-								message.channel.send(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
+								if (!link) {
+									message.channel.send(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
+								} else {
+									message.channel.send(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(link));
+								}
 							}
 							message.channel.stopTyping()
 						})

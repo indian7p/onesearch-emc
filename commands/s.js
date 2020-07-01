@@ -94,13 +94,20 @@ module.exports = {
 						imgLink = townp.imgLink == null ? 'https://cdn.bcow.tk/assets/logo-new.png' : townp.imgLink;
 						description = townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
 					}
+
+					let link;
+					try {
+						link = townp.link;
+					} catch {
+						link = null
+					}
+
 					let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
 					let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
 					let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 					let memberList = `\`\`\`${town.members}\`\`\``;
 					let resEmbed = new Discord.MessageEmbed()
 						.setTitle(tName.replace(/_/g, '\_'))
-						.setURL(townp.link)
 						.setDescription(description)
 						.setColor(color)
 						.setThumbnail(imgLink)
@@ -109,46 +116,33 @@ module.exports = {
 						.addField('Size', town.area, true)
 						.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
 
-					if (townp != null) {
-						if (memberList.length > 1024) {
-							var counter = 0;
-							let members1 = [];
-							let members2 = [];
-							town.membersArr.forEach((member) => {
-								counter++;
-								if (counter <= 50) {
-									members1.push(member);
-								} else {
-									members2.push(member);
-								}
-							});
-
-							members1 = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
-							members2 = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
+					if (memberList.length > 1024) {
+						var counter = 0;
+						let members1 = [];
+						let members2 = [];
+						town.membersArr.forEach((member) => {
+							counter++;
+							if (counter <= 50) {
+								members1.push(member);
+							} else {
+								members2.push(member);
+							}
+						});
+						members1 = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
+						members2 = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
+						if (!link) {
 							embeds.push(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2));
 						} else {
-							embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
+							embeds.push(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2).setURL(link));
 						}
 					} else {
-						if (memberList.length > 1024) {
-							var counter = 0;
-							let members1 = [];
-							let members2 = [];
-							town.membersArr.forEach((member) => {
-								counter++;
-								if (counter <= 50) {
-									members1.push(member);
-								} else {
-									members2.push(member);
-								}
-							});
-							members1 = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
-							members2 = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
-							embeds.push(resEmbed.addField(`Members [1-50]`, members1).addField(`Members [51-${town.membersArr.length}]`, members2));
-						} else {
+						if (!link) {
 							embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
+						} else {
+							embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(link));
 						}
 					}
+					message.channel.stopTyping()
 				})
 			}
 		});
@@ -222,8 +216,8 @@ module.exports = {
 				})
 			}
 
-			Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(async (results) => {
-				await results.forEach((data) => {
+			Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then(results => {
+				results.forEach((data) => {
 					if (data.desc == null) {
 						console.log(data.name + ' Missing desc.');
 					} else {
