@@ -101,6 +101,7 @@ module.exports = {
 							let description;
 							let imgLink;
 							if (!townp) {
+								description = 'Information may be slightly out of date.';
 								imgLink = 'https://cdn.bcow.tk/assets/logo-new.png';
 							} else {
 								imgLink = townp.imgLink == null ? 'https://cdn.bcow.tk/assets/logo-new.png' : townp.imgLink;
