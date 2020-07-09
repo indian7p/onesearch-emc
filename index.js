@@ -81,6 +81,10 @@ let PlayerSchema = new Schema({
 	history: Array,
 	status: String
 })
+let SettingSchema = new Schema({
+	id: String,
+	spellCheck: Boolean
+})
 
 var Town = mongoose.model('Town', TownSchema);
 var TownP = mongoose.model('TownP', TownPSchema);
@@ -93,6 +97,7 @@ var SResult = mongoose.model('SResult', SResultSchema);
 SResult.collection.ensureIndex({ match: 'text' });
 var Image = mongoose.model('Image', ImageSchema);
 Image.collection.ensureIndex({ desc: 'text', meta: 'text' })
+var Setting = mongoose.model('setting', SettingSchema);
 
 client.commands = new Discord.Collection();
 
@@ -137,7 +142,7 @@ client.on('message', (message) => {
 			client.commands.get('listplayers').execute(message, Player);
 			break;
 		case 's':
-			client.commands.get('s').execute(message, args, Nation, NationP, Result, Town, TownP, SResult);
+			client.commands.get('s').execute(message, args, Nation, NationP, Result, Town, TownP, SResult, Setting);
 			break;
 		case 't':
 		case 'town':
@@ -177,6 +182,9 @@ client.on('message', (message) => {
 			break;
 		case 'crawl':
 			client.commands.get('crawl').execute(message, Result);
+			break;
+		case 'settings':
+			client.commands.get('settings').execute(message, Setting);
 			break;
 	}
 });
