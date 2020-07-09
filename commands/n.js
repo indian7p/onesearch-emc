@@ -108,7 +108,6 @@ module.exports = {
 				var query = args[0] == 'n' ? message.content.slice(4).toLowerCase().replace(/ /g, '_') : message.content.slice(9).toLowerCase().replace(/ /g, '_');
 
 				if (query == 'no_nation') return message.channel.send(errorMessage.setDescription('Use 1!nonation'));
-				console.log(query)
 				Nation.findOne({ nameLower: query }, function (err, nation) {
 					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 					if (nation != null) {
@@ -190,6 +189,7 @@ module.exports = {
 									}
 								}
 							}
+							message.channel.stopTyping()
 						})
 					} else {
 						message.channel.stopTyping()
