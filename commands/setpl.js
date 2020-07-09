@@ -47,7 +47,7 @@ module.exports = {
 								let old = player.history;
 								let newElement = [`${date} - ${player.status} - ${message.content.slice(10 + args[1].length + args[2].length)}`];
 
-								player.history = old.concat(newElement);
+								player.history = [...old, ...newElement];
 
 								player.save(function (err) {
 									if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
