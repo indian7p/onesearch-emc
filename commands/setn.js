@@ -143,12 +143,12 @@ module.exports = {
 							})
 							newDoc.save(function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
-								message.channel.send(successMessage.setDescription(`'Set ${nation.nameLower}'s status to ${status}`));
+								message.channel.send(successMessage.setDescription(`Set ${nation.name}'s status to ${status}`));
 							})
 						} else {
 							NationP.update({ name: nation.nameLower }, { status: status }, { multi: false }, function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
-								message.channel.send(successMessage.setDescription(`'Set ${nation.nameLower}'s status to ${status}`));
+								message.channel.send(successMessage.setDescription(`Set ${nation.name}'s status to ${status}`));
 							});
 						}
 						break;
