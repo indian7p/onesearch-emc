@@ -53,7 +53,7 @@ module.exports = {
 					search(results.ogTitle, { maxResults: 1, key: config.YT_API_KEY }, async function(err, result) {
 						if (err) return console.log(err);
 						let newResult = new Result({
-							name: `${results.ogTitle} - ${results.ogSiteName}`,
+							name: `${results.ogTitle} - ${result[0].channelTitle} - ${results.ogSiteName}`,
               desc: results.ogDescription,
               themeColor: 'ff0000',
 							imgLink: result[0].thumbnails.medium.url,
