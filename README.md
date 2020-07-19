@@ -21,6 +21,7 @@ A YouTube API key is not required if you are not using 1!crawl with YouTube.
 
 ## Links
 
+* [Discord](https://discord.gg/mXrTXhB)
 * [API](https://github.com/imabritishcow/onesearch-api)
 * [Updater](https://github.com/imabritishcow/onesearch-updater)
 * [Status](https://bcow.statuspage.io/)
