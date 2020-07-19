@@ -91,8 +91,6 @@ var Result = mongoose.model('Result', ResultSchema);
 Result.collection.ensureIndex({ name: 'text', keywords: 'text' });
 var SResult = mongoose.model('SResult', SResultSchema);
 SResult.collection.ensureIndex({ match: 'text' });
-var Image = mongoose.model('Image', ImageSchema);
-Image.collection.ensureIndex({ desc: 'text', meta: 'text' })
 
 client.commands = new Discord.Collection();
 
@@ -171,9 +169,6 @@ client.on('message', (message) => {
 			break;
 		case 'stopTyping':
 			message.channel.stopTyping();
-			break;
-		case 'si':
-			client.commands.get('si').execute(message, args, Image);
 			break;
 		case 'crawl':
 			client.commands.get('crawl').execute(message, Result);
