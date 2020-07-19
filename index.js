@@ -69,13 +69,6 @@ let SResultSchema = new Schema({
 	nsfw: String,
 	match: String
 });
-let ImageSchema = new Schema({
-	desc: String,
-	meta: String,
-	link: String,
-	rlink: String,
-	nsfw: String
-})
 let PlayerSchema = new Schema({
 	id: String,
 	history: Array,
