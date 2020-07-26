@@ -281,6 +281,7 @@ module.exports = {
 					}
 				});
 				if (embeds.length == 0) {
+					message.channel.stopTyping();
 					message.channel.send(errorMessage.setDescription('No results found.'));
 				} else {
 					if (NSFWcount > 0) {
