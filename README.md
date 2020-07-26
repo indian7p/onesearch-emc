@@ -15,8 +15,8 @@ OneSearch is split into 2 things to increase reliability and uptime. For the upd
   "TOKEN": "YOUR DISCORD BOT TOKEN",
   "BOT_ADMINS": ["YOUR DISCORD ID"],
   "YT_API_KEY": "YOUR YOUTUBE API KEY",
-  "DIALOGFLOW_ENABLED": true,
-  "GCP_PROJ": "onesearch-280700"
+  "DIALOGFLOW_ENABLED": false,
+  "GCP_PROJ": "YOUR GCP PROJECT"
 }
 ```
 A YouTube API key is not required if you are not using 1!crawl with YouTube. Dialogflow is used to answer questions will use the [service account](https://cloud.google.com/docs/authentication/getting-started) in your system's environment variables. You can set it up in commands/s.js.
