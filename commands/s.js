@@ -1,5 +1,8 @@
 const Discord = require('discord.js'),
 	moment = require('moment-timezone'),
+	dialogflow = require('@google-cloud/dialogflow'),
+	config = require('../config.json'),
+	fetch = require('node-fetch'),
 	fn = require('../util/fn');
 
 module.exports = {
@@ -7,6 +10,44 @@ module.exports = {
 	description: 'Searches OneSearch',
 	execute(message, args, Nation, NationP, Result, Town, TownP, SResult) {
 		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+
+		let query = message.content.slice(4).toLowerCase();
+		let timeoutTime;
+		if (config.DIALOGFLOW_ENABLED && query.match(/what|where|how|when|which|why/)) {
+			timeoutTime = 2000;
+			message.channel.startTyping();
+			const sessionClient = new dialogflow.SessionsClient();
+			const sessionPath = sessionClient.projectAgentSessionPath(config.GCP_PROJ, '123456789');
+
+			const request = {
+				session: sessionPath,
+				queryInput: {
+					text: {
+						text: query,
+						languageCode: 'en-US',
+					},
+				},
+			};
+
+			sessionClient.detectIntent(request).then(responses => {
+				const result = responses[0].queryResult;
+				if (result.intent) {
+					let dEmbed = new Discord.MessageEmbed()
+						.setTitle('<:dialogflow:737047780475797647> Questions')
+						.setColor(0x003175)
+						.setDescription(result.fulfillmentText)
+						.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+					embeds.unshift(dEmbed);
+				}
+			});
+		} else {
+			timeoutTime = 0;
+		}
+		
+		let embeds = [];
+
+		let nationQuery = query.replace(/ /g, '_');
+
 		if (!args[1]) {
 			let embeds = [];
 			Result.find({}, function (err, results) {
@@ -31,11 +72,6 @@ module.exports = {
 				});
 			});
 		}
-		let query = message.content.slice(4).toLowerCase();
-
-		let embeds = [];
-
-		let nationQuery = query.replace(/ /g, '_');
 
 		let pageNum = 0;
 		let NSFWcount = 0;
@@ -250,7 +286,10 @@ module.exports = {
 					if (NSFWcount > 0) {
 						message.channel.send(NSFWcount + ' NSFW result(s) sent to your DMs.');
 					}
-					message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
+					setTimeout(function() {
+						message.channel.stopTyping();
+						message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
+					}, timeoutTime)
 				}
 			});
 		});
