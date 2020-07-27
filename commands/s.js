@@ -35,7 +35,8 @@ module.exports = {
 					let dEmbed = new Discord.MessageEmbed()
 						.setTitle('<:dialogflow:737047780475797647> Questions')
 						.setColor(0x003175)
-						.setDescription(result.fulfillmentText)
+						.addField('Question', result.intent.displayName)
+						.addField('Answer', result.fulfillmentText)
 						.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 					embeds.unshift(dEmbed);
 				}
