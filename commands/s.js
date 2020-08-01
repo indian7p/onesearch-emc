@@ -13,7 +13,7 @@ module.exports = {
 
 		let query = message.content.slice(4).toLowerCase();
 		let timeoutTime;
-		if (config.DIALOGFLOW_ENABLED && query.match(/what|where|how|when|which|why|should/)) {
+		if (config.DIALOGFLOW_ENABLED && query.match(/what|where|how|when|which|why|should|^can|^is/)) {
 			timeoutTime = 2000;
 			message.channel.startTyping();
 			const sessionClient = new dialogflow.SessionsClient();
