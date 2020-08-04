@@ -11,9 +11,9 @@ module.exports = {
 			.setTitle('1!sett')
 			.setDescription('Using `null` as the value will clear that type.')
 			.setColor(0x003175)
-			.addField('1!setpl img', 'Sets a towns image')
-			.addField('1!setpl rating', 'Sets a towns Shootcity rating')
-			.addField('1!setpl link', 'Sets a towns link')
+			.addField('1!sett img', 'Sets a towns image')
+			.addField('1!sett rating', 'Sets a towns Shootcity rating')
+			.addField('1!sett link', 'Sets a towns link')
 			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
     
 		if(!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
