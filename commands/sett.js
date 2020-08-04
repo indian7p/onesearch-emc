@@ -17,10 +17,13 @@ module.exports = {
 			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
     
 		if(!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
+
+		if (!args[2]) return message.channel.send(helpEmbed);
     
 		let query = args[2].toLowerCase();
 		Town.findOne({ nameLower: query }, function(err, town) {
 			if(err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+			if (!town) return message.channel.send(errorMessage.setDescription('Town not found.'));
 
 			TownP.findOne({ name: town.name }, function(err, townp) {
 				if(err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
