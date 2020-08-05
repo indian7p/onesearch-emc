@@ -6,7 +6,7 @@ const Discord = require('discord.js'),
 module.exports = {
 	name: 'pl',
 	description: 'Searches for players',
-	execute: async (message, args, Town, Player) => {
+	execute: async (message, args, Town, Player, PlayerP) => {
 		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!pl')
@@ -166,6 +166,33 @@ module.exports = {
 								break;
 						}
 					});
+				break;
+			case 'activity':
+				fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
+				.then(res => res.json())
+				.then(data => {
+					if (data.success == false) return message.channel.send(errorMessage.setDescription('Invalid username/UUID.'));
+
+					PlayerP.findOne({ uuid: data.data.player.raw_id }, function(err, player) {
+						if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+
+						if (!player) return message.channel.send(errorMessage.setDescription('No player activity data.'));
+
+						let location = player.lastLocation.replace(/ /, '').split(',');
+
+						let locationString = location == "none" ? `Last location could not be found.` : `[${player.lastLocation}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`
+
+						let resEmbed = new Discord.MessageEmbed()
+						.setTitle(`${data.data.player.username} - Player Activity`)
+						.setColor(0x003175)
+						.setThumbnail(data.data.player.avatar)
+						.addField('Last Online', player.lastOnline)
+						.addField('Last Location', locationString)
+						.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+
+						message.channel.send(resEmbed);
+					})
+				})
 				break;
 			case 'location':
 				fetch('https://earthmc.net/map/up/world/earth/')

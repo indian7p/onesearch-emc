@@ -149,7 +149,7 @@ client.on('message', (message) => {
 			break;
 		case 'pl':
 		case 'player':
-			client.commands.get('pl').execute(message, args, Town, Player);
+			client.commands.get('pl').execute(message, args, Town, Player, PlayerP);
 			break;
 		case 'n':
 		case 'nation':
