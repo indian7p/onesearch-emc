@@ -74,6 +74,17 @@ let PlayerSchema = new Schema({
 	history: Array,
 	status: String
 })
+let SiegeSchema = new Schema({
+  town: String,
+  x: String,
+  z: String,
+  attacker: String
+});
+let PlayerPSchema = new Schema({
+  name: String,
+  lastLocation: String,
+  lastOnline: String
+});
 
 var Town = mongoose.model('Town', TownSchema);
 var TownP = mongoose.model('TownP', TownPSchema);
@@ -84,6 +95,8 @@ var Result = mongoose.model('Result', ResultSchema);
 Result.collection.ensureIndex({ name: 'text', keywords: 'text' });
 var SResult = mongoose.model('SResult', SResultSchema);
 SResult.collection.ensureIndex({ match: 'text' });
+let PlayerP = mongoose.model('playerp', PlayerPSchema);
+var Siege = mongoose.model('Siege', SiegeSchema);
 
 client.commands = new Discord.Collection();
 
