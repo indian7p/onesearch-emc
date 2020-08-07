@@ -4,8 +4,6 @@
 
 Find towns, nations, and Discord servers with OneSearch for EarthMC. Gets data from the EarthMC map.
 
-This does not include Discord servers for security and privacy reasons.<br>
-
 OneSearch is split into 2 things to increase reliability and uptime. For the updater service that grabs info from the map and runs the [API](https://github.com/imabritishcow/onesearch-api). See https://github.com/imabritishcow/onesearch-updater
 
 ## Example config.json
