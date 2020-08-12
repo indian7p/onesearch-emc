@@ -235,7 +235,7 @@ module.exports = {
 							.addField('Residents', nation.residents, true)
 							.addField('Area', nation.area, true)
 							.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
-							.addField('Report this nation', '[Google Form](https://l.bcow.tk/report-nation)');
+							.addField('Report this nation', '[SearchSafe](https://searchsafe.bcow.tk/)');
 	
 						if (nationAMNT == null) {
 							if (members2STR == null) {
