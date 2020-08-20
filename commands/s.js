@@ -1,16 +1,14 @@
-const Discord = require('discord.js'),
-	moment = require('moment-timezone'),
-	dialogflow = require('@google-cloud/dialogflow'),
-	config = require('../config.json'),
-	fetch = require('node-fetch'),
-	fn = require('../util/fn');
+const Discord = require('discord.js');
+const	moment = require('moment-timezone');
+const	dialogflow = require('@google-cloud/dialogflow');
+const	config = require('../config.json');
+const	fn = require('../util/fn');
+const {errorMessage} = require('../functions/statusMessage');
 
 module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
 	execute(message, args, Nation, NationP, Result, Town, TownP, SResult) {
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-
 		let query = message.content.slice(4).toLowerCase();
 		let timeoutTime;
 		if (config.DIALOGFLOW_ENABLED && query.match(/what|where|how|when|which|why|should|^can|^is/)) {

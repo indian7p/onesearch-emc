@@ -1,13 +1,13 @@
-const Discord = require('discord.js'),
-	fetch = require('node-fetch'),
-	moment = require('moment-timezone'),
-	staffList = require('../staffList.json');
+const Discord = require('discord.js');
+const	fetch = require('node-fetch');
+const	moment = require('moment-timezone');
+const	staffList = require('../staffList.json');
+const {errorMessage} = require('../functions/statusMessage');
 
 module.exports = {
 	name: 'pl',
 	description: 'Searches for players',
 	execute: async (message, args, Town, Player, PlayerP) => {
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!pl')
 			.setColor(0x003175)

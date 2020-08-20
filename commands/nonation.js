@@ -1,12 +1,11 @@
-const Discord = require('discord.js'),
-	fn = require('../util/fn');
+const Discord = require('discord.js');
+const	fn = require('../util/fn');
+const {errorMessage} = require('../functions/statusMessage');
 
 module.exports = {
 	name: 'nonation',
 	description: 'Searches for towns without nations',
 	execute(message, args, Town, Nation) {
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-
 		message.channel.startTyping();
 		Nation.findOne({ nameLower: 'no_nation' }, function (err, nation) {
 			if (nation == null) {

@@ -1,23 +1,68 @@
-const Discord = require('discord.js'),
-	moment = require('moment-timezone'),
-	fetch = require('node-fetch'),
-	fn = require('../util/fn');
+const Discord = require('discord.js');
+const moment = require('moment-timezone');
+const fetch = require('node-fetch');
+const { errorMessage, embed } = require('../functions/statusMessage');
+const { paginateArray } = require('../functions/list');
+const { getPlayer } = require('../functions/fetch');
+const fn = require('../util/fn');
 
 module.exports = {
 	name: 't',
 	description: 'Searches for towns',
-	execute: (message, args, Town, TownP) => {
+	execute: (message, args, Town, TownP, PlayerP) => {
 		message.channel.startTyping();
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-		let helpEmbed = new Discord.MessageEmbed()
+		const helpEmbed = embed
 			.setTitle('1!t - Help')
 			.addField('1!t [town]', 'Gets town info')
 			.addField('1!t list', 'Lists all towns by residents')
 			.addField('1!t online [town]', 'Lists all online players in the specified town.')
-			.setColor(0x003175)
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		if (!args[1]) return message.channel.send(helpEmbed).then((m) => message.channel.stopTyping());
 		switch (args[1]) {
+			case 'activity':
+				const actQuery = message.content.slice(args[0].length + args[1].length + 4).toLowerCase().replace(/ /g, '_')
+				Town.findOne({ nameLower: actQuery }, async function (err, town) {
+					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+
+					if (!town) return message.channel.send(errorMessage.setDescription('Town not found.'));
+
+					let list = [];
+					for (var i = 0; i < town.membersArr.length; i++) {
+						const member = town.membersArr[i];
+
+						const data = await getPlayer(member);
+						if (data.success != false) {
+							PlayerP.findOne({ uuid: data.data.player.raw_id }, function (err, player) {
+								if (err) throw err;
+	
+								list.push(player == null ? `${member} - Last On: No data` : `${member} - Last On: ${player.lastOnline}`);
+							})
+						} else {
+							list.push(`${member} - Last On: No data`);
+						}
+					}
+
+					const pages = await paginateArray(list);
+
+					let embeds = [];
+
+					let pageNum = 0;
+					pages.forEach(page => {
+						pageNum++
+						const list = page.toString().replace(/,/g, '\n');
+						const emb = new Discord.MessageEmbed()
+							.setTitle(`Player Activity - ${town.name}`)
+							.setDescription(`\`\`\`${list}\`\`\``)
+							.setColor(0x003175)
+							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+						embeds.push(emb);
+					})
+
+					message.channel.send(embeds[0]).then((m) => {
+						fn.paginator(message.author.id, m, embeds, 0);
+					});
+					message.channel.stopTyping();
+				})
+				break;
 			case 'list':
 				Town.find({}).sort({ residents: 'desc' }).exec(async function (err, towns) {
 					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));

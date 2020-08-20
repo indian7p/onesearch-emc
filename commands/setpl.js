@@ -1,15 +1,14 @@
-const Discord = require('discord.js'),
-	fetch = require('node-fetch'),
-	moment = require('moment-timezone'),
-	config = require('../config.json'),
-	date = moment().tz('America/New_York').format('MMMM D YYYY h:mm A z');
+const Discord = require('discord.js');
+const	fetch = require('node-fetch');
+const	moment = require('moment-timezone');
+const	config = require('../config.json');
+const {errorMessage, successMessage} = require('../functions/statusMessage');
+const	date = moment().tz('America/New_York').format('MMMM D YYYY h:mm A z');
 
 module.exports = {
 	name: 'setpl',
 	description: 'Sets player information',
 	execute: (message, args, Player) => {
-		let successMessage = new Discord.MessageEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07bf63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!setpl')
 			.setDescription('Using `null` as the value will clear that type')

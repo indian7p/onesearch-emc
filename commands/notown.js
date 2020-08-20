@@ -1,5 +1,5 @@
-const Discord = require('discord.js'),
-	fetch = require('node-fetch');
+const Discord = require('discord.js');
+const	fetch = require('node-fetch');
 
 module.exports = {
 	name: 'notown',

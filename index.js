@@ -2,101 +2,10 @@ const Discord = require('discord.js');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const config = require('./config.json');
-
+const { Nation, NationP, Town, TownP, Player, PlayerP, Result, SResult, Siege } = require('./models/models');
 const client = new Discord.Client();
 
-mongoose.connect(config.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true });
-const Schema = mongoose.Schema;
-
-let TownSchema = new Schema({
-	name: String,
-	nameLower: String,
-	nation: String,
-	color: String,
-	area: Number,
-	mayor: String,
-	members: String,
-	membersArr: Array,
-	residents: Number,
-	x: String,
-	z: String,
-	capital: Boolean,
-	time: { type: Date, default: Date.now }
-});
-let TownPSchema = new Schema({
-	name: String,
-	imgLink: String,
-	desc: String,
-	scrating: String,
-	link: String
-});
-let NationSchema = new Schema({
-	name: String,
-	nameLower: String,
-	color: String,
-	towns: String,
-	townsArr: Array,
-	area: Number,
-	residents: Number,
-	owner: String,
-	capital: String,
-	location: String
-});
-let NationPSchema = new Schema({
-	name: String,
-	link: String,
-	imgLink: String,
-	amenities: String,
-	status: String
-});
-let ResultSchema = new Schema({
-	desc: String,
-	keywords: String,
-	link: String,
-	name: String,
-	themeColor: String,
-	nsfw: String,
-	imgLink: String,
-	id: String
-});
-let SResultSchema = new Schema({
-	desc: String,
-	imgLink: String,
-	link: String,
-	name: String,
-	themeColor: String,
-	sImgLink: String,
-	nsfw: String,
-	match: String
-});
-let PlayerSchema = new Schema({
-	id: String,
-	history: Array,
-	status: String
-})
-let SiegeSchema = new Schema({
-  town: String,
-  x: String,
-  z: String,
-  attacker: String
-});
-let PlayerPSchema = new Schema({
-  name: String,
-  lastLocation: String,
-  lastOnline: String
-});
-
-var Town = mongoose.model('Town', TownSchema);
-var TownP = mongoose.model('TownP', TownPSchema);
-var Nation = mongoose.model('Nation', NationSchema);
-var NationP = mongoose.model('NationP', NationPSchema);
-let Player = mongoose.model('Player', PlayerSchema)
-var Result = mongoose.model('Result', ResultSchema);
-Result.collection.ensureIndex({ name: 'text', keywords: 'text' });
-var SResult = mongoose.model('SResult', SResultSchema);
-SResult.collection.ensureIndex({ match: 'text' });
-let PlayerP = mongoose.model('playerp', PlayerPSchema);
-var Siege = mongoose.model('Siege', SiegeSchema);
+mongoose.connect(config.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 client.commands = new Discord.Collection();
 
@@ -118,12 +27,11 @@ client.on('ready', () => {
 		client.user.setActivity(status);
 	}, 60000);
 
-	console.log('heyyyy');
+	console.log('Bot is online.');
 });
 
 client.on('message', (message) => {
-	let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-	let args = message.content.substring(PREFIX.length).split(' ');
+	const args = message.content.substring(PREFIX.length).split(' ');
 	if (!message.content.includes(PREFIX)) return;
 	if (message.content.startsWith(PREFIX) == false) return;
 
@@ -145,7 +53,7 @@ client.on('message', (message) => {
 			break;
 		case 't':
 		case 'town':
-			client.commands.get('t').execute(message, args, Town, TownP);
+			client.commands.get('t').execute(message, args, Town, TownP, PlayerP);
 			break;
 		case 'pl':
 		case 'player':
@@ -153,7 +61,7 @@ client.on('message', (message) => {
 			break;
 		case 'n':
 		case 'nation':
-			client.commands.get('n').execute(message, args, Nation, NationP, Town);
+			client.commands.get('n').execute(message, args, Nation, NationP, Town, PlayerP);
 			break;
 		case 'nonation':
 			client.commands.get('nonation').execute(message, args, Town, Nation);

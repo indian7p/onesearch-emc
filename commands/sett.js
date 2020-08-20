@@ -1,12 +1,11 @@
-const Discord = require('discord.js'),
-  config = require('../config.json');
+const Discord = require('discord.js');
+const config = require('../config.json');
+const {errorMessage, successMessage} = require('../functions/statusMessage');
 
 module.exports = {
 	name: 'sett',
 	description: 'Sets town information',
 	execute: (message, args, Town, TownP) => {
-		let successMessage = new Discord.MessageEmbed().setTitle(':white_check_mark: **Success!**').setColor(0x07bf63).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-    let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
     let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!sett')
 			.setDescription('Using `null` as the value will clear that type.')

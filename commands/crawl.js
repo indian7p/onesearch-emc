@@ -1,14 +1,13 @@
 const Discord = require('discord.js');
 const config = require('../config.json');
 const search = require('youtube-search');
+const {errorMessage} = require('../functions/statusMessage');
 const ogs = require('open-graph-scraper');
 
 module.exports = {
 	name: 'crawl',
 	description: 'Gets OpenGraph tags from a website and create a new result.',
 	execute(message, Result) {
-		let errorMessage = new Discord.MessageEmbed().setTitle(':x: **Error**').setColor(0xdc2e44).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
-
 		if (!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
 
 		const options = { url: message.content.slice(8) };
