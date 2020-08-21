@@ -95,7 +95,6 @@ const TownP = mongoose.model('TownP', TownPSchema);
 
 const NationGroupSchema = new Schema({
 	name: String,
-	nameLower: String,
 	leader: String,
 	size: Number,
 	nations: Array,
