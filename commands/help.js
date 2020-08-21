@@ -8,6 +8,7 @@ module.exports = {
 			.setTitle('Help')
 			.setDescription('Join my [discord](https://discord.gg/mXrTXhB)!')
 			.addField('1!info', 'Shows bot info')
+			.addField('1!queue', 'Shows current queue info.')
 			.addField('1!s [search term]', 'Search OneSearch for towns, nations, discords, and more.')
 			.addField('1!n [nation]', 'Finds nation information')
 			.addField('1!nonation', 'Gets towns without a nation')
