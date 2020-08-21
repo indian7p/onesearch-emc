@@ -9,8 +9,8 @@ const { max } = require('moment-timezone');
 module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
-	execute: async (message, args, Nation, NationP, Result, Town, TownP) => {
-		const query = message.content.slice(args[0].length+3).toLowerCase();
+	execute: async (message, args, Nation, NationGroup, NationP, Result, Town, TownP) => {
+		const query = message.content.slice(args[0].length + 3).toLowerCase();
 		let embeds = [];
 
 		if (config.DIALOGFLOW_ENABLED && query.match(/what|where|how|when|which|why|should|^can|^is/)) {
@@ -74,6 +74,7 @@ module.exports = {
 			let NSFWcount = 0;
 
 			const nation = await Nation.findOne({ nameLower: nationQuery }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+			const nationGroup = await NationGroup.findOne({}).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 			const town = await Town.findOne({ nameLower: nationQuery }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 			const results = await Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
@@ -109,23 +110,23 @@ module.exports = {
 
 				const val = nation.residents;
 				let nationBonus;
-				switch(true) {
-					case (val>0 && val<9):
+				switch (true) {
+					case (val > 0 && val < 9):
 						nationBonus = 10;
 						break;
-					case (val>10 && val<19):
+					case (val > 10 && val < 19):
 						nationBonus = 20;
 						break;
-					case (val>20 && val<29):
+					case (val > 20 && val < 29):
 						nationBonus = 40;
 						break;
-					case (val>30 && val<39):
+					case (val > 30 && val < 39):
 						nationBonus = 60;
 						break;
-					case (val>40 && val<49):
+					case (val > 40 && val < 49):
 						nationBonus = 100;
 						break;
-					case (val>50):
+					case (val > 50):
 						nationBonus = 140;
 						break;
 				}
@@ -159,6 +160,21 @@ module.exports = {
 				}
 			}
 
+			if (nationGroup) {
+				let ngEmbed = new Discord.MessageEmbed()
+					.setTitle(nationGroup.name)
+					.setURL(nationGroup.link)
+					.setColor(0x003175)
+					.setDescription(nationGroup.desc)
+					.setThumbnail(nationGroup.imgLink)
+					.addField('Leader', `\`\`\`${nationGroup.leader}\`\`\``, true)
+					.addField('Size', nationGroup.size, true)
+					.addField(`Nations [${nationGroup.nations.length}]`, `\`\`\`${nationGroup.nations.toString().replace(/,/g, ', ')}\`\`\``)
+					.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+
+				embeds.push(ngEmbed);
+			}
+
 			if (town) {
 				const townp = await TownP.findOne({ name: town.name }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
@@ -172,27 +188,27 @@ module.exports = {
 					link = null
 				}
 
-				const townNation = await Nation.findOne({name: town.nation}).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+				const townNation = await Nation.findOne({ name: town.nation }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
 				const val = townNation.residents;
 				let townNationBonus;
-				switch(true) {
-					case (val>0 && val<9):
+				switch (true) {
+					case (val > 0 && val < 9):
 						townNationBonus = 10;
 						break;
-					case (val>10 && val<19):
+					case (val > 10 && val < 19):
 						townNationBonus = 20;
 						break;
-					case (val>20 && val<29):
+					case (val > 20 && val < 29):
 						townNationBonus = 40;
 						break;
-					case (val>30 && val<39):
+					case (val > 30 && val < 39):
 						townNationBonus = 60;
 						break;
-					case (val>40 && val<49):
+					case (val > 40 && val < 49):
 						townNationBonus = 100;
 						break;
-					case (val>50):
+					case (val > 50):
 						townNationBonus = 140;
 						break;
 				}
@@ -201,7 +217,7 @@ module.exports = {
 				let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
 				let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 				let memberList = `\`\`\`${town.members}\`\`\``;
-				let maxSize = town.membersArr.length*8 > 800 ? 800+townNationBonus : town.membersArr.length*8+townNationBonus;
+				let maxSize = town.membersArr.length * 8 > 800 ? 800 + townNationBonus : town.membersArr.length * 8 + townNationBonus;
 				let resEmbed = new Discord.MessageEmbed()
 					.setTitle(tName)
 					.setDescription(description)

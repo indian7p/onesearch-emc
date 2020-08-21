@@ -73,7 +73,7 @@ client.on('message', (message) => {
 			break;
 		case 's':
 		case 'search':
-			client.commands.get('s').execute(message, args, Nation, NationP, Result, Town, TownP);
+			client.commands.get('s').execute(message, args, Nation, NationGroup, NationP, Result, Town, TownP);
 			break;
 		case 'setn':
 			client.commands.get('setn').execute(message, args, Nation, NationP);
