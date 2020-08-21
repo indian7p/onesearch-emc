@@ -93,6 +93,20 @@ const TownPSchema = new Schema({
 
 const TownP = mongoose.model('TownP', TownPSchema);
 
+const NationGroupSchema = new Schema({
+	name: String,
+	nameLower: String,
+	leader: String,
+	size: Number,
+	nations: Array,
+	imgLink: String,
+	desc: String,
+	link: String
+})
+
+const NationGroup = mongoose.model('NationGroup', NationGroupSchema)
+NationGroup.collection.createIndex({ name: 'text' });
+
 module.exports = {
   Nation: Nation,
   NationP: NationP,
@@ -101,5 +115,6 @@ module.exports = {
   Player: Player,
   PlayerP: PlayerP,
   Result: Result,
-  Siege: Siege,
+	Siege: Siege,
+	NationGroup: NationGroup
 }
