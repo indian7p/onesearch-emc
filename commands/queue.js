@@ -17,8 +17,9 @@ module.exports = {
     let queueEmbed = new Discord.MessageEmbed().setColor(0x003175).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png')
       .setTitle('Queue')
       .setThumbnail('https://cdn.bcow.tk/logos/EarthMC.png')
-      .addField("In Queue", queue, true)
-      .addField("Towny", `${mapData.currentcount >= 120 ? `**FULL** ${mapData.currentcount}` : mapData.currentcount}/120`, true)
+      .addField('Server Total', `${server.players.now}/${server.players.max}`)
+      .addField('In Queue', queue, true)
+      .addField('Towny', `${mapData.currentcount >= 120 ? `**FULL** ${mapData.currentcount}` : mapData.currentcount}/120`, true)
     
     message.channel.send(queueEmbed)
   }
