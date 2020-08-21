@@ -36,6 +36,9 @@ client.on('message', (message) => {
 	if (message.content.startsWith(PREFIX) == false) return;
 
 	switch (args[0]) {
+		case 'crawl':
+			client.commands.get('crawl').execute(message, Result);
+			break;
 		case 'help':
 			client.commands.get('help').execute(message);
 			break;
@@ -48,17 +51,6 @@ client.on('message', (message) => {
 		case 'listplayers':
 			client.commands.get('listplayers').execute(message, Player);
 			break;
-		case 's':
-			client.commands.get('s').execute(message, args, Nation, NationP, Result, Town, TownP);
-			break;
-		case 't':
-		case 'town':
-			client.commands.get('t').execute(message, args, Town, TownP, PlayerP);
-			break;
-		case 'pl':
-		case 'player':
-			client.commands.get('pl').execute(message, args, Town, Player, PlayerP);
-			break;
 		case 'n':
 		case 'nation':
 			client.commands.get('n').execute(message, args, Nation, NationP, Town, PlayerP);
@@ -68,6 +60,16 @@ client.on('message', (message) => {
 			break;
 		case 'notown':
 			client.commands.get('notown').execute(message, Town);
+			break;
+		case 'pl':
+		case 'player':
+			client.commands.get('pl').execute(message, args, Town, Player, PlayerP);
+			break;
+		case 'queue':
+			client.commands.get('queue').execute(message);
+			break;
+		case 's':
+			client.commands.get('s').execute(message, args, Nation, NationP, Result, Town, TownP);
 			break;
 		case 'setn':
 			client.commands.get('setn').execute(message, args, Nation, NationP);
@@ -84,11 +86,9 @@ client.on('message', (message) => {
 		case 'stopTyping':
 			message.channel.stopTyping();
 			break;
-		case 'crawl':
-			client.commands.get('crawl').execute(message, Result);
-			break;
-		case 'queue':
-			client.commands.get('queue').execute(message);
+		case 't':
+		case 'town':
+			client.commands.get('t').execute(message, args, Town, TownP, PlayerP);
 			break;
 	}
 });
