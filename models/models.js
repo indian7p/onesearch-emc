@@ -65,20 +65,6 @@ const SiegeSchema = new Schema({
 
 const Siege = mongoose.model('Siege', SiegeSchema);
 
-const SResultSchema = new Schema({
-	desc: String,
-	imgLink: String,
-	link: String,
-	name: String,
-	themeColor: String,
-	sImgLink: String,
-	nsfw: String,
-	match: String
-});
-
-const SResult = mongoose.model('SResult', SResultSchema);
-SResult.createIndexes({ name: 'text', keywords: 'text' });
-
 const TownSchema = new Schema({
 	name: String,
 	nameLower: String,
@@ -115,6 +101,5 @@ module.exports = {
   Player: Player,
   PlayerP: PlayerP,
   Result: Result,
-  SResult: SResult,
   Siege: Siege,
 }

@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const config = require('./config.json');
-const { Nation, NationP, Town, TownP, Player, PlayerP, Result, SResult, Siege } = require('./models/models');
+const { Nation, NationP, Town, TownP, Player, PlayerP, Result, Siege } = require('./models/models');
 const client = new Discord.Client();
 
 mongoose.connect(config.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
@@ -49,7 +49,7 @@ client.on('message', (message) => {
 			client.commands.get('listplayers').execute(message, Player);
 			break;
 		case 's':
-			client.commands.get('s').execute(message, args, Nation, NationP, Result, Town, TownP, SResult);
+			client.commands.get('s').execute(message, args, Nation, NationP, Result, Town, TownP);
 			break;
 		case 't':
 		case 'town':
