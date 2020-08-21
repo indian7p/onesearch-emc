@@ -4,6 +4,7 @@ const dialogflow = require('@google-cloud/dialogflow');
 const config = require('../config.json');
 const fn = require('../util/fn');
 const { errorMessage, successMessage } = require('../functions/statusMessage');
+const { max } = require('moment-timezone');
 
 module.exports = {
 	name: 's',
@@ -171,10 +172,36 @@ module.exports = {
 					link = null
 				}
 
+				const townNation = await Nation.findOne({name: town.nation}).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+
+				const val = townNation.residents;
+				let townNationBonus;
+				switch(true) {
+					case (val>0 && val<9):
+						townNationBonus = 10;
+						break;
+					case (val>10 && val<19):
+						townNationBonus = 20;
+						break;
+					case (val>20 && val<29):
+						townNationBonus = 40;
+						break;
+					case (val>30 && val<39):
+						townNationBonus = 60;
+						break;
+					case (val>40 && val<49):
+						townNationBonus = 100;
+						break;
+					case (val>50):
+						townNationBonus = 140;
+						break;
+				}
+
 				let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
 				let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
 				let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 				let memberList = `\`\`\`${town.members}\`\`\``;
+				let maxSize = town.membersArr.length*8 > 800 ? 800+townNationBonus : town.membersArr.length*8+townNationBonus;
 				let resEmbed = new Discord.MessageEmbed()
 					.setTitle(tName)
 					.setDescription(description)
@@ -182,14 +209,14 @@ module.exports = {
 					.setThumbnail(imgLink)
 					.addField('Owner', `\`\`\`${town.mayor}\`\`\``, true)
 					.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
-					.addField('Size', town.area, true)
+					.addField('Size', `${town.area}/${maxSize} **[NationBonus: ${townNationBonus}]**`, true)
 					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
 
 				if (memberList.length > 1024) {
 					let members1 = [];
 					let members2 = [];
-					for (var i = 0, len = nation.townsArr.length; i < len; i++) {
-						const member = nation.townsArr[i];
+					for (var i = 0, len = town.membersArr.length; i < len; i++) {
+						const member = town.membersArr[i];
 
 						if (i + 1 <= 50) {
 							members1.push(member);
