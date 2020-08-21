@@ -9,7 +9,7 @@ const fn = require('../util/fn');
 module.exports = {
 	name: 't',
 	description: 'Searches for towns',
-	execute: (message, args, Town, TownP, PlayerP) => {
+	execute: (message, args, Town, Nation, TownP, PlayerP) => {
 		message.channel.startTyping();
 		const helpEmbed = new Discord.MessageEmbed().setThumbnail('https://cdn.bcow.tk/assets/logo-new.png').setColor(0x003175).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png')
 			.setTitle('1!t - Help')
@@ -33,7 +33,7 @@ module.exports = {
 						if (data.success != false) {
 							PlayerP.findOne({ uuid: data.data.player.raw_id }, function (err, player) {
 								if (err) throw err;
-	
+
 								list.push(player == null ? `${member} - Last On: No data` : `${member} - Last On: ${player.lastOnline}`);
 							})
 						} else {
@@ -141,7 +141,7 @@ module.exports = {
 				Town.findOne({ nameLower: query }, function (err, town) {
 					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 					if (town != null) {
-						TownP.findOne({ name: town.name }, function (err, townp) {
+						TownP.findOne({ name: town.name }, async function (err, townp) {
 							if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 							let description;
 							let imgLink;
@@ -160,10 +160,36 @@ module.exports = {
 								link = null
 							}
 
+							const townNation = await Nation.findOne({name: town.nation}).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+
+							const val = townNation.residents;
+							let townNationBonus;
+							switch (true) {
+								case (val > 0 && val < 9):
+									townNationBonus = 10;
+									break;
+								case (val > 10 && val < 19):
+									townNationBonus = 20;
+									break;
+								case (val > 20 && val < 29):
+									townNationBonus = 40;
+									break;
+								case (val > 30 && val < 39):
+									townNationBonus = 60;
+									break;
+								case (val > 40 && val < 49):
+									townNationBonus = 100;
+									break;
+								case (val > 50):
+									townNationBonus = 140;
+									break;
+							}
+
 							let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
 							let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
 							let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
 							let memberList = `\`\`\`${town.members}\`\`\``;
+							let maxSize = town.membersArr.length * 8 > 800 ? 800 + townNationBonus : town.membersArr.length * 8 + townNationBonus;
 							let resEmbed = new Discord.MessageEmbed()
 								.setTitle(tName.replace(/_/g, '\_'))
 								.setDescription(description)
@@ -171,7 +197,7 @@ module.exports = {
 								.setThumbnail(imgLink)
 								.addField('Owner', '```' + town.mayor + '```', true)
 								.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
-								.addField('Size', town.area, true)
+								.addField('Size', `${town.area}/${maxSize} [NationBonus: ${townNationBonus}]`, true)
 								.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
 
 							if (memberList.length > 1024) {

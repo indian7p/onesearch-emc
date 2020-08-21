@@ -89,7 +89,7 @@ client.on('message', (message) => {
 			break;
 		case 't':
 		case 'town':
-			client.commands.get('t').execute(message, args, Town, TownP, PlayerP);
+			client.commands.get('t').execute(message, args, Town, Nation, TownP, PlayerP);
 			break;
 	}
 });
