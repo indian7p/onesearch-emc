@@ -9,7 +9,7 @@ module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
 	execute: async (message, args, Nation, NationP, Result, Town, TownP) => {
-		const query = message.content.slice(4).toLowerCase();
+		const query = message.content.slice(args[0].length+3).toLowerCase();
 		let embeds = [];
 
 		if (config.DIALOGFLOW_ENABLED && query.match(/what|where|how|when|which|why|should|^can|^is/)) {
