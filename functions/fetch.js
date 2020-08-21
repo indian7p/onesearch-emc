@@ -1,11 +1,25 @@
 const fetch = require('node-fetch');
 
 async function getPlayer(player) {
-  let res = await fetch(`https://playerdb.co/api/player/minecraft/${player}`)
-  let data = await res.json()
+  const res = await fetch(`https://playerdb.co/api/player/minecraft/${player}`)
+  const data = await res.json()
+  return data;
+}
+
+async function getPlayerCount(ip) {
+  const res = await fetch(`https://mcapi.us/server/status?ip=${ip}`);
+  const data = await res.json();
+  return data;
+}
+
+async function getMapData() {
+  const res = await fetch("https://earthmc.net/map/up/world/earth/")
+  const data = await res.json()
   return data;
 }
 
 module.exports = {
-  getPlayer: getPlayer
+  getPlayer: getPlayer,
+  getPlayerCount: getPlayerCount,
+  getMapData: getMapData
 }

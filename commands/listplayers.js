@@ -1,5 +1,6 @@
+const Discord = require('discord.js');
 const config = require('../config.json');
-const {errorMessage, embed} = require('../functions/statusMessage');
+const {errorMessage} = require('../functions/statusMessage');
 const {getPlayer} = require('../functions/fetch');
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
 			players.forEach(async player => {
 				let data = await getPlayer(player.id);
 
-				let playerEmbed = embed
+				let playerEmbed = new Discord.MessageEmbed().setThumbnail('https://cdn.bcow.tk/assets/logo-new.png').setColor(0x003175).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png')
 					.setTitle(data.data.player.username.replace(/_/g, '\_'))
 					.setURL(`https://namemc.com/${player.id}`)
 					.setThumbnail(`https://crafatar.com/avatars/${player.id}?overlay`)

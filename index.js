@@ -87,5 +87,8 @@ client.on('message', (message) => {
 		case 'crawl':
 			client.commands.get('crawl').execute(message, Result);
 			break;
+		case 'queue':
+			client.commands.get('queue').execute(message);
+			break;
 	}
 });

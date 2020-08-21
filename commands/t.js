@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const moment = require('moment-timezone');
 const fetch = require('node-fetch');
-const { errorMessage, embed } = require('../functions/statusMessage');
+const { errorMessage } = require('../functions/statusMessage');
 const { paginateArray } = require('../functions/list');
 const { getPlayer } = require('../functions/fetch');
 const fn = require('../util/fn');
@@ -11,7 +11,7 @@ module.exports = {
 	description: 'Searches for towns',
 	execute: (message, args, Town, TownP, PlayerP) => {
 		message.channel.startTyping();
-		const helpEmbed = embed
+		const helpEmbed = new Discord.MessageEmbed().setThumbnail('https://cdn.bcow.tk/assets/logo-new.png').setColor(0x003175).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png')
 			.setTitle('1!t - Help')
 			.addField('1!t [town]', 'Gets town info')
 			.addField('1!t list', 'Lists all towns by residents')

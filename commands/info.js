@@ -1,10 +1,10 @@
-const {embed} = require('../functions/statusMessage')
+const Discord = require('discord.js');
 
 module.exports = {
 	name: 'info',
 	description: 'Shows bot information',
 	execute(message) {
-		const helpEmbed = embed
+		const helpEmbed = new Discord.MessageEmbed().setThumbnail('https://cdn.bcow.tk/assets/logo-new.png').setColor(0x003175).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png')
 			.setTitle('Info')
 			.setDescription('Find towns, nations, and discords with OneSearch for EarthMC. Issues? Open an issue on [GitHub](https://github.com/imabritishcow/onesearch-emc).')
 			.addField('Discord', 'https://discord.gg/mXrTXhB')
