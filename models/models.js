@@ -97,6 +97,7 @@ const NationGroupSchema = new Schema({
 	name: String,
 	leader: String,
 	size: Number,
+	members: Number,
 	nations: Array,
 	imgLink: String,
 	desc: String,
