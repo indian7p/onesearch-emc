@@ -209,7 +209,7 @@ module.exports = {
 					.setThumbnail(imgLink)
 					.addField('Owner', `\`\`\`${town.mayor}\`\`\``, true)
 					.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
-					.addField('Size', `${town.area}/${maxSize} **[NationBonus: ${townNationBonus}]**`, true)
+					.addField('Size', `${town.area}/${maxSize} [NationBonus: ${townNationBonus}]`, true)
 					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
 
 				if (memberList.length > 1024) {
