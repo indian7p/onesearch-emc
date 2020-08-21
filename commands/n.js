@@ -19,6 +19,8 @@ module.exports = {
 
 		if (!args[1]) return message.channel.send(helpEmbed);
 
+		let query = message.content.slice(args[0].length + 3).toLowerCase().replace(/ /g, '_');
+
 		message.channel.startTyping();
 		switch (args[1]) {
 			case 'activity':
@@ -66,7 +68,7 @@ module.exports = {
 									.setTitle(`Player Activity - ${nation.name}`)
 									.setDescription(`\`\`\`${list}\`\`\``)
 									.setColor(0x003175)
-									.setFooter(`Page ${i+1}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+									.setFooter(`Page ${i + 1}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
 								embeds.push(emb);
 							}
 
@@ -120,7 +122,6 @@ module.exports = {
 				})
 				break;
 			case 'online':
-				var query = args[0] == 'n' ? message.content.slice(11).toLowerCase().replace(/ /g, '_') : message.content.slice(16).toLowerCase().replace(/ /g, '_');
 				fetch('https://earthmc.net/map/up/world/earth/')
 					.then((res) => {
 						return res.json();
@@ -164,29 +165,25 @@ module.exports = {
 					});
 				break;
 			default:
-				var query = args[0] == 'n' ? message.content.slice(4).toLowerCase().replace(/ /g, '_') : message.content.slice(9).toLowerCase().replace(/ /g, '_');
-
 				if (query == 'no_nation') return message.channel.send(errorMessage.setDescription('Use 1!nonation'));
+
 				Nation.findOne({ nameLower: query }, function (err, nation) {
 					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
+
+					if (!nation) {
+						message.channel.send(errorMessage.setDescription('Nation not found.'));
+						message.channel.stopTyping();
+						return;
+					}
+
 					if (nation != null) {
 						NationP.findOne({ name: nation.nameLower }, function (err, nationp) {
-							let status;
-							let imgLink;
-							let nationName;
-							let nationLink;
-							let nationAMNT;
-							if (!nationp) {
-								status = ':grey_question: Unknown';
-								imgLink = 'https://cdn.bcow.tk/assets/logo-new.png';
-								nationName = nation.name;
-							} else {
-								status = !nationp.status ? ':grey_question: Unknown' : nationp.status;
-								imgLink = !nationp.imgLink ? 'https://cdn.bcow.tk/assets/logo-new.png' : nationp.imgLink;
-								nationName = status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
-								nationLink = nationp.link;
-								nationAMNT = nationp.amenities;
-							}
+							let status = !nationp ? ':grey_question: Unknown' : !nationp.status ? ':grey_question: Unknown' : nationp.status;
+							let imgLink = !nationp ? 'https://cdn.bcow.tk/assets/logo-new.png' : !nationp.imgLink ? 'https://cdn.bcow.tk/assets/logo-new.png' : nationp.imgLink;
+							let nationName = !nationp ? nation.name : status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
+							let nationLink = nationp ? nationp.link : null;
+							let nationAMNT = nationp ? nationp.amenities : null;
+
 							if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 							let townsList = nation.townsArr.toString().replace(/,/g, ', ');
 
@@ -202,57 +199,64 @@ module.exports = {
 										members2.push(member);
 									}
 								});
-								var members1STR = '```' + members1.toString().replace(/,/g, ', ') + '```';
-								var members2STR = '```' + members2.toString().replace(/,/g, ', ') + '```';
+								var members1STR = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
+								var members2STR = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
+							}
+
+							const val = nation.residents;
+							let nationBonus;
+							switch (true) {
+								case (val > 0 && val < 9):
+									nationBonus = 10;
+									break;
+								case (val > 10 && val < 19):
+									nationBonus = 20;
+									break;
+								case (val > 20 && val < 29):
+									nationBonus = 40;
+									break;
+								case (val > 30 && val < 39):
+									nationBonus = 60;
+									break;
+								case (val > 40 && val < 49):
+									nationBonus = 100;
+									break;
+								case (val > 50):
+									nationBonus = 140;
+									break;
 							}
 
 							let location = nation.location.split(',');
 							let resEmbedN = new Discord.MessageEmbed()
-								.setTitle(nationName)
+								.setTitle(nationName.replace(/_/g, '\_'))
+								.setURL(nationLink)
 								.setColor(nation.color)
 								.setThumbnail(imgLink)
 								.addField('Owner', `\`\`\`${nation.owner}\`\`\``, true)
 								.addField('Capital', nation.capital, true)
-								.addField('Status', status)
+								.addField('Status', status, true)
 								.addField('Residents', nation.residents, true)
 								.addField('Area', nation.area, true)
+								.addField('Nation Bonus', nationBonus, true)
 								.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
-								.addField('Report this nation', '[SearchSafe](https://searchsafe.bcow.tk/)');
+								.addField('Report this nation', '[SearchSafe](https://searchsafe.bcow.tk/)', true)
+								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
 
-							if (nationLink == null) {
-								if (nationAMNT == null) {
-									if (members2STR == null) {
-										message.channel.send(resEmbedN.addField(`Towns [${nation.townsArr.length}]`, '```' + townsList + '```'));
-									} else {
-										message.channel.send(resEmbedN.addField(`Towns [1-50]`, '```' + members1STR + '```').addField(`Towns [51-${nation.townsArr.length}]`, '```' + members2STR + '```'));
-									}
+							if (nationAMNT == null) {
+								if (members2STR == null) {
+									message.channel.send(resEmbedN.addField(`Towns [${nation.townsArr.length}]`, '```' + townsList + '```'));
 								} else {
-									if (members2STR == null) {
-										message.channel.send(resEmbedN.addField(`Towns [${nation.townsArr.length}]`, '```' + townsList + '```').setDescription(nationAMNT));
-									} else {
-										message.channel.send(resEmbedN.addField(`Towns [1-50]`, '```' + members1STR + '```').addField(`Towns [51-${nation.townsArr.length}]`, '```' + members2STR + '```'));
-									}
+									message.channel.send(resEmbedN.addField(`Towns [1-50]`, '```' + members1STR + '```').addField(`Towns [51-${nation.townsArr.length}]`, '```' + members2STR + '```'));
 								}
 							} else {
-								if (nationAMNT == null) {
-									if (members2STR == null) {
-										message.channel.send(resEmbedN.addField(`Towns [${nation.townsArr.length}]`, '```' + townsList + '```').setURL(nationLink));
-									} else {
-										message.channel.send(resEmbedN.addField(`Towns [1-50]`, '```' + members1STR + '```').addField(`Towns [51-${nation.townsArr.length}]`, '```' + members2STR + '```').setURL(nationLink));
-									}
+								if (members2STR == null) {
+									message.channel.send(resEmbedN.addField(`Towns [${nation.townsArr.length}]`, '```' + townsList + '```').setDescription(nationAMNT));
 								} else {
-									if (members2STR == null) {
-										message.channel.send(resEmbedN.addField(`Towns [${nation.townsArr.length}]`, '```' + townsList + '```').setDescription(nationAMNT).setURL(nationLink));
-									} else {
-										message.channel.send(resEmbedN.addField(`Towns [1-50]`, '```' + members1STR + '```').addField(`Towns [51-${nation.townsArr.length}]`, '```' + members2STR + '```').setURL(nationLink).setDescription(nationAMNT));
-									}
+									message.channel.send(resEmbedN.addField(`Towns [1-50]`, '```' + members1STR + '```').addField(`Towns [51-${nation.townsArr.length}]`, '```' + members2STR + '```'));
 								}
 							}
 							message.channel.stopTyping()
 						})
-					} else {
-						message.channel.stopTyping()
-						message.channel.send(errorMessage.setDescription('Nation not found. The database may be updating, try again later.'))
 					}
 				})
 				break;

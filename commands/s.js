@@ -105,6 +105,30 @@ module.exports = {
 				}
 
 				let location = nation.location.split(',');
+
+				const val = nation.residents;
+				let nationBonus;
+				switch(true) {
+					case (val>0 && val<9):
+						nationBonus = 10;
+						break;
+					case (val>10 && val<19):
+						nationBonus = 20;
+						break;
+					case (val>20 && val<29):
+						nationBonus = 40;
+						break;
+					case (val>30 && val<39):
+						nationBonus = 60;
+						break;
+					case (val>40 && val<49):
+						nationBonus = 100;
+						break;
+					case (val>50):
+						nationBonus = 140;
+						break;
+				}
+
 				let resEmbedN = new Discord.MessageEmbed()
 					.setTitle(nationName.replace(/_/g, '\_'))
 					.setURL(nationLink)
@@ -112,11 +136,12 @@ module.exports = {
 					.setThumbnail(imgLink)
 					.addField('Owner', `\`\`\`${nation.owner}\`\`\``, true)
 					.addField('Capital', nation.capital, true)
-					.addField('Status', status)
+					.addField('Status', status, true)
 					.addField('Residents', nation.residents, true)
 					.addField('Area', nation.area, true)
+					.addField('Nation Bonus', nationBonus, true)
 					.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
-					.addField('Report this nation', '[SearchSafe](https://searchsafe.bcow.tk/)');
+					.addField('Report this nation', '[SearchSafe](https://searchsafe.bcow.tk/)', true);
 
 				if (nationAMNT == null) {
 					if (members2STR == null) {
