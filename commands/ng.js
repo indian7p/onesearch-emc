@@ -46,7 +46,7 @@ module.exports = {
           .setColor(0x003175)
           .setDescription(nationGroup.desc)
           .setThumbnail(nationGroup.imgLink)
-          .addField('Leader', nationGroup.leader, true)
+          .addField('Leader', `\`\`\`${nationGroup.leader}\`\`\``, true)
           .addField('Size', nationGroup.size, true)
           .addField(`Members`, nationGroup.members, true)
           .addField(`Nations [${nationGroup.nations.length}]`, `\`\`\`${nationGroup.nations.toString().replace(/,/g, ', ')}\`\`\``)

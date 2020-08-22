@@ -74,7 +74,7 @@ module.exports = {
 			let NSFWcount = 0;
 
 			const nation = await Nation.findOne({ nameLower: nationQuery }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
-			const nationGroup = await NationGroup.findOne({}).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+			const nationGroup = await NationGroup.findOne({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 			const town = await Town.findOne({ nameLower: nationQuery }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 			const results = await Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
