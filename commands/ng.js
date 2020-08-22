@@ -55,7 +55,11 @@ module.exports = {
         embeds.push(resEmbed);
       }
 
-      message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
+      if (embeds.length == 0) {
+        message.channel.send(errorMessage.setDescription('No results found.'));
+      } else {
+        message.channel.send(embeds[0]).then((m) => fn.paginator(message.author.id, m, embeds, 0));
+      }
     }
   }
 };
