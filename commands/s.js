@@ -191,27 +191,31 @@ module.exports = {
 
 				const townNation = await Nation.findOne({ name: town.nation }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
-				const val = townNation.residents;
 				let townNationBonus;
-				switch (true) {
-					case (val > 0 && val < 9):
-						townNationBonus = 10;
-						break;
-					case (val > 10 && val < 19):
-						townNationBonus = 20;
-						break;
-					case (val > 20 && val < 29):
-						townNationBonus = 40;
-						break;
-					case (val > 30 && val < 39):
-						townNationBonus = 60;
-						break;
-					case (val > 40 && val < 49):
-						townNationBonus = 100;
-						break;
-					case (val > 50):
-						townNationBonus = 140;
-						break;
+				if (townNation) {
+					const val = townNation.residents;
+					switch (true) {
+						case (val > 0 && val < 9):
+							townNationBonus = 10;
+							break;
+						case (val > 10 && val < 19):
+							townNationBonus = 20;
+							break;
+						case (val > 20 && val < 29):
+							townNationBonus = 40;
+							break;
+						case (val > 30 && val < 39):
+							townNationBonus = 60;
+							break;
+						case (val > 40 && val < 49):
+							townNationBonus = 100;
+							break;
+						case (val > 50):
+							townNationBonus = 140;
+							break;
+					}
+				} else {
+					townNationBonus = 0;
 				}
 
 				let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
