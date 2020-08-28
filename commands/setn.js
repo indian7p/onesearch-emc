@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const	fn = require('../util/fn');
 const	config = require('../config.json');
-const {errorMessage} = require('../functions/statusMessage');
+const { errorMessage, successMessage } = require('../functions/statusMessage');
 
 module.exports = {
 	name: 'setn',
@@ -47,7 +47,7 @@ module.exports = {
 								message.channel.send(successMessage.setDescription(`Set ${nation.nameLower}'s amenities to ${AMNTString}`));
 							})
 						} else {
-							NationP.update({ name: nation.nameLower }, { amenities: AMNTString }, { multi: false }, function (err) {
+							NationP.updateOne({ name: nation.nameLower }, { amenities: AMNTString }, function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 								message.channel.send(successMessage.setDescription(`Set ${nation.nameLower}'s amenities to ${AMNTString}`));
 							});
@@ -77,7 +77,7 @@ module.exports = {
 								message.channel.send(successMessage.setDescription(`Set ${nation.nameLower}'s discord to ${link}`));
 							})
 						} else {
-							NationP.update({ name: nation.nameLower }, { link: link }, { multi: false }, function (err) {
+							NationP.updateOne({ name: nation.nameLower }, { link: link }, function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 								message.channel.send(successMessage.setDescription(`Set ${nation.nameLower}'s discord to ${link}`));
 							});
@@ -116,7 +116,7 @@ module.exports = {
 								message.channel.send(successMessage.setDescription(`Sucessfully set the nation's image`));
 							})
 						} else {
-							NationP.update({ name: nation.nameLower }, { imgLink: imgLink }, { multi: false }, function (err) {
+							NationP.updateOne({ name: nation.nameLower }, { imgLink: imgLink }, function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 								message.channel.send(successMessage.setDescription(`Sucessfully set the nation's image`));
 							});
@@ -144,7 +144,7 @@ module.exports = {
 								message.channel.send(successMessage.setDescription(`Set ${nation.name}'s status to ${status}`));
 							})
 						} else {
-							NationP.update({ name: nation.nameLower }, { status: status }, { multi: false }, function (err) {
+							NationP.updateOne({ name: nation.nameLower }, { status: status }, function (err) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 								message.channel.send(successMessage.setDescription(`Set ${nation.name}'s status to ${status}`));
 							});
