@@ -206,22 +206,22 @@ module.exports = {
 							const val = nation.residents;
 							let nationBonus;
 							switch (true) {
-								case (val > 0 && val < 9):
+								case (val >= 0 && val <= 9):
 									nationBonus = 10;
 									break;
-								case (val > 10 && val < 19):
+								case (val >= 10 && val <= 19):
 									nationBonus = 20;
 									break;
-								case (val > 20 && val < 29):
+								case (val >= 20 && val <= 29):
 									nationBonus = 40;
 									break;
-								case (val > 30 && val < 39):
+								case (val >= 30 && val <= 39):
 									nationBonus = 60;
 									break;
-								case (val > 40 && val < 49):
+								case (val >= 40 && val <= 49):
 									nationBonus = 100;
 									break;
-								case (val > 50):
+								case (val >= 50):
 									nationBonus = 140;
 									break;
 							}
