@@ -22,7 +22,7 @@ module.exports = {
       .setThumbnail('https://cdn.bcow.tk/logos/EarthMC.png')
       .addField('Server Total', `${server.players.now}/${server.players.max}`)
       .addField('In Queue', queue, true)
-      .addField('Towny', `${mapData.currentcount >= 120 ? `**FULL** ${mapData.currentcount}` : mapData.currentcount}/120`, true)
+      .addField('Towny', `${mapData.currentcount >= 100 ? `**FULL** ${mapData.currentcount}` : mapData.currentcount}/100`, true)
       .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
     
     message.channel.send(queueEmbed);
