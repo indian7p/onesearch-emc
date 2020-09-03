@@ -18,6 +18,18 @@ async function getMapData() {
   return data;
 }
 
+async function getBetaMap() {
+  const res = await fetch("https://earthmc.net/map/beta/up/world/randomworld1/")
+  const data = await res.json()
+  return data;
+}
+
+async function getClassicMap() {
+  const res = await fetch("https://earthmc.net/map/classic/up/world/earth/")
+  const data = await res.json()
+  return data;
+}
+
 module.exports = {
   getPlayer: getPlayer,
   getPlayerCount: getPlayerCount,
