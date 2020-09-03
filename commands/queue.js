@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const {embed, errorMessage} = require('../functions/statusMessage');
-const {getPlayerCount, getMapData} = require('../functions/fetch');
+const {getPlayerCount, getMapData, getBetaMap, getClassicMap} = require('../functions/fetch');
 
 module.exports = {
   name: "queue",
