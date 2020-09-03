@@ -107,6 +107,15 @@ const NationGroupSchema = new Schema({
 const NationGroup = mongoose.model('NationGroup', NationGroupSchema)
 NationGroup.collection.createIndex({ name: 'text' });
 
+const QueueDataSchema = new Schema({
+  timestamp: Number,
+  playersOnTotal: Number,
+  queue: Number,
+  playersOnTowny: Number
+})
+
+const QueueData = mongoose.model('QueueData', QueueDataSchema);
+
 module.exports = {
   Nation: Nation,
   NationP: NationP,
@@ -116,5 +125,6 @@ module.exports = {
   PlayerP: PlayerP,
   Result: Result,
 	Siege: Siege,
-	NationGroup: NationGroup
+	NationGroup: NationGroup,
+	QueueData: QueueData
 }

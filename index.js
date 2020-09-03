@@ -94,5 +94,15 @@ client.on('message', (message) => {
 		case 'town':
 			client.commands.get('t').execute(message, args, Town, Nation, TownP, PlayerP);
 			break;
+		case 'train':
+			const queueForecast = require('./functions/queueForecast');
+
+			queueForecast.trainModel().then(data => {
+				data.model.save('file://./models/queueForecastModel');
+			});
+			break;
+		case 'predict':
+			client.commands.get('predict').execute(message);
+			break;
 	}
 });

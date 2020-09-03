@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const {embed, errorMessage} = require('../functions/statusMessage');
+const {errorMessage} = require('../functions/statusMessage');
 const {getPlayerCount, getMapData} = require('../functions/fetch');
 
 module.exports = {
