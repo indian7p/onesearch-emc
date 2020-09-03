@@ -25,9 +25,6 @@ async function trainModel() {
   let inputs = processedData.labels;
   let outputs = processedData.features;
 
-  // The amount of data to use for training (%), the rest is used for validation.
-  let trainingsize = 80;
-
   const input_layer_shape  = 1;
   const input_layer_neurons = 100;
 
@@ -44,8 +41,8 @@ async function trainModel() {
 
   const model = tf.sequential();
 
-  let X = inputs.slice(0, Math.floor(trainingsize / 100 * inputs.length));
-  let Y = outputs.slice(0, Math.floor(trainingsize / 100 * outputs.length));
+  let X = inputs;
+  let Y = outputs;
 
   const xs = tf.tensor2d(X, [X.length, 1]).div(tf.scalar(10));
   const ys = tf.tensor2d(Y, [Y.length, 1]).reshape([Y.length, 1]).div(tf.scalar(10));
@@ -72,7 +69,7 @@ async function trainModel() {
   });
 
   const hist = await model.fit(xs, ys,
-    { batchSize: rnn_batch_size, epochs: 25, callbacks: {
+    { batchSize: rnn_batch_size, epochs: 50, callbacks: {
       onEpochEnd: async (epoch, log) => {
         //callback(epoch, log);
       }
