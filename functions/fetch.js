@@ -6,8 +6,8 @@ async function getPlayer(player) {
   return data;
 }
 
-async function getPlayerCount(ip) {
-  const res = await fetch(`https://mcapi.us/server/status?ip=${ip}`);
+async function getPlayerCount() {
+  const res = await fetch(`https://35hooghtcc.execute-api.us-east-1.amazonaws.com/prod/getServerInfo`);
   const data = await res.json();
   return data;
 }
