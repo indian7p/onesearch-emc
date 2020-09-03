@@ -14,7 +14,7 @@ module.exports = {
       message.channel.send(errorMessage.setDescription('Error occurred while getting map data.'));
     });
     
-    let queue = server.players.now - mapData.currentcount
+    const queue = server.players.now - mapData.currentcount < 0 ? 0 : server.players.now - mapData.currentcount;
     
     let queueEmbed = new Discord.MessageEmbed()
       .setTitle('Queue')
