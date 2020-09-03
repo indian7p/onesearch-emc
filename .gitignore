@@ -1,6 +1,6 @@
 node_modules
 watch.json
 config.json
-queueForecastModel
-model.json
-weights.bin
+models/queueForecastModel
+models/queueForecastModel/model.json
+models/queueForecastModel/weights.bin
