@@ -7,7 +7,7 @@ module.exports = {
   description: 'Shows current queue info',
   execute: async (message) => {
     message.channel.startTyping();
-    let server = await getPlayerCount('earthmc.net');
+    let server = await getPlayerCount();
 
     let mapData = await getMapData().catch(err => {
       message.channel.stopTyping();
