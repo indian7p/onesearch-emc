@@ -33,5 +33,7 @@ async function getClassicMap() {
 module.exports = {
   getPlayer: getPlayer,
   getPlayerCount: getPlayerCount,
-  getMapData: getMapData
+  getMapData: getMapData,
+  getBetaMap: getBetaMap,
+  getClassicMap: getClassicMap
 }
