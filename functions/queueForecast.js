@@ -26,7 +26,7 @@ async function trainModel() {
   let outputs = processedData.features;
 
   // The amount of data to use for training (%), the rest is used for validation.
-  let trainingsize = 70;
+  let trainingsize = 80;
 
   const input_layer_shape  = 1;
   const input_layer_neurons = 100;
