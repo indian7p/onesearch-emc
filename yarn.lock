@@ -154,10 +154,10 @@
   resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-layers/-/tfjs-layers-2.3.0.tgz#43dd9ecfe43fd474c80c5add039b33bd5686554c"
   integrity sha512-8bXikhI/SvnOxRDELBxVB2kYKH78pQEEeXheMrSD38CA/QoKbH7sdPPmP7qpEz8kzU/k5sXnn8c5CIAFpO7sug==
 
-"@tensorflow/tfjs-node@^2.3.0":
+"@tensorflow/tfjs-node-gpu@^2.3.0":
   version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-node/-/tfjs-node-2.3.0.tgz#f09e739c7a52a046aa6dbd2b66d98dfa36b3e546"
-  integrity sha512-Yx6lcJYCg+KwHdM6NKCzMARas6fII7eFXUhISQMIYq/L+irCeTujD0DrExpKVSG+eB3EliF6G1sYHFKMm9mLDA==
+  resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-node-gpu/-/tfjs-node-gpu-2.3.0.tgz#d0b603e22ce686454b146709cede8124730d7382"
+  integrity sha512-vk+WqdVrKNLW+7g599TsZjgxb1DUWyLJ8DZXdYp2zoAoL+c9axdnzK1LEKic4eckbwbIGyvwHrAVtnAcT7MmrA==
   dependencies:
     "@tensorflow/tfjs" "2.3.0"
     "@tensorflow/tfjs-core" "2.3.0"

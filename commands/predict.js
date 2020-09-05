@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const tf = require('@tensorflow/tfjs-node');
+const tf = require('@tensorflow/tfjs-node-gpu');
 const {errorMessage} = require('../functions/statusMessage');
 
 module.exports = {

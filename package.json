@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@google-cloud/dialogflow": "^3.1.1",
-    "@tensorflow/tfjs-node": "^2.3.0",
+    "@tensorflow/tfjs-node-gpu": "^2.3.0",
     "discord.js": "^12.2.0",
     "moment-timezone": "^0.5.31",
     "mongoose": "^5.9.15",
