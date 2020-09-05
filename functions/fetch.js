@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const { QueueData } = require('../models/models');
 
 async function getPlayer(player) {
   const res = await fetch(`https://playerdb.co/api/player/minecraft/${player}`)
@@ -18,8 +19,25 @@ async function getMapData() {
   return data;
 }
 
+async function getQueueTrainingData() {
+  const qdatas = await QueueData.find({}).exec().catch(err => {});
+
+  let labels = [];
+  let features = [];
+
+  for(var i=0; i<qdatas.length; i++) {
+    let qdata = qdatas[i];
+
+    labels.push(qdata.timestamp);
+    features.push(qdata.queue);
+  }
+
+  return {labels: labels, features: features}
+}
+
 module.exports = {
   getPlayer: getPlayer,
   getPlayerCount: getPlayerCount,
-  getMapData: getMapData
+  getMapData: getMapData,
+  getQueueTrainingData: getQueueTrainingData
 }

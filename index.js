@@ -95,11 +95,7 @@ client.on('message', (message) => {
 			client.commands.get('t').execute(message, args, Town, Nation, TownP, PlayerP);
 			break;
 		case 'train':
-			const queueForecast = require('./functions/queueForecast');
-
-			queueForecast.trainModel().then(data => {
-				data.model.save('file://./models/queueForecastModel');
-			});
+			client.commands.get('train').execute(message);
 			break;
 		case 'predict':
 			client.commands.get('predict').execute(message);
