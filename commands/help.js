@@ -4,7 +4,7 @@ module.exports = {
 	name: 'help',
 	description: 'Shows bot commands',
 	execute(message) {
-		const helpEmbed = new Discord.MessageEmbed().setThumbnail('https://cdn.bcow.tk/assets/logo-new.png').setColor(0x003175).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png')
+		const helpEmbed = new Discord.MessageEmbed().setThumbnail('https://cdn.bcow.tk/assets/neu-os-logo-circle.png').setColor(0x003175).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png')
 			.setTitle('Help')
 			.setDescription('Join my [discord](https://discord.gg/mXrTXhB)!')
 			.addField('1!info', 'Shows bot info')

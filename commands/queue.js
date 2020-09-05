@@ -42,7 +42,7 @@ module.exports = {
       .addField('Towny', `${mapData.currentcount >= 100 ? `**FULL** ${mapData.currentcount}` : mapData.currentcount}/100`, true)
       .addField('Beta', `${betaMapData.currentcount >= 60 ? `**FULL** ${betaMapData.currentcount}` : betaMapData.currentcount}/60`, true)
       .addField('Classic', `${classicMapData.currentcount >= 100 ? `**FULL** ${classicMapData.currentcount}` : classicMapData.currentcount}/100`, true)
-      .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+      .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
     
     message.channel.send(queueEmbed);
     message.channel.stopTyping();

@@ -26,7 +26,7 @@ module.exports = {
           .addField('Size', nationGroup.size, true)
           .addField(`Members`, nationGroup.members, true)
           .addField(`Nations [${nationGroup.nations.length}]`, `\`\`\`${nationGroup.nations.toString().replace(/,/g, ', ')}\`\`\``)
-          .setFooter(`Page ${i + 1}/${nationGroups.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+          .setFooter(`Page ${i + 1}/${nationGroups.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
         embeds.push(resEmbed);
       }
@@ -50,7 +50,7 @@ module.exports = {
           .addField('Size', nationGroup.size, true)
           .addField(`Members`, nationGroup.members, true)
           .addField(`Nations [${nationGroup.nations.length}]`, `\`\`\`${nationGroup.nations.toString().replace(/,/g, ', ')}\`\`\``)
-          .setFooter(`Page ${i + 1}/${nationGroups.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+          .setFooter(`Page ${i + 1}/${nationGroups.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
         embeds.push(resEmbed);
       }

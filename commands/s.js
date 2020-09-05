@@ -37,7 +37,7 @@ module.exports = {
 					.setColor(0x003175)
 					.addField('Question', result.intent.displayName)
 					.addField('Answer', result.fulfillmentText)
-					.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+					.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 				embeds.unshift(dEmbed);
 			}
 		}
@@ -60,7 +60,7 @@ module.exports = {
 						.setDescription(result.desc)
 						.setURL(result.link)
 						.setThumbnail(result.imgLink)
-						.setFooter(`Page ${pageCount}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+						.setFooter(`Page ${pageCount}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 					embeds.push(resEmbed);
 					if (pageCount == results.length) {
@@ -82,7 +82,7 @@ module.exports = {
 				const nationp = await NationP.findOne({ name: nation.nameLower }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
 				let status = !nationp ? ':grey_question: Unknown' : !nationp.status ? ':grey_question: Unknown' : nationp.status;
-				let imgLink = !nationp ? 'https://cdn.bcow.tk/assets/logo-new.png' : !nationp.imgLink ? 'https://cdn.bcow.tk/assets/logo-new.png' : nationp.imgLink;
+				let imgLink = !nationp ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : !nationp.imgLink ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : nationp.imgLink;
 				let nationName = !nationp ? nation.name : status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
 				let nationLink = nationp ? nationp.link : null;
 				let nationAMNT = nationp ? nationp.amenities : null;
@@ -171,7 +171,7 @@ module.exports = {
 					.addField('Size', nationGroup.size, true)
 					.addField(`Members`, nationGroup.members, true)
 					.addField(`Nations [${nationGroup.nations.length}]`, `\`\`\`${nationGroup.nations.toString().replace(/,/g, ', ')}\`\`\``)
-					.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+					.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 				embeds.push(ngEmbed);
 			}
@@ -180,7 +180,7 @@ module.exports = {
 				const townp = await TownP.findOne({ name: town.name }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
 				let description = !townp ? 'Information may be slightly out of date.' : townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
-				let imgLink = !townp ? 'https://cdn.bcow.tk/assets/logo-new.png' : townp.imgLink == null ? 'https://cdn.bcow.tk/assets/logo-new.png' : townp.imgLink;
+				let imgLink = !townp ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : townp.imgLink == null ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : townp.imgLink;
 
 				let link;
 				try {
@@ -231,7 +231,7 @@ module.exports = {
 					.addField('Owner', `\`\`\`${town.mayor}\`\`\``, true)
 					.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
 					.addField('Size', `${town.area}/${maxSize} [NationBonus: ${townNationBonus}]`, true)
-					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/logo-new.png');
+					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 				if (memberList.length > 1024) {
 					let members1 = [];
@@ -273,7 +273,7 @@ module.exports = {
 					.setDescription(result.desc)
 					.setThumbnail(result.imgLink)
 					.setColor(themeColor)
-					.setFooter(`Page ${i + 1}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+					.setFooter(`Page ${i + 1}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 				if (result.nsfw != undefined) {
 					if (message.channel.type == 'dm') {

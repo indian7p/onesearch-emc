@@ -13,7 +13,7 @@ module.exports = {
 			.addField('1!sett img', 'Sets a towns image')
 			.addField('1!sett rating', 'Sets a towns Shootcity rating')
 			.addField('1!sett link', 'Sets a towns link')
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
     
 		if(!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
 

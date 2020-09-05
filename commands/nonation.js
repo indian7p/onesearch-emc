@@ -50,7 +50,7 @@ module.exports = {
 						.addField('Residents', nation.residents, true)
 						.setDescription(`\`\`\`${list}\`\`\``)
 						.setColor(0x003175)
-						.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/logo-new.png');
+						.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 					embeds.push(embed);
 				})
 

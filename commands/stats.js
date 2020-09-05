@@ -18,7 +18,7 @@ module.exports = {
             Result.find({}, function(err, results) {
               let statsEmbed = new Discord.MessageEmbed()
                 .setTitle('Stats')
-                .setThumbnail('https://cdn.bcow.tk/assets/logo-new.png')
+                .setThumbnail('https://cdn.bcow.tk/assets/neu-os-logo-circle.png')
                 .setColor(0x003175)
                 .addField('**Towny Stats**', '⠀', false)
                 .addField('Nations', nations.length, true)
@@ -28,7 +28,7 @@ module.exports = {
                 .addField('Servers', client.guilds.cache.size, true)
                 .addField('Users', client.users.cache.size, true)
                 .addField('Search Items', results.length, true)
-                .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+                .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
               message.channel.send(statsEmbed);
               message.channel.stopTyping();
             });
