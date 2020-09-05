@@ -64,6 +64,16 @@ module.exports = {
 
           message.channel.send(embed);
         },
+        onTrainEnd: async (logs) => {
+          let embed = new Discord.MessageEmbed()
+          .setTitle('Queue Forecasting - Training')
+          .setThumbnail('https://cdn.bcow.tk/logos/TensorFlow.png')
+          .setColor(0x003175)
+          .setDescription('Training Finished!')
+          .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/logo-new.png');
+
+          message.channel.send(embed);
+        },
         onEpochEnd: async (epoch, log) => {
           let embed = new Discord.MessageEmbed()
           .setTitle('Queue Forecasting - Training')

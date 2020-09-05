@@ -6,10 +6,13 @@ module.exports = {
   name: "predict",
   description: 'Shows current queue info',
   execute: async (message) => {
-    const timeNow = new Date().getTime();
+    const timeNow = new Date();
+    const newTimestamp = `${4}${timeNow.getMonth()+1}${timeNow.getDate()}${8}${timeNow.getMinutes()}`;
+
     const model = await tf.loadLayersModel('file://./models/queueForecastModel/model.json');
 
-    const prediction = await model.predict(tf.tensor2d([timeNow+300000], [1, 1])).mul(10);
-    console.log(Array.from(prediction.dataSync()));
+    const prediction = await model.predict(tf.tensor([newTimestamp*1]));
+
+    console.log(`${newTimestamp} ${prediction.dataSync()[0] * 10}`);
   }
 }
