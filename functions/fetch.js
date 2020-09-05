@@ -20,6 +20,9 @@ async function getMapData() {
 }
 
 async function getQueueTrainingData() {
+  //Clean data
+  await QueueData.deleteMany({playersOnTotal: 0}).exec().catch(err => {});
+
   const qdatas = await QueueData.find({}).exec().catch(err => {});
 
   let labels = [];
