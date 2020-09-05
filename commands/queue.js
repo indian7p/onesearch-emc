@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const {embed, errorMessage} = require('../functions/statusMessage');
+const {errorMessage} = require('../functions/statusMessage');
 const {getPlayerCount, getMapData, getBetaMap, getClassicMap} = require('../functions/fetch');
 
 module.exports = {
@@ -8,6 +8,10 @@ module.exports = {
   execute: async (message) => {
     message.channel.startTyping();
     let server = await getPlayerCount();
+
+    if (server.players.now < 0) {
+      message.channel.send(errorMessage.setDescription('Error getting server info.'));
+    }
 
     let mapData = await getMapData().catch(err => {
       message.channel.stopTyping();
