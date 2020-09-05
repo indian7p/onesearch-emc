@@ -1,4 +1,4 @@
-<img src="https://cdn.bcow.tk/assets/neu-os-logo-circle.png" width=56/>
+<img src="https://cdn.bcow.tk/assets/neu-os-logo-circle.png" width=96 height=96/>
 
 # OneSearch
 
