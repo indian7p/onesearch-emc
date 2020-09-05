@@ -48,7 +48,7 @@ module.exports = {
     model.add(tf.layers.dense({ units: output_layer_neurons, inputShape: [output_layer_shape] }));
 
     model.compile({
-      optimizer: tf.train.adam(0.1),
+      optimizer: tf.train.adam(0.001),
       loss: 'meanSquaredError'
     });
 
