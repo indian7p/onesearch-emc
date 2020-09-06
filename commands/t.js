@@ -11,7 +11,7 @@ module.exports = {
 	description: 'Searches for towns',
 	execute: (message, args, Town, Nation, TownP, PlayerP, client) => {
 		message.channel.startTyping();
-		const helpEmbed = new Discord.MessageEmbed().setThumbnail(client.user.avatarURL()).setColor(0x003175).setFooter('OneSearch', client.user.avatarURL())
+		const helpEmbed = new Discord.MessageEmbed().setThumbnail('https://cdn.bcow.tk/assets/neu-os-logo-circle.png').setColor(0x003175).setFooter('OneSearch', client.user.avatarURL())
 			.setTitle('1!t - Help')
 			.addField('1!t [town]', 'Gets town info')
 			.addField('1!t list', 'Lists all towns by residents')
@@ -147,9 +147,9 @@ module.exports = {
 							let imgLink;
 							if (!townp) {
 								description = 'Information may be slightly out of date.';
-								imgLink = client.user.avatarURL();
+								imgLink = 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png';
 							} else {
-								imgLink = townp.imgLink == null ? client.user.avatarURL() : townp.imgLink;
+								imgLink = townp.imgLink == null ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : townp.imgLink;
 								description = townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
 							}
 

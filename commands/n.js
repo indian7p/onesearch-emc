@@ -179,7 +179,7 @@ module.exports = {
 					if (nation != null) {
 						NationP.findOne({ name: nation.nameLower }, function (err, nationp) {
 							let status = !nationp ? ':grey_question: Unknown' : !nationp.status ? ':grey_question: Unknown' : nationp.status;
-							let imgLink = !nationp ? client.user.avatarURL() : !nationp.imgLink ? client.user.avatarURL() : nationp.imgLink;
+							let imgLink = !nationp ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : !nationp.imgLink ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : nationp.imgLink;
 							let nationName = !nationp ? nation.name : status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
 							let nationLink = nationp ? nationp.link : null;
 							let nationAMNT = nationp ? nationp.amenities : null;
