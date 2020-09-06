@@ -24,7 +24,8 @@ module.exports = {
 		message.channel.startTyping();
 		switch (args[1]) {
 			case 'activity':
-				const actQuery = message.content.slice(args[0].length + args[1].length + 4).toLowerCase().replace(/ /g, '_')
+				const actQuery = message.content.slice(args[0].length + args[1].length + 4).toLowerCase().replace(/ /g, '_');
+
 				Nation.findOne({ nameLower: actQuery }, function (err, nation) {
 					if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));
 
@@ -122,12 +123,14 @@ module.exports = {
 				})
 				break;
 			case 'online':
+				const onQuery = message.content.slice(args[0].length + args[1].length + 4).toLowerCase().replace(/ /g, '_');
+
 				fetch('https://earthmc.net/map/up/world/earth/')
 					.then((res) => {
 						return res.json();
 					})
 					.then((data) => {
-						Nation.findOne({ nameLower: query }, function (err, nation) {
+						Nation.findOne({ nameLower: onQuery }, function (err, nation) {
 							if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'))
 							if (nation == null) {
 								message.channel.stopTyping();
