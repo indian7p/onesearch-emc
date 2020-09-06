@@ -5,7 +5,7 @@ const {errorMessage, successMessage} = require('../functions/statusMessage');
 module.exports = {
 	name: 'sett',
 	description: 'Sets town information',
-	execute: (message, args, Town, TownP) => {
+	execute: (message, args, Town, TownP, client) => {
     let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!sett')
 			.setDescription('Using `null` as the value will clear that type.')
@@ -13,7 +13,7 @@ module.exports = {
 			.addField('1!sett img', 'Sets a towns image')
 			.addField('1!sett rating', 'Sets a towns Shootcity rating')
 			.addField('1!sett link', 'Sets a towns link')
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+			.setFooter('OneSearch', client.user.avatarURL());
     
 		if(!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
 

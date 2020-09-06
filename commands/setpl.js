@@ -8,14 +8,14 @@ const	date = moment().tz('America/New_York').format('MMMM D YYYY h:mm A z');
 module.exports = {
 	name: 'setpl',
 	description: 'Sets player information',
-	execute: (message, args, Player) => {
+	execute: (message, args, Player, client) => {
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!setpl')
 			.setDescription('Using `null` as the value will clear that type')
 			.setColor(0x003175)
 			.addField('1!setpl historyevent', 'Added a history event')
 			.addField('1!setpl status', 'Sets a players CASST status. Valid statuses: <:verified:726833035999182898> Verified, ⚠️ Scammer, ⛔ BANNED')
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+			.setFooter('OneSearch', client.user.avatarURL());
 
 		if (!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
 

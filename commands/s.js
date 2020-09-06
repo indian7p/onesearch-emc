@@ -4,12 +4,11 @@ const dialogflow = require('@google-cloud/dialogflow');
 const config = require('../config.json');
 const fn = require('../util/fn');
 const { errorMessage, successMessage } = require('../functions/statusMessage');
-const { max } = require('moment-timezone');
 
 module.exports = {
 	name: 's',
 	description: 'Searches OneSearch',
-	execute: async (message, args, Nation, NationGroup, NationP, Result, Town, TownP) => {
+	execute: async (message, args, Nation, NationGroup, NationP, Result, Town, TownP, client) => {
 		const query = message.content.slice(args[0].length + 3).toLowerCase();
 		let embeds = [];
 
@@ -37,7 +36,7 @@ module.exports = {
 					.setColor(0x003175)
 					.addField('Question', result.intent.displayName)
 					.addField('Answer', result.fulfillmentText)
-					.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+					.setFooter('OneSearch', client.user.avatarURL());
 				embeds.unshift(dEmbed);
 			}
 		}
@@ -60,7 +59,7 @@ module.exports = {
 						.setDescription(result.desc)
 						.setURL(result.link)
 						.setThumbnail(result.imgLink)
-						.setFooter(`Page ${pageCount}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+						.setFooter(`Page ${pageCount}/${results.length} | OneSearch`, client.user.avatarURL());
 
 					embeds.push(resEmbed);
 					if (pageCount == results.length) {
@@ -82,7 +81,7 @@ module.exports = {
 				const nationp = await NationP.findOne({ name: nation.nameLower }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
 				let status = !nationp ? ':grey_question: Unknown' : !nationp.status ? ':grey_question: Unknown' : nationp.status;
-				let imgLink = !nationp ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : !nationp.imgLink ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : nationp.imgLink;
+				let imgLink = !nationp ? client.user.avatarURL() : !nationp.imgLink ? client.user.avatarURL() : nationp.imgLink;
 				let nationName = !nationp ? nation.name : status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
 				let nationLink = nationp ? nationp.link : null;
 				let nationAMNT = nationp ? nationp.amenities : null;
@@ -171,7 +170,7 @@ module.exports = {
 					.addField('Size', nationGroup.size, true)
 					.addField(`Members`, nationGroup.members, true)
 					.addField(`Nations [${nationGroup.nations.length}]`, `\`\`\`${nationGroup.nations.toString().replace(/,/g, ', ')}\`\`\``)
-					.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+					.setFooter(`OneSearch`, client.user.avatarURL());
 
 				embeds.push(ngEmbed);
 			}
@@ -180,7 +179,7 @@ module.exports = {
 				const townp = await TownP.findOne({ name: town.name }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
 				let description = !townp ? 'Information may be slightly out of date.' : townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
-				let imgLink = !townp ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : townp.imgLink == null ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : townp.imgLink;
+				let imgLink = !townp ? client.user.avatarURL() : townp.imgLink == null ? client.user.avatarURL() : townp.imgLink;
 
 				let link;
 				try {
@@ -231,7 +230,7 @@ module.exports = {
 					.addField('Owner', `\`\`\`${town.mayor}\`\`\``, true)
 					.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
 					.addField('Size', `${town.area}/${maxSize} [NationBonus: ${townNationBonus}]`, true)
-					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+					.setFooter(`OneSearch | Database last updated: ${timeUp}`, client.user.avatarURL());
 
 				if (memberList.length > 1024) {
 					let members1 = [];
@@ -273,7 +272,7 @@ module.exports = {
 					.setDescription(result.desc)
 					.setThumbnail(result.imgLink)
 					.setColor(themeColor)
-					.setFooter(`Page ${i + 1}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+					.setFooter(`Page ${i + 1}/${results.length} | OneSearch`, client.user.avatarURL());
 
 				if (result.nsfw != undefined) {
 					if (message.channel.type == 'dm') {

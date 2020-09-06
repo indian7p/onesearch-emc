@@ -7,7 +7,7 @@ const ogs = require('open-graph-scraper');
 module.exports = {
 	name: 'crawl',
 	description: 'Gets OpenGraph tags from a website and create a new result.',
-	execute(message, Result) {
+	execute(message, Result, client) {
 		if (!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
 
 		const options = { url: message.content.slice(8) };
@@ -16,7 +16,7 @@ module.exports = {
 			let query = message.content.slice(8);
 			Result.findOne({ link: query }, function(err, data) {
 				if (err) throw err;
-				let resEmbed = new Discord.MessageEmbed().setTitle(data.name).setURL(data.link).setDescription(data.desc).setThumbnail(data.imgLink).setColor(0x003175).setFooter(`Result Preview | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+				let resEmbed = new Discord.MessageEmbed().setTitle(data.name).setURL(data.link).setDescription(data.desc).setThumbnail(data.imgLink).setColor(0x003175).setFooter(`Result Preview | OneSearch`, client.user.avatarURL());
 				message.channel.send(resEmbed);
 			});
 		}

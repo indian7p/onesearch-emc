@@ -5,7 +5,7 @@ const {getPlayerCount, getMapData, getBetaMap, getClassicMap} = require('../func
 module.exports = {
   name: "queue",
   description: 'Shows current queue info',
-  execute: async (message) => {
+  execute: async (message, client) => {
     message.channel.startTyping();
     let server = await getPlayerCount();
 
@@ -42,7 +42,7 @@ module.exports = {
       .addField('Towny', `${mapData.currentcount >= 100 ? `**FULL** ${mapData.currentcount}` : mapData.currentcount}/100`, true)
       .addField('Beta', `${betaMapData.currentcount >= 60 ? `**FULL** ${betaMapData.currentcount}` : betaMapData.currentcount}/60`, true)
       .addField('Classic', `${classicMapData.currentcount >= 100 ? `**FULL** ${classicMapData.currentcount}` : classicMapData.currentcount}/100`, true)
-      .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+      .setFooter('OneSearch', client.user.avatarURL());
     
     message.channel.send(queueEmbed);
     message.channel.stopTyping();

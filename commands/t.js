@@ -9,9 +9,9 @@ const fn = require('../util/fn');
 module.exports = {
 	name: 't',
 	description: 'Searches for towns',
-	execute: (message, args, Town, Nation, TownP, PlayerP) => {
+	execute: (message, args, Town, Nation, TownP, PlayerP, client) => {
 		message.channel.startTyping();
-		const helpEmbed = new Discord.MessageEmbed().setThumbnail('https://cdn.bcow.tk/assets/neu-os-logo-circle.png').setColor(0x003175).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png')
+		const helpEmbed = new Discord.MessageEmbed().setThumbnail(client.user.avatarURL()).setColor(0x003175).setFooter('OneSearch', client.user.avatarURL())
 			.setTitle('1!t - Help')
 			.addField('1!t [town]', 'Gets town info')
 			.addField('1!t list', 'Lists all towns by residents')
@@ -53,7 +53,7 @@ module.exports = {
 							.setTitle(`Player Activity - ${town.name}`)
 							.setDescription(`\`\`\`${list}\`\`\``)
 							.setColor(0x003175)
-							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, client.user.avatarURL());
 						embeds.push(emb);
 					})
 
@@ -83,7 +83,7 @@ module.exports = {
 							.setTitle('Town List')
 							.setDescription(`\`\`\`${list}\`\`\``)
 							.setColor(0x003175)
-							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, client.user.avatarURL());
 						embeds.push(embed);
 					})
 
@@ -127,7 +127,7 @@ module.exports = {
 											.setTitle(`Players Online - ${town.name}`)
 											.setColor(0x003175)
 											.setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ', ')}\`\`\``)
-											.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+											.setFooter(`OneSearch`, client.user.avatarURL());
 										message.channel.send(embed);
 										message.channel.stopTyping();
 									}
@@ -147,9 +147,9 @@ module.exports = {
 							let imgLink;
 							if (!townp) {
 								description = 'Information may be slightly out of date.';
-								imgLink = 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png';
+								imgLink = client.user.avatarURL();
 							} else {
-								imgLink = townp.imgLink == null ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : townp.imgLink;
+								imgLink = townp.imgLink == null ? client.user.avatarURL() : townp.imgLink;
 								description = townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
 							}
 
@@ -202,7 +202,7 @@ module.exports = {
 								.addField('Owner', '```' + town.mayor + '```', true)
 								.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
 								.addField('Size', `${town.area}/${maxSize} [NationBonus: ${townNationBonus}]`, true)
-								.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+								.setFooter(`OneSearch | Database last updated: ${timeUp}`, client.user.avatarURL());
 
 							if (memberList.length > 1024) {
 								var counter = 0;

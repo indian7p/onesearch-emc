@@ -37,52 +37,52 @@ client.on('message', (message) => {
 
 	switch (args[0]) {
 		case 'crawl':
-			client.commands.get('crawl').execute(message, Result);
+			client.commands.get('crawl').execute(message, Result, client);
 			break;
 		case 'help':
-			client.commands.get('help').execute(message);
+			client.commands.get('help').execute(message, client);
 			break;
 		case 'info':
-			client.commands.get('info').execute(message);
+			client.commands.get('info').execute(message, client);
 			break;
 		case 'listaudit':
 			client.commands.get('listaudit').execute(message, Nation, NationP);
 			break;
 		case 'listplayers':
-			client.commands.get('listplayers').execute(message, Player);
+			client.commands.get('listplayers').execute(message, Player, client);
 			break;
 		case 'n':
 		case 'nation':
-			client.commands.get('n').execute(message, args, Nation, NationP, Town, PlayerP);
+			client.commands.get('n').execute(message, args, Nation, NationP, Town, PlayerP, client);
 			break;
 		case 'ng':
-			client.commands.get('ng').execute(message, args, NationGroup);
+			client.commands.get('ng').execute(message, args, NationGroup, client);
 			break;
 		case 'nonation':
-			client.commands.get('nonation').execute(message, args, Town, Nation);
+			client.commands.get('nonation').execute(message, args, Town, Nation, client);
 			break;
 		case 'notown':
-			client.commands.get('notown').execute(message, Town);
+			client.commands.get('notown').execute(message, Town, client);
 			break;
 		case 'pl':
 		case 'player':
-			client.commands.get('pl').execute(message, args, Town, Player, PlayerP);
+			client.commands.get('pl').execute(message, args, Town, Player, PlayerP, client);
 			break;
 		case 'queue':
-			client.commands.get('queue').execute(message);
+			client.commands.get('queue').execute(message, client);
 			break;
 		case 's':
 		case 'search':
-			client.commands.get('s').execute(message, args, Nation, NationGroup, NationP, Result, Town, TownP);
+			client.commands.get('s').execute(message, args, Nation, NationGroup, NationP, Result, Town, TownP, client);
 			break;
 		case 'setn':
 			client.commands.get('setn').execute(message, args, Nation, NationP);
 			break;
 		case 'setpl':
-			client.commands.get('setpl').execute(message, args, Player);
+			client.commands.get('setpl').execute(message, args, Player, client);
 			break;
 		case 'sett':
-			client.commands.get('sett').execute(message, args, Town, TownP);
+			client.commands.get('sett').execute(message, args, Town, TownP, client);
 			break;
 		case 'stats':
 			client.commands.get('stats').execute(message, client, Town, Nation, Result);
@@ -92,7 +92,7 @@ client.on('message', (message) => {
 			break;
 		case 't':
 		case 'town':
-			client.commands.get('t').execute(message, args, Town, Nation, TownP, PlayerP);
+			client.commands.get('t').execute(message, args, Town, Nation, TownP, PlayerP, client);
 			break;
 	}
 });

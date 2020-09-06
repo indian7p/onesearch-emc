@@ -8,14 +8,14 @@ const { getPlayer } = require('../functions/fetch');
 module.exports = {
 	name: 'n',
 	description: 'Searches for nations',
-	execute: async (message, args, Nation, NationP, Town, PlayerP) => {
+	execute: async (message, args, Nation, NationP, Town, PlayerP, client) => {
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!n - Help')
 			.addField('1!n [nation]', 'Gets nation info')
 			.addField('1!n list [members/area]', 'Lists all nations by residents')
 			.addField('1!n online [nation]', 'Lists all online players in a specified nation.')
 			.setColor(0x003175)
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+			.setFooter('OneSearch', client.user.avatarURL());
 
 		if (!args[1]) return message.channel.send(helpEmbed);
 
@@ -68,7 +68,7 @@ module.exports = {
 									.setTitle(`Player Activity - ${nation.name}`)
 									.setDescription(`\`\`\`${list}\`\`\``)
 									.setColor(0x003175)
-									.setFooter(`Page ${i + 1}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+									.setFooter(`Page ${i + 1}/${pages.length} | OneSearch`, client.user.avatarURL());
 								embeds.push(emb);
 							}
 
@@ -111,7 +111,7 @@ module.exports = {
 							.setTitle('Nation List')
 							.setDescription(`\`\`\`${list}\`\`\``)
 							.setColor(0x003175)
-							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, client.user.avatarURL());
 						embeds.push(embed);
 					})
 
@@ -155,7 +155,7 @@ module.exports = {
 											.setTitle(`Players Online - ${nation.name.replace(/_/g, '\_')}`)
 											.setColor(0x003175)
 											.setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ', ').replace(/_/g, '\_')}\`\`\``)
-											.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+											.setFooter(`OneSearch`, client.user.avatarURL());
 										message.channel.send(embed);
 										message.channel.stopTyping();
 									}
@@ -179,7 +179,7 @@ module.exports = {
 					if (nation != null) {
 						NationP.findOne({ name: nation.nameLower }, function (err, nationp) {
 							let status = !nationp ? ':grey_question: Unknown' : !nationp.status ? ':grey_question: Unknown' : nationp.status;
-							let imgLink = !nationp ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : !nationp.imgLink ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : nationp.imgLink;
+							let imgLink = !nationp ? client.user.avatarURL() : !nationp.imgLink ? client.user.avatarURL() : nationp.imgLink;
 							let nationName = !nationp ? nation.name : status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
 							let nationLink = nationp ? nationp.link : null;
 							let nationAMNT = nationp ? nationp.amenities : null;
@@ -240,7 +240,7 @@ module.exports = {
 								.addField('Nation Bonus', nationBonus, true)
 								.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
 								.addField('Report this nation', '[SearchSafe](https://searchsafe.bcow.tk/)', true)
-								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+								.setFooter('OneSearch', client.user.avatarURL());
 
 							if (nationAMNT == null) {
 								if (members2STR == null) {

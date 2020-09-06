@@ -7,7 +7,7 @@ const {errorMessage} = require('../functions/statusMessage');
 module.exports = {
 	name: 'pl',
 	description: 'Searches for players',
-	execute: async (message, args, Town, Player, PlayerP) => {
+	execute: async (message, args, Town, Player, PlayerP, client) => {
 		let helpEmbed = new Discord.MessageEmbed()
 			.setTitle('1!pl')
 			.setColor(0x003175)
@@ -16,7 +16,7 @@ module.exports = {
 			.addField('1!pl nhistory [player]', 'Gets players name history')
 			.addField('1!pl uuid [player]', 'Gets a players UUID')
 			.addField('1!pl online [staff/player name/UUID]', 'Shows online players. 1!pl online staff shows online staff and 1!pl online [player] checks if that user is online.')
-			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+			.setFooter('OneSearch', client.user.avatarURL());
 		if (!args[1]) return message.channel.send(helpEmbed);
 
 		switch (args[1]) {
@@ -37,7 +37,7 @@ module.exports = {
 								.setColor(0x003175)
 								.addField('Current Status', player.status)
 								.addField('Player History', '```' + player.history.toString().replace(/,/g, '\n') + '```')
-								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+								.setFooter('OneSearch', client.user.avatarURL());
 							message.channel.send(resEmbedPl);
 						})
 					});
@@ -71,7 +71,7 @@ module.exports = {
 							.setColor(0x003175)
 							.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
 							.setDescription('```' + `test\n` + namesD.toString().replace(/,/g, '\n') + '```')
-							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+							.setFooter('OneSearch', client.user.avatarURL());
 						message.channel.send(resEmbedN);
 					});
 				break;
@@ -88,7 +88,7 @@ module.exports = {
 							.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
 							.addField('UUID', data.data.player.raw_id)
 							.addField('Formatted', data.data.player.id)
-							.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+							.setFooter('OneSearch', client.user.avatarURL());
 						message.channel.send(resEmbedU);
 					})
 				break;
@@ -121,7 +121,7 @@ module.exports = {
 									.setTitle('Players Online - Staff')
 									.setColor(0x003175)
 									.setDescription(`**Players [${listLength}]**\`\`\`${playerList.toString().replace(/,/g, ', ')}\`\`\``)
-									.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+									.setFooter('OneSearch', client.user.avatarURL());
 								message.channel.send(embed);
 								break;
 							default:
@@ -134,7 +134,7 @@ module.exports = {
 										.setTitle('Players Online')
 										.setColor(0x003175)
 										.setDescription(`**Players [${playerList.length}]**\`\`\`${playerList.toString().replace(/,/g, ', ')}\`\`\``)
-										.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+										.setFooter('OneSearch', client.user.avatarURL());
 									message.channel.send(embed);
 								} else {
 									fetch(`https://playerdb.co/api/player/minecraft/${args[2]}`)
@@ -159,7 +159,7 @@ module.exports = {
 												.setTitle(playerData.data.player.username).setColor(0x003175)
 												.addField('Status', status)
 												.setThumbnail(`https://crafatar.com/avatars/${playerData.data.player.raw_id}?overlay`)
-												.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+												.setFooter('OneSearch', client.user.avatarURL());
 											message.channel.send(embed);
 										})
 								}
@@ -188,7 +188,7 @@ module.exports = {
 						.setThumbnail(data.data.player.avatar)
 						.addField('Last Online', player.lastOnline)
 						.addField('Last Location', locationString)
-						.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+						.setFooter('OneSearch', client.user.avatarURL());
 
 						message.channel.send(resEmbed);
 					})
@@ -231,7 +231,7 @@ module.exports = {
 									.setThumbnail(`https://crafatar.com/avatars/${playerData.data.player.raw_id}?overlay`)
 									.addField('Location', location)
 									.setColor(0x003175)
-									.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+									.setFooter('OneSearch', client.user.avatarURL());
 
 								message.channel.send(embed);
 							})
@@ -244,7 +244,7 @@ module.exports = {
 					.setColor(0x003175)
 					.setDescription('List inaccurate? Open a pull request or issue on [GitHub](https://github.com/imabritishcow/onesearch-emc).')
 					.addField(`Staff [${staffArray.length}]`, `\`\`\`${staffArray.toString().replace(/,/g, ', ')}\`\`\``)
-					.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+					.setFooter('OneSearch', client.user.avatarURL());
 				message.channel.send(embed);
 				break;
 			default:
@@ -279,7 +279,7 @@ module.exports = {
 								.setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
 								.setColor(emColor)
 								.addField('Status', status)
-								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+								.setFooter('OneSearch', client.user.avatarURL());
 
 							Town.findOne({ membersArr: { $in: [data.data.player.username] } }, async function (err, town) {
 								if (err) return message.channel.send(errorMessage.setDescription('An error occurred.'));

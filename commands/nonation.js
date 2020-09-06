@@ -5,7 +5,7 @@ const {errorMessage} = require('../functions/statusMessage');
 module.exports = {
 	name: 'nonation',
 	description: 'Searches for towns without nations',
-	execute(message, args, Town, Nation) {
+	execute(message, args, Town, Nation, client) {
 		message.channel.startTyping();
 		Nation.findOne({ nameLower: 'no_nation' }, function (err, nation) {
 			if (nation == null) {
@@ -50,7 +50,7 @@ module.exports = {
 						.addField('Residents', nation.residents, true)
 						.setDescription(`\`\`\`${list}\`\`\``)
 						.setColor(0x003175)
-						.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+						.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, client.user.avatarURL());
 					embeds.push(embed);
 				})
 

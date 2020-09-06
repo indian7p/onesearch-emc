@@ -5,7 +5,7 @@ const { errorMessage } = require('../functions/statusMessage');
 module.exports = {
   name: 'ng',
   description: 'Gets info about nation groups.',
-  execute: async (message, args, NationGroup) => {
+  execute: async (message, args, NationGroup, client) => {
     const query = message.content.slice(args[0].length + 3).toLowerCase();
 
     if (!args[1]) {
@@ -26,7 +26,7 @@ module.exports = {
           .addField('Size', nationGroup.size, true)
           .addField(`Members`, nationGroup.members, true)
           .addField(`Nations [${nationGroup.nations.length}]`, `\`\`\`${nationGroup.nations.toString().replace(/,/g, ', ')}\`\`\``)
-          .setFooter(`Page ${i + 1}/${nationGroups.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+          .setFooter(`Page ${i + 1}/${nationGroups.length} | OneSearch`, client.user.avatarURL());
 
         embeds.push(resEmbed);
       }
@@ -50,7 +50,7 @@ module.exports = {
           .addField('Size', nationGroup.size, true)
           .addField(`Members`, nationGroup.members, true)
           .addField(`Nations [${nationGroup.nations.length}]`, `\`\`\`${nationGroup.nations.toString().replace(/,/g, ', ')}\`\`\``)
-          .setFooter(`Page ${i + 1}/${nationGroups.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+          .setFooter(`Page ${i + 1}/${nationGroups.length} | OneSearch`, client.user.avatarURL());
 
         embeds.push(resEmbed);
       }

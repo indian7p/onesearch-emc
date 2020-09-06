@@ -3,8 +3,8 @@ const Discord = require('discord.js');
 module.exports = {
 	name: 'info',
 	description: 'Shows bot information',
-	execute(message) {
-		const helpEmbed = new Discord.MessageEmbed().setThumbnail('https://cdn.bcow.tk/assets/neu-os-logo-circle.png').setColor(0x003175).setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png')
+	execute(message, client) {
+		const helpEmbed = new Discord.MessageEmbed().setThumbnail(client.user.avatarURL()).setColor(0x003175).setFooter('OneSearch', client.user.avatarURL())
 			.setTitle('Info')
 			.setDescription('Find towns, nations, and discords with OneSearch for EarthMC. Issues? Open an issue on [GitHub](https://github.com/imabritishcow/onesearch-emc).')
 			.addField('Discord', 'https://discord.gg/mXrTXhB')
