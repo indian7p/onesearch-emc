@@ -36,7 +36,7 @@ module.exports = {
 					.setColor(0x003175)
 					.addField('Question', result.intent.displayName)
 					.addField('Answer', result.fulfillmentText)
-					.setFooter('OneSearch', client.user.avatarURL());
+					.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 				embeds.unshift(dEmbed);
 			}
 		}
@@ -59,7 +59,7 @@ module.exports = {
 						.setDescription(result.desc)
 						.setURL(result.link)
 						.setThumbnail(result.imgLink)
-						.setFooter(`Page ${pageCount}/${results.length} | OneSearch`, client.user.avatarURL());
+						.setFooter(`Page ${pageCount}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 					embeds.push(resEmbed);
 					if (pageCount == results.length) {
@@ -170,7 +170,7 @@ module.exports = {
 					.addField('Size', nationGroup.size, true)
 					.addField(`Members`, nationGroup.members, true)
 					.addField(`Nations [${nationGroup.nations.length}]`, `\`\`\`${nationGroup.nations.toString().replace(/,/g, ', ')}\`\`\``)
-					.setFooter(`OneSearch`, client.user.avatarURL());
+					.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 				embeds.push(ngEmbed);
 			}
@@ -230,7 +230,7 @@ module.exports = {
 					.addField('Owner', `\`\`\`${town.mayor}\`\`\``, true)
 					.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
 					.addField('Size', `${town.area}/${maxSize} [NationBonus: ${townNationBonus}]`, true)
-					.setFooter(`OneSearch | Database last updated: ${timeUp}`, client.user.avatarURL());
+					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 				if (memberList.length > 1024) {
 					let members1 = [];
@@ -272,7 +272,7 @@ module.exports = {
 					.setDescription(result.desc)
 					.setThumbnail(result.imgLink)
 					.setColor(themeColor)
-					.setFooter(`Page ${i + 1}/${results.length} | OneSearch`, client.user.avatarURL());
+					.setFooter(`Page ${i + 1}/${results.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 				if (result.nsfw != undefined) {
 					if (message.channel.type == 'dm') {

@@ -15,7 +15,7 @@ module.exports = {
 			.addField('1!n list [members/area]', 'Lists all nations by residents')
 			.addField('1!n online [nation]', 'Lists all online players in a specified nation.')
 			.setColor(0x003175)
-			.setFooter('OneSearch', client.user.avatarURL());
+			.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 		if (!args[1]) return message.channel.send(helpEmbed);
 
@@ -69,7 +69,7 @@ module.exports = {
 									.setTitle(`Player Activity - ${nation.name}`)
 									.setDescription(`\`\`\`${list}\`\`\``)
 									.setColor(0x003175)
-									.setFooter(`Page ${i + 1}/${pages.length} | OneSearch`, client.user.avatarURL());
+									.setFooter(`Page ${i + 1}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 								embeds.push(emb);
 							}
 
@@ -112,7 +112,7 @@ module.exports = {
 							.setTitle('Nation List')
 							.setDescription(`\`\`\`${list}\`\`\``)
 							.setColor(0x003175)
-							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, client.user.avatarURL());
+							.setFooter(`Page ${pageNum}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 						embeds.push(embed);
 					})
 
@@ -158,7 +158,7 @@ module.exports = {
 											.setTitle(`Players Online - ${nation.name.replace(/_/g, '\_')}`)
 											.setColor(0x003175)
 											.setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ', ').replace(/_/g, '\_')}\`\`\``)
-											.setFooter(`OneSearch`, client.user.avatarURL());
+											.setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 										message.channel.send(embed);
 										message.channel.stopTyping();
 									}
@@ -243,7 +243,7 @@ module.exports = {
 								.addField('Nation Bonus', nationBonus, true)
 								.addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
 								.addField('Report this nation', '[SearchSafe](https://searchsafe.bcow.tk/)', true)
-								.setFooter('OneSearch', client.user.avatarURL());
+								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
 
 							if (nationAMNT == null) {
 								if (members2STR == null) {
