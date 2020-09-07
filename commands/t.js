@@ -232,6 +232,9 @@ module.exports = {
 							}
 							message.channel.stopTyping()
 						})
+					} else {
+						message.channel.send(errorMessage.setDescription('Town not found.'));
+						message.channel.stopTyping();
 					}
 				});
 				break;
