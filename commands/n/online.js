@@ -34,7 +34,7 @@ module.exports = async (message, args) => {
     .setTitle(`Players Online - ${nation.name.replace(/_/g, '\_')}`)
     .setColor(0x003175)
     .setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ', ').replace(/_/g, '\_')}\`\`\``)
-    .setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+    .setFooter(`OneSearch`, 'https://cdn.bcow.xyz/assets/onesearch.png');
   
   message.channel.send(embed);
   message.channel.stopTyping();

@@ -10,7 +10,7 @@ module.exports = async (message, args) => {
   const nationp = await NationP.findOne({ name: nation.nameLower }).exec().catch(err => { throw err; });
 
   const status = !nationp ? ':grey_question: Unknown' : !nationp.status ? ':grey_question: Unknown' : nationp.status;
-  const imgLink = !nationp ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : !nationp.imgLink ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : nationp.imgLink;
+  const imgLink = !nationp ? 'https://cdn.bcow.xyz/assets/onesearch.png' : !nationp.imgLink ? 'https://cdn.bcow.xyz/assets/onesearch.png' : nationp.imgLink;
   const nationName = !nationp ? nation.name : status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
   const nationLink = nationp ? nationp.link : null;
   const nationAMNT = nationp ? nationp.amenities : 'Information may be slightly out of date.';
@@ -52,7 +52,7 @@ module.exports = async (message, args) => {
     .addField('Area', nation.area, true)
     .addField('Nation Bonus', nationBonus, true)
     .addField('Location', `[${location[0]}, ${location[1]}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`, true)
-    .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+    .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');
 
   const townsList = nation.townsArr.toString().replace(/,/g, ', ');
   if (townsList.length > 1024) {

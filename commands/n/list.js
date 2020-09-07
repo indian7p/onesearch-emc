@@ -25,7 +25,7 @@ module.exports = async (message, sortingOpts) => {
       .setTitle('Nation List')
       .setDescription(`\`\`\`${list}\`\`\``)
       .setColor(0x003175)
-      .setFooter(`Page ${i+1}/${pages.length} | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+      .setFooter(`Page ${i+1}/${pages.length} | OneSearch`, 'https://cdn.bcow.xyz/assets/onesearch.png');
     embeds.push(embed);
   }
 

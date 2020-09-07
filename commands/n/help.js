@@ -7,7 +7,7 @@ module.exports = (message) => {
   .addField('1!n list [members/area]', 'Lists all nations by residents')
   .addField('1!n online [nation]', 'Lists all online players in a specified nation.')
   .setColor(0x003175)
-  .setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+  .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');
 
   message.channel.send(helpEmbed);
   message.channel.stopTyping();

@@ -32,7 +32,7 @@ module.exports = async (message, args) => {
     .setTitle(`Players Online - ${town.name}`)
     .setColor(0x003175)
     .setDescription(`**Players [${onlineCount}]**\`\`\`\n${online.toString().replace(/,/g, ', ')}\`\`\``)
-    .setFooter(`OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+    .setFooter(`OneSearch`, 'https://cdn.bcow.xyz/assets/onesearch.png');
   message.channel.send(embed);
 
   message.channel.stopTyping();

@@ -24,7 +24,7 @@ module.exports = {
 								.setTitle('Townless Players')
 								.setColor(0x003175)
 								.setDescription(`**Players [${townless.length}]**\n` + '```' + townless.toString().replace(/,/g, ', ') + '```')
-								.setFooter('OneSearch', 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+								.setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');
 							message.channel.send(resEmbed);
 							message.channel.stopTyping();
 						}

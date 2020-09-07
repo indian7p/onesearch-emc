@@ -16,7 +16,7 @@ module.exports = {
 			let query = message.content.slice(8);
 			Result.findOne({ link: query }, function(err, data) {
 				if (err) throw err;
-				let resEmbed = new Discord.MessageEmbed().setTitle(data.name).setURL(data.link).setDescription(data.desc).setThumbnail(data.imgLink).setColor(0x003175).setFooter(`Result Preview | OneSearch`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+				let resEmbed = new Discord.MessageEmbed().setTitle(data.name).setURL(data.link).setDescription(data.desc).setThumbnail(data.imgLink).setColor(0x003175).setFooter(`Result Preview | OneSearch`, 'https://cdn.bcow.xyz/assets/onesearch.png');
 				message.channel.send(resEmbed);
 			});
 		}

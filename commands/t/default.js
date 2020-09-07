@@ -13,7 +13,7 @@ module.exports = async (message, args) => {
   const townp = await TownP.findOne({ name: town.name }).exec().catch(err => {return errorMessage.setDescription('An error occurred.')});
 
   const description = !townp ? 'Information may be slightly out of date.' : townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
-  const imgLink = !townp ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : townp.imgLink == null ? 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png' : townp.imgLink;
+  const imgLink = !townp ? 'https://cdn.bcow.xyz/assets/onesearch.png' : townp.imgLink == null ? 'https://cdn.bcow.xyz/assets/onesearch.png' : townp.imgLink;
   const link = !townp ? null : townp.link;
 
   const townNation = await Nation.findOne({ name: town.nation }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
@@ -59,7 +59,7 @@ module.exports = async (message, args) => {
     .addField('Owner', `\`\`\`${town.mayor}\`\`\``, true)
     .addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
     .addField('Size', `${town.area}/${maxSize} [NationBonus: ${townNationBonus}]`, true)
-    .setFooter(`OneSearch | Last updated: ${timeUp}`, 'https://cdn.bcow.tk/assets/neu-os-logo-circle.png');
+    .setFooter(`OneSearch | Last updated: ${timeUp}`, 'https://cdn.bcow.xyz/assets/onesearch.png');
 
   if (memberList.length > 1024) {
     let members1 = town.membersArr.slice(1, 50);
