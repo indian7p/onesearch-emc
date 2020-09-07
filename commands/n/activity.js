@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
 const fn = require('../../util/fn');
-const { Town, Nation } = require('../../models/models');
+const { Town, Nation, PlayerP } = require('../../models/models');
 const { errorMessage } = require('../../functions/statusMessage');
 const { paginateArray } = require('../../functions/list');
+const { getPlayer } = require('../../functions/fetch');
 
 module.exports = async (message, args) => {
   const actQuery = message.content.slice(args[0].length + args[1].length + 4).toLowerCase().replace(/ /g, '_');
@@ -10,7 +11,7 @@ module.exports = async (message, args) => {
   const nation = await Nation.findOne({ nameLower: actQuery }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
   if (!nation) return message.channel.send(errorMessage.setDescription('Nation not found.'));
 
-  const towns = Town.find({ nation: nation.name }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+  const towns = await Town.find({ nation: nation.name }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
   if (!towns) return message.channel.send(errorMessage.setDescription('Towns not found.'));
 
   let playerList = [];
@@ -18,6 +19,23 @@ module.exports = async (message, args) => {
     const town = towns[i];
 
     town.membersArr.map(member => playerList.push(member));
+  }
+
+  let list = [];
+  for (var i = 0; i < playerList.length; i++) {
+    let member = playerList[i];
+
+    let data = await getPlayer(member);
+
+    if (data.success != false) {
+      PlayerP.findOne({ uuid: data.data.player.raw_id }, function (err, player) {
+        if (err) throw err;
+
+        list.push(player == null ? `${member} - Last On: No data` : `${member} - Last On: ${player.lastOnline}`);
+      })
+    } else {
+      list.push(`${member} - Last On: No data`);
+    }
   }
 
   const pages = await paginateArray(list);
