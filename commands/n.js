@@ -29,7 +29,7 @@ module.exports = {
 				break;
 			default:
 				const defMsg = await def(message, args).catch(err => {
-					return message.channel.send(errorMessage.setDescription('Town not found or an error occurred.'));
+					return message.channel.send(errorMessage.setDescription('Nation not found or an error occurred.'));
 				});
 
 				message.channel.send(defMsg).catch(err => {});
