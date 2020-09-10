@@ -84,6 +84,9 @@ client.on('message', (message) => {
 		case 'setpl':
 			client.commands.get('setpl').execute(message, args, Player, client);
 			break;
+		case 'setprofile':
+			client.commands.get('setprofile').execute(message, args);
+			break;
 		case 'sett':
 			client.commands.get('sett').execute(message, args, Town, TownP, client);
 			break;
