@@ -52,7 +52,7 @@ module.exports = async (message, args, client) => {
     resEmbed.addField('Discord', discord, true);
   }
   if (player.youtube) {
-    resEmbed.addField('YouTube', `[YouTube](${player.youtube})`, true);
+    resEmbed.addField('<:youtube:731663574052896789> YouTube', `[YouTube](${player.youtube})`, true);
   }
   if (player.twitch) {
     resEmbed.addField('<:twitch:753645503601967194> Twitch', `[Twitch](${player.twitch})`, true);
