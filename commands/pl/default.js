@@ -54,6 +54,12 @@ module.exports = async (message, args, client) => {
   if (player.youtube) {
     resEmbed.addField('YouTube', `[YouTube](${player.youtube})`, true);
   }
+  if (player.twitch) {
+    resEmbed.addField('<:twitch:753645503601967194> Twitch', `[Twitch](${player.twitch})`, true);
+  }
+  if (player.twitter) {
+    resEmbed.addField('<:twitter:753645695579193355> Twitter', `[Twitter](${player.twitter})`, true);
+  }
   
   if (town.mayor == data.data.player.username) {
     if (town.capital == true) {

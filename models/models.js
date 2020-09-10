@@ -39,6 +39,8 @@ const PlayerPSchema = new Schema({
 	desc: String,
 	discord: String,
 	youtube: String,
+	twitch: String,
+	twitter: String,
   lastLocation: String,
 	lastOnline: String,
 	history: Array,
