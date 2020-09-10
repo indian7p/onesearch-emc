@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const staffList = require('../../staffList.json');
 const { getPlayer } = require("../../functions/fetch");
 const { PlayerP, Town } = require('../../models/models');
+const { errorMessage } = require('../../functions/statusMessage');
 
 module.exports = async (message, args, client) => {
   const data = await getPlayer(args[1]);
