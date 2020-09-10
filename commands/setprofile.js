@@ -4,6 +4,8 @@ const { errorMessage } = require('../functions/statusMessage');
 const youtube = require('./setprofile/youtube');
 const twitter = require('./setprofile/twitter');
 const twitch = require('./setprofile/twitch');
+const desc = require('./setprofile/desc');
+const unlink = require('./setprofile/unlink');
 
 module.exports = {
 	name: 'setprofile',
@@ -35,8 +37,10 @@ module.exports = {
         twitch(message, args, player);
         break;
       case 'desc':
+        desc(message, args, player);
         break;
       case 'unlink':
+        unlink(message, player);
         break;
     }
 	}
