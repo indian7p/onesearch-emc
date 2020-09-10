@@ -45,6 +45,9 @@ client.on('message', (message) => {
 		case 'info':
 			client.commands.get('info').execute(message, client);
 			break;
+		case 'link':
+			client.commands.get('link').execute(message);
+			break;
 		case 'listaudit':
 			client.commands.get('listaudit').execute(message, Nation, NationP);
 			break;
@@ -66,7 +69,7 @@ client.on('message', (message) => {
 			break;
 		case 'pl':
 		case 'player':
-			client.commands.get('pl').execute(message, args, Town, Player, PlayerP, client);
+			client.commands.get('pl').execute(message, args, client);
 			break;
 		case 'queue':
 			client.commands.get('queue').execute(message, client);
@@ -94,5 +97,31 @@ client.on('message', (message) => {
 		case 'town':
 			client.commands.get('t').execute(message, args, Town, Nation, TownP, PlayerP, client);
 			break;
+		// For converting Player to PlayerP
+		/*case 'merge':
+			Player.find({}, function (err, players) {
+				for (var i = 0; i < players.length; i++) {
+					const player = players[i];
+
+					PlayerP.findOne({uuid: player.id}, function(err, playerp) {
+						if (playerp) {
+							playerp.history = player.history;
+							playerp.status = player.status;
+							playerp.save();
+						} else {
+							const doc = new PlayerP({
+								uuid: player.id,
+								lastLocation: 'none',
+								lastOnline: 'No data.',
+								history: player.history,
+								status: player.status
+							})
+
+							doc.save();
+						}
+					})
+				}
+			})
+			break;*/
 	}
 });

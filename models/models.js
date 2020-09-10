@@ -35,9 +35,14 @@ const PlayerSchema = new Schema({
 const Player = mongoose.model('Player', PlayerSchema);
 
 const PlayerPSchema = new Schema({
-  name: String,
+	uuid: String,
+	desc: String,
+	discord: String,
+	youtube: String,
   lastLocation: String,
-  lastOnline: String
+	lastOnline: String,
+	history: Array,
+	status: String
 });
 
 const PlayerP = mongoose.model('playerp', PlayerPSchema);
@@ -107,6 +112,14 @@ const NationGroupSchema = new Schema({
 const NationGroup = mongoose.model('NationGroup', NationGroupSchema)
 NationGroup.collection.createIndex({ name: 'text' });
 
+const LinkCodeSchema = new Schema({
+	code: String,
+	id: String,
+	createdAt: { type: Date, expires: 600, default: Date.now }
+})
+
+const LinkCode = mongoose.model('LinkCode', LinkCodeSchema);
+
 module.exports = {
   Nation: Nation,
   NationP: NationP,
@@ -116,5 +129,6 @@ module.exports = {
   PlayerP: PlayerP,
   Result: Result,
 	Siege: Siege,
-	NationGroup: NationGroup
+	NationGroup: NationGroup,
+	LinkCode: LinkCode
 }
