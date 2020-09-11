@@ -29,9 +29,58 @@ module.exports = async (message, args, client) => {
     .addField('Status', status)
     .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');
 
-  if (!player) {
+  if (player) {
+    const desc = !player.desc ? ' ' : player.desc;
+
+    resEmbed.setDescription(desc);
+  
+    if (player) {
+      if (player.status.includes('Verified')) {
+        name = '<:verified:726833035999182898> ' + data.data.player.username;
+      }
+      status = player.status;
+    }
+  
+    let discord;
+    if (player.discord) {
+      client.users.fetch(player.discord).then(user => {
+        discord = `\`\@${user.username}#${user.discriminator}\``;
+      })
+    }
+  
+    const location = player.lastLocation.replace(/ /, '').split(',');
+    const locationString = location == "none" ? `Last location could not be found.` : `[${player.lastLocation}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`
+  
+    if (player.discord) {
+      resEmbed.addField('Discord', discord, true);
+    }
+    if (player.youtube) {
+      resEmbed.addField('<:youtube:731663574052896789> YouTube', `[YouTube](${player.youtube})`, true);
+    }
+    if (player.twitch) {
+      resEmbed.addField('<:twitch:753645503601967194> Twitch', `[Twitch](${player.twitch})`, true);
+    }
+    if (player.twitter) {
+      resEmbed.addField('<:twitter:753645695579193355> Twitter', `[Twitter](${player.twitter})`, true);
+    }
+    
+    if (town.mayor == data.data.player.username) {
+      if (town.capital == true) {
+        resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`);
+      } else {
+        resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`);
+      }
+    } else {
+      resEmbed.addField('Town', `${town.name} (${town.nation})`);
+    }
+  
+    resEmbed.addField('Last Online', player.lastOnline, true).addField('Last Location', locationString, true);
+  
+    message.channel.send(resEmbed);
+    message.channel.stopTyping();
+  } else {
     if (town) {
-      if (town && town.mayor == data.data.player.username) {
+      if (town.mayor == data.data.player.username) {
         if (town.capital == true) {
           resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`);
         } else {
@@ -41,56 +90,8 @@ module.exports = async (message, args, client) => {
         resEmbed.addField('Town', `${town.name} (${town.nation})`);
       }
     }
-    return message.channel.send(resEmbed);
+
+    message.channel.stopTyping();
+    message.channel.send(resEmbed);
   }
-
-  const desc = !player.desc ? ' ' : player.desc;
-
-  resEmbed.setDescription(desc);
-
-  if (player) {
-    if (player.status.includes('Verified')) {
-      name = '<:verified:726833035999182898> ' + data.data.player.username;
-    }
-    status = player.status;
-  }
-
-  const location = player.lastLocation.replace(/ /, '').split(',');
-  const locationString = location == "none" ? `Last location could not be found.` : `[${player.lastLocation}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`
-
-  let discord;
-  if (player.discord) {
-    client.users.fetch(player.discord).then(user => {
-      discord = `\`\@${user.username}#${user.discriminator}\``;
-    })
-  }
-
-  if (player.discord) {
-    resEmbed.addField('Discord', discord, true);
-  }
-  if (player.youtube) {
-    resEmbed.addField('<:youtube:731663574052896789> YouTube', `[YouTube](${player.youtube})`, true);
-  }
-  if (player.twitch) {
-    resEmbed.addField('<:twitch:753645503601967194> Twitch', `[Twitch](${player.twitch})`, true);
-  }
-  if (player.twitter) {
-    resEmbed.addField('<:twitter:753645695579193355> Twitter', `[Twitter](${player.twitter})`, true);
-  }
-  
-  if (town.mayor == data.data.player.username) {
-    if (town.capital == true) {
-      resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`);
-    } else {
-      resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`);
-    }
-  } else {
-    resEmbed.addField('Town', `${town.name} (${town.nation})`);
-  }
-
-  resEmbed.addField('Last Online', player.lastOnline, true).addField('Last Location', locationString, true);
-
-  message.channel.send(resEmbed);
-
-  message.channel.stopTyping();
 }
