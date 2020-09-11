@@ -16,16 +16,38 @@ module.exports = async (message, args, client) => {
   }
 
   const player = await PlayerP.findOne({ uuid: data.data.player.raw_id }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
-
-  let discord;
-  if (player.discord) {
-    client.users.fetch(player.discord).then(user => {
-      discord = `\`\@${user.username}#${user.discriminator}\``;
-    })
-  }
+  const town = await Town.findOne({ membersArr: { $in: [data.data.player.username] } }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
   let name = data.data.player.username;
   let status = 'This player is not on the list. Scammer? Report now at [EarthMC Scams](https://discord.gg/8V6kTxW).';
+
+  const resEmbed = new Discord.MessageEmbed()
+    .setTitle(name)
+    .setURL(`https://namemc.com/profile/${data.data.player.id}`)
+    .setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
+    .setColor(emColor)
+    .addField('Status', status)
+    .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');
+
+  if (!player) {
+    if (town) {
+      if (town && town.mayor == data.data.player.username) {
+        if (town.capital == true) {
+          resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`);
+        } else {
+          resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`);
+        }
+      } else {
+        resEmbed.addField('Town', `${town.name} (${town.nation})`);
+      }
+    }
+    return message.channel.send(resEmbed);
+  }
+
+  const desc = !player.desc ? ' ' : player.desc;
+
+  resEmbed.setDescription(desc);
+
   if (player) {
     if (player.status.includes('Verified')) {
       name = '<:verified:726833035999182898> ' + data.data.player.username;
@@ -36,18 +58,12 @@ module.exports = async (message, args, client) => {
   const location = player.lastLocation.replace(/ /, '').split(',');
   const locationString = location == "none" ? `Last location could not be found.` : `[${player.lastLocation}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`
 
-  const desc = !player.desc ? ' ' : player.desc;
-
-  const resEmbed = new Discord.MessageEmbed()
-    .setTitle(name)
-    .setDescription(desc)
-    .setURL(`https://namemc.com/profile/${data.data.player.id}`)
-    .setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
-    .setColor(emColor)
-    .addField('Status', status)
-    .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');
-
-  const town = await Town.findOne({ membersArr: { $in: [data.data.player.username] } }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+  let discord;
+  if (player.discord) {
+    client.users.fetch(player.discord).then(user => {
+      discord = `\`\@${user.username}#${user.discriminator}\``;
+    })
+  }
 
   if (player.discord) {
     resEmbed.addField('Discord', discord, true);
