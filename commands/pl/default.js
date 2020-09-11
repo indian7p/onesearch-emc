@@ -30,48 +30,48 @@ module.exports = async (message, args, client) => {
     .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');
 
   if (player) {
-    const desc = !player.desc ? ' ' : player.desc;
+    let discord;
+    if ('discord' in player) {
+      client.users.fetch(player.discord).then(user => {
+        discord = `\`\@${user.username}#${user.discriminator}\``;
+      })
+    }
 
-    resEmbed.setDescription(desc);
-  
-    if (player) {
+    resEmbed.setDescription(!player.hasOwnProperty('desc') ? ' ' : player.desc);
+
+    if (player.hasOwnProperty('status')) {
       if (player.status.includes('Verified')) {
         name = '<:verified:726833035999182898> ' + data.data.player.username;
       }
       status = player.status;
     }
-  
-    let discord;
-    if (player.discord) {
-      client.users.fetch(player.discord).then(user => {
-        discord = `\`\@${user.username}#${user.discriminator}\``;
-      })
-    }
-  
+
     const location = player.lastLocation.replace(/ /, '').split(',');
     const locationString = location == "none" ? `Last location could not be found.` : `[${player.lastLocation}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${location[0]}&y=64&z=${location[1]})`
   
-    if (player.discord) {
+    if (player.hasOwnProperty('discord')) {
       resEmbed.addField('Discord', discord, true);
     }
-    if (player.youtube) {
+    if (player.hasOwnProperty('youtube')) {
       resEmbed.addField('<:youtube:731663574052896789> YouTube', `[YouTube](${player.youtube})`, true);
     }
-    if (player.twitch) {
+    if (player.hasOwnProperty('twitch')) {
       resEmbed.addField('<:twitch:753645503601967194> Twitch', `[Twitch](${player.twitch})`, true);
     }
-    if (player.twitter) {
+    if (player.hasOwnProperty('twitter')) {
       resEmbed.addField('<:twitter:753645695579193355> Twitter', `[Twitter](${player.twitter})`, true);
     }
     
-    if (town.mayor == data.data.player.username) {
-      if (town.capital == true) {
-        resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`);
+    if (town) {
+      if (town.mayor == data.data.player.username) {
+        if (town.capital == true) {
+          resEmbed.addField('Town', `${town.name} (${town.nation}) (Nation Leader)`);
+        } else {
+          resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`);
+        }
       } else {
-        resEmbed.addField('Town', `${town.name} (${town.nation}) (Mayor)`);
+        resEmbed.addField('Town', `${town.name} (${town.nation})`);
       }
-    } else {
-      resEmbed.addField('Town', `${town.name} (${town.nation})`);
     }
   
     resEmbed.addField('Last Online', player.lastOnline, true).addField('Last Location', locationString, true);
