@@ -1,9 +1,9 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkCode = exports.NationGroup = exports.TownP = exports.Town = exports.Siege = exports.Result = exports.PlayerP = exports.Player = exports.NationP = exports.Nation = void 0;
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-var NationSchema = new Schema({
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const NationSchema = new Schema({
     name: String,
     nameLower: String,
     color: String,
@@ -16,7 +16,7 @@ var NationSchema = new Schema({
     location: String
 });
 exports.Nation = mongoose.model('Nation', NationSchema);
-var NationPSchema = new Schema({
+const NationPSchema = new Schema({
     name: String,
     link: String,
     imgLink: String,
@@ -24,13 +24,13 @@ var NationPSchema = new Schema({
     status: String
 });
 exports.NationP = mongoose.model('NationP', NationPSchema);
-var PlayerSchema = new Schema({
+const PlayerSchema = new Schema({
     id: String,
     history: Array,
     status: String
 });
 exports.Player = mongoose.model('Player', PlayerSchema);
-var PlayerPSchema = new Schema({
+const PlayerPSchema = new Schema({
     uuid: String,
     desc: String,
     discord: String,
@@ -43,7 +43,7 @@ var PlayerPSchema = new Schema({
     status: String
 });
 exports.PlayerP = mongoose.model('playerp', PlayerPSchema);
-var ResultSchema = new Schema({
+const ResultSchema = new Schema({
     desc: String,
     keywords: String,
     link: String,
@@ -55,14 +55,14 @@ var ResultSchema = new Schema({
 });
 exports.Result = mongoose.model('Result', ResultSchema);
 exports.Result.collection.createIndex({ name: 'text', keywords: 'text' });
-var SiegeSchema = new Schema({
+const SiegeSchema = new Schema({
     town: String,
     x: String,
     z: String,
     attacker: String
 });
 exports.Siege = mongoose.model('Siege', SiegeSchema);
-var TownSchema = new Schema({
+const TownSchema = new Schema({
     name: String,
     nameLower: String,
     nation: String,
@@ -75,10 +75,10 @@ var TownSchema = new Schema({
     x: String,
     z: String,
     capital: Boolean,
-    time: { type: Date, "default": Date.now }
+    time: { type: Date, default: Date.now }
 });
 exports.Town = mongoose.model('Town', TownSchema);
-var TownPSchema = new Schema({
+const TownPSchema = new Schema({
     name: String,
     imgLink: String,
     desc: String,
@@ -86,7 +86,7 @@ var TownPSchema = new Schema({
     link: String
 });
 exports.TownP = mongoose.model('TownP', TownPSchema);
-var NationGroupSchema = new Schema({
+const NationGroupSchema = new Schema({
     name: String,
     leader: String,
     size: Number,
@@ -98,9 +98,10 @@ var NationGroupSchema = new Schema({
 });
 exports.NationGroup = mongoose.model('NationGroup', NationGroupSchema);
 exports.NationGroup.collection.createIndex({ name: 'text' });
-var LinkCodeSchema = new Schema({
+const LinkCodeSchema = new Schema({
     code: String,
     id: String,
-    createdAt: { type: Date, expires: 600, "default": Date.now }
+    createdAt: { type: Date, expires: 600, default: Date.now }
 });
 exports.LinkCode = mongoose.model('LinkCode', LinkCodeSchema);
+//# sourceMappingURL=models.js.map

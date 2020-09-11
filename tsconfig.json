@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["es6", "es2017"],
+    "moduleResolution": "node",
+    "pretty": true,
+    "sourceMap": true,
+    "target": "es6",
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+  },
+  "include": [
+    "app.ts",
+    "util/*.ts",
+    "models/*.ts",
+    "functions/*.ts",
+    "commands/*.ts",
+    "commands/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
