@@ -20,7 +20,6 @@ const NationPSchema = new Schema({
 	name: String,
 	link: String,
 	imgLink: String,
-	amenities: String,
 	status: String
 });
 

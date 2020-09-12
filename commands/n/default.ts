@@ -13,7 +13,6 @@ export default async (message, args) => {
   const imgLink = !nationp ? 'https://cdn.bcow.xyz/assets/onesearch.png' : !nationp.imgLink ? 'https://cdn.bcow.xyz/assets/onesearch.png' : nationp.imgLink;
   const nationName = !nationp ? nation.name : status == '<:verified:726833035999182898> Verified' ? `<:verified:726833035999182898> ${nation.name.replace(/_/g, '\_')}` : nation.name.replace(/_/g, '\_');
   const nationLink = nationp ? nationp.link : null;
-  const nationAMNT = nationp ? nationp.amenities : 'Information may be slightly out of date.';
   const location = nation.location.split(',');
 
   const val = nation.residents;
@@ -41,7 +40,6 @@ export default async (message, args) => {
 
   const resEmbedN = new Discord.MessageEmbed()
     .setTitle(nationName.replace(/_/g, '\_'))
-    .setDescription(nationAMNT)
     .setURL(nationLink)
     .setColor(nation.color)
     .setThumbnail(imgLink)
