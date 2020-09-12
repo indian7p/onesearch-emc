@@ -30,7 +30,7 @@ export default {
 				break;
 			default:
 				const defMsg = await def(message, args).catch(err => {
-					message.channel.send(errorMessage.setDescription('Nation not found.'));
+					message.channel.send(errorMessage.setDescription('Town not found.'));
 					message.channel.stopTyping();
 				});
 
