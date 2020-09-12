@@ -4,11 +4,12 @@ import img from './sett/img';
 import status from './setpl/status';
 import * as config from '../config.json';
 import { errorMessage } from '../functions/statusMessage';
+import { Nation, NationP } from '../models/models';
 
 export default {
 	name: 'setn',
 	description: 'Sets nation information',
-	execute: async (message, args, Nation, NationP) => {
+	execute: async (message, args) => {
 		if (!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
 
 		if (!args[2]) return message.channel.send(errorMessage.setDescription('Missing username or UUID. Command usage: 1!setn [type] [nation] <- Missing [value]'));

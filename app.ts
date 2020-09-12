@@ -2,7 +2,6 @@ import * as Discord from 'discord.js';
 import * as mongoose from 'mongoose';
 import * as fs from 'fs';
 import * as config from './config.json';
-import { Nation, NationP, Town, TownP, Player, PlayerP, Result, Siege, NationGroup } from './models/models';
 const client = new Discord.Client();
 
 mongoose.connect(config.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
@@ -36,55 +35,55 @@ client.on('message', (message) => {
 
 	switch (args[0]) {
 		case 'crawl':
-			commands['crawl'].execute(message, Result, client);
+			commands['crawl'].execute(message);
 			break;
 		case 'help':
-			commands['help'].execute(message, client);
+			commands['help'].execute(message);
 			break;
 		case 'info':
-			commands['info'].execute(message, client);
+			commands['info'].execute(message);
 			break;
 		case 'link':
 			commands['link'].execute(message);
 			break;
 		case 'listaudit':
-			commands['listaudit'].execute(message, Nation, NationP);
+			commands['listaudit'].execute(message);
 			break;
 		case 'n':
 		case 'nation':
-			commands['n'].execute(message, args, Nation, NationP, Town, PlayerP, client);
+			commands['n'].execute(message, args);
 			break;
 		case 'ng':
-			commands['ng'].execute(message, args, NationGroup, client);
+			commands['ng'].execute(message, args);
 			break;
 		case 'nonation':
-			commands['nonation'].execute(message, args, Town, Nation, client);
+			commands['nonation'].execute(message, args);
 			break;
 		case 'notown':
-			commands['notown'].execute(message, Town, client);
+			commands['notown'].execute(message);
 			break;
 		case 'pl':
 		case 'player':
 			commands['pl'].execute(message, args, client);
 			break;
 		case 'queue':
-			commands['queue'].execute(message, client);
+			commands['queue'].execute(message);
 			break;
 		case 's':
 		case 'search':
-			commands['s'].execute(message, args, Nation, NationGroup, NationP, Result, Town, TownP, client);
+			commands['s'].execute(message, args);
 			break;
 		case 'setn':
-			commands['setn'].execute(message, args, Nation, NationP);
+			commands['setn'].execute(message, args);
 			break;
 		case 'setpl':
-			commands['setpl'].execute(message, args, Player, client);
+			commands['setpl'].execute(message, args);
 			break;
 		case 'setprofile':
 			commands['setprofile'].execute(message, args);
 			break;
 		case 'sett':
-			commands['sett'].execute(message, args, Town, TownP, client);
+			commands['sett'].execute(message, args);
 			break;
 		case 'stats':
 			commands['stats'].execute(message, client);
@@ -94,33 +93,7 @@ client.on('message', (message) => {
 			break;
 		case 't':
 		case 'town':
-			commands['t'].execute(message, args, Town, Nation, TownP, PlayerP, client);
+			commands['t'].execute(message, args);
 			break;
-		// For converting Player to PlayerP
-		/*case 'merge':
-			Player.find({}, function (err, players) {
-				for (var i = 0; i < players.length; i++) {
-					const player = players[i];
-
-					PlayerP.findOne({uuid: player.id}, function(err, playerp) {
-						if (playerp) {
-							playerp.history = player.history;
-							playerp.status = player.status;
-							playerp.save();
-						} else {
-							const doc = new PlayerP({
-								uuid: player.id,
-								lastLocation: 'none',
-								lastOnline: 'No data.',
-								history: player.history,
-								status: player.status
-							})
-
-							doc.save();
-						}
-					})
-				}
-			})
-			break;*/
 	}
 });

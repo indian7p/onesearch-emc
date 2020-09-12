@@ -1,12 +1,10 @@
 import * as Discord from 'discord.js';
+import * as config from'../config.json';
 import { getPlayer } from '../functions/fetch';
+import { errorMessage } from '../functions/statusMessage';
 import { Player } from '../models/models';
 import historyevent from './setpl/historyevent';
 import status from './setpl/status';
-const fetch = require('node-fetch');
-const moment = require('moment-timezone');
-const config = require('../config.json');
-const { errorMessage, successMessage } = require('../functions/statusMessage');
 
 export default {
 	name: 'setpl',

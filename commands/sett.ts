@@ -1,7 +1,7 @@
 import * as Discord from 'discord.js';
 import * as config from '../config.json';
-import { Town, TownP, NationP } from '../models/models';
-import { errorMessage, successMessage } from '../functions/statusMessage';
+import { Town, TownP } from '../models/models';
+import { errorMessage } from '../functions/statusMessage';
 import img from './sett/img';
 import rating from './sett/rating';
 import link from './sett/link';

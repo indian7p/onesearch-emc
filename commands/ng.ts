@@ -1,11 +1,12 @@
 import * as Discord from 'discord.js';
 import { errorMessage } from '../functions/statusMessage';
 import { paginator } from '../functions/paginator';
+import { NationGroup } from '../models/models';
 
 export default {
   name: 'ng',
   description: 'Gets info about nation groups.',
-  execute: async (message, args, NationGroup, client) => {
+  execute: async (message, args) => {
     const query = message.content.slice(args[0].length + 3).toLowerCase();
 
     if (!args[1]) {
