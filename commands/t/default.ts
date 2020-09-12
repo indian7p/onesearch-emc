@@ -9,7 +9,7 @@ export default async (message, args) => {
 
   const town = await Town.findOne({ nameLower: query }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
-  if (!town) return errorMessage.setDescription('Town not found. The database may be updating, try again later.');
+  if (!town) throw 'Nation not found.';
 
   const townNation = await Nation.findOne({ name: town.nation }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
   const townNationBonus = await calculateNationBonus(townNation);

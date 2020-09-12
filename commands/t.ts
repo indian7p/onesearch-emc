@@ -2,6 +2,7 @@ import online from './t/online';
 import activity from './t/activity';
 import def from './t/default';
 import list from './t/list';
+import { errorMessage } from '../functions/statusMessage';
 
 export default {
 	name: 't',
@@ -28,7 +29,10 @@ export default {
 				online(message, args);
 				break;
 			default:
-				const defMsg = await def(message, args);
+				const defMsg = await def(message, args).catch(err => {
+					message.channel.send(errorMessage.setDescription('Nation not found.'));
+					message.channel.stopTyping();
+				});
 
 				message.channel.send(defMsg);
 				message.channel.stopTyping();
