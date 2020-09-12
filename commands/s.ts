@@ -1,11 +1,11 @@
 import * as Discord from 'discord.js';
-import * as moment from 'moment-timezone';
 import dialogflow from '@google-cloud/dialogflow';
 import * as config from '../config.json';
-import { Nation, NationGroup, NationP, Result, Town, TownP } from '../models/models';
+import { NationGroup, Result, Town } from '../models/models';
 import { paginator } from '../functions/paginator';
 import { errorMessage, successMessage } from '../functions/statusMessage';
-import def from './n/default';
+import nation from './n/default';
+import town from './t/default';
 
 export default {
 	name: 's',
@@ -72,11 +72,13 @@ export default {
 			let NSFWcount = 0;
 
 			const nationGroup = await NationGroup.findOne({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
-			const town = await Town.findOne({ nameLower: nationQuery }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 			const results = await Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
-			const nationEmbed = await def(message, args).catch(err => {});
+			const nationEmbed = await nation(message, args).catch(err => {});
 			if (nationEmbed) embeds.push(nationEmbed);
+			
+			const townEmbed = await town(message, args).catch(err => {});
+			if (townEmbed) embeds.push(townEmbed);
 
 			if (nationGroup) {
 				let ngEmbed = new Discord.MessageEmbed()
@@ -92,92 +94,6 @@ export default {
 					.setFooter(`OneSearch`, 'https://cdn.bcow.xyz/assets/onesearch.png');
 
 				embeds.push(ngEmbed);
-			}
-
-			if (town) {
-				const townp = await TownP.findOne({ name: town.name }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
-
-				let description = !townp ? 'Information may be slightly out of date.' : townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
-				let imgLink = !townp ? 'https://cdn.bcow.xyz/assets/onesearch.png' : townp.imgLink == null ? 'https://cdn.bcow.xyz/assets/onesearch.png' : townp.imgLink;
-
-				let link;
-				try {
-					link = townp.link;
-				} catch {
-					link = null
-				}
-
-				const townNation = await Nation.findOne({ name: town.nation }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
-
-				let townNationBonus;
-				if (townNation) {
-					const val = townNation.residents;
-					switch (true) {
-						case (val > 0 && val < 9):
-							townNationBonus = 10;
-							break;
-						case (val > 10 && val < 19):
-							townNationBonus = 20;
-							break;
-						case (val > 20 && val < 29):
-							townNationBonus = 40;
-							break;
-						case (val > 30 && val < 39):
-							townNationBonus = 60;
-							break;
-						case (val > 40 && val < 49):
-							townNationBonus = 100;
-							break;
-						case (val > 50):
-							townNationBonus = 140;
-							break;
-					}
-				} else {
-					townNationBonus = 0;
-				}
-
-				let tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
-				let color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
-				let timeUp = moment(town.time).tz('America/New_York').format('MMMM D, YYYY h:mm A z');
-				let memberList = `\`\`\`${town.members}\`\`\``;
-				let maxSize = town.membersArr.length * 8 > 800 ? 800 + townNationBonus : town.membersArr.length * 8 + townNationBonus;
-				let resEmbed = new Discord.MessageEmbed()
-					.setTitle(tName)
-					.setDescription(description)
-					.setColor(color)
-					.setThumbnail(imgLink)
-					.addField('Owner', `\`\`\`${town.mayor}\`\`\``, true)
-					.addField('Location', `[${town.x}, ${town.z}](https://earthmc.net/map/?worldname=earth&mapname=flat&zoom=6&x=${town.x}&y=64&z=${town.z})`, true)
-					.addField('Size', `${town.area}/${maxSize} [NationBonus: ${townNationBonus}]`, true)
-					.setFooter(`OneSearch | Database last updated: ${timeUp}`, 'https://cdn.bcow.xyz/assets/onesearch.png');
-
-				if (memberList.length > 1024) {
-					let members1 = [];
-					let members2 = [];
-					for (var i = 0, len = town.membersArr.length; i < len; i++) {
-						const member = town.membersArr[i];
-
-						if (i + 1 <= 50) {
-							members1.push(member);
-						} else {
-							members2.push(member);
-						}
-					};
-
-					let members1str = `\`\`\`${members1.toString().replace(/,/g, ', ')}\`\`\``;
-					let members2str = `\`\`\`${members2.toString().replace(/,/g, ', ')}\`\`\``;
-					if (!link) {
-						embeds.push(resEmbed.addField(`Members [1-50]`, members1str).addField(`Members [51-${town.membersArr.length}]`, members2str));
-					} else {
-						embeds.push(resEmbed.addField(`Members [1-50]`, members1str).addField(`Members [51-${town.membersArr.length}]`, members2str).setURL(link));
-					}
-				} else {
-					if (!link) {
-						embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList));
-					} else {
-						embeds.push(resEmbed.addField(`Members [${town.membersArr.length}]`, memberList).setURL(link));
-					}
-				}
 			}
 
 			for (var i = 0, len = results.length; i < len; i++) {
