@@ -1,0 +1,25 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!setn",
+    "description": "Using `null` as the value will clear that type.",
+    "fields": [
+      {
+        "name": "1!setn img",
+        "value": "Sets a nation's image."
+      },
+      {
+        "name": "1!setn link",
+        "value": "Sets a nation's link."
+      },
+      {
+        "name": "1!setn status",
+        "value": "Sets a nation's safety status."
+      }
+    ],
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}
