@@ -37,13 +37,13 @@ export default {
 		if (!meta['og:image']) message.channel.send(errorMessage.setDescription('Missing og:image tag.'));
 
 		if (meta['og:site_name'] && meta['og:site_name'].includes('YouTube')) {
-			const result = search(meta['og:title'], { maxResults: 1, key: config.YT_API_KEY }).catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+			const result = await search(meta['og:title'], { maxResults: 1, key: config.YT_API_KEY }).catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
 			let newResult = new Result({
-				name: `${meta['og:title']} - ${result[0].channelTitle} - ${meta['og:site_name']}`,
+				name: `${meta['og:title']} - ${result.results[0].channelTitle} - ${meta['og:site_name']}`,
 				desc: meta['og:description'],
 				themeColor: 'ff0000',
-				imgLink: result[0].thumbnails.medium.url,
+				imgLink: result.results[0].thumbnails.medium.url,
 				link: message.content.slice(8)
 			});
 
