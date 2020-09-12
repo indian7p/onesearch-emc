@@ -1,13 +1,15 @@
 import * as Discord from 'discord.js';
-const { Nation, NationP } = require('../../models/models');
+import calculateNationBonus from '../../functions/calculateNationBonus';
+import { Nation, NationP } from '../../models/models';
+import { errorMessage } from '../../functions/statusMessage';
 
 export default async (message, args) => {
   let query = message.content.slice(args[0].length + 3).toLowerCase().replace(/ /g, '_');
 
-  const nation = await Nation.findOne({ nameLower: query }).exec().catch(err => { throw err; });
+  const nation = await Nation.findOne({ nameLower: query }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
   if (!nation) throw 'Nation not found.';
 
-  const nationp = await NationP.findOne({ name: nation.nameLower }).exec().catch(err => { throw err; });
+  const nationp = await NationP.findOne({ name: nation.nameLower }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
   const status = !nationp ? ':grey_question: Unknown' : !nationp.status ? ':grey_question: Unknown' : nationp.status;
   const imgLink = !nationp ? 'https://cdn.bcow.xyz/assets/onesearch.png' : !nationp.imgLink ? 'https://cdn.bcow.xyz/assets/onesearch.png' : nationp.imgLink;
@@ -15,28 +17,7 @@ export default async (message, args) => {
   const nationLink = nationp ? nationp.link : null;
   const location = nation.location.split(',');
 
-  const val = nation.residents;
-  let nationBonus;
-  switch (true) {
-    case (val >= 0 && val <= 9):
-      nationBonus = 10;
-      break;
-    case (val >= 10 && val <= 19):
-      nationBonus = 20;
-      break;
-    case (val >= 20 && val <= 29):
-      nationBonus = 40;
-      break;
-    case (val >= 30 && val <= 39):
-      nationBonus = 60;
-      break;
-    case (val >= 40 && val <= 49):
-      nationBonus = 100;
-      break;
-    case (val >= 50):
-      nationBonus = 140;
-      break;
-  }
+  const nationBonus = await calculateNationBonus(nation);
 
   const resEmbedN = new Discord.MessageEmbed()
     .setTitle(nationName.replace(/_/g, '\_'))

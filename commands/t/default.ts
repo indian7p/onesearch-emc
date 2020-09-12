@@ -2,6 +2,7 @@ import * as Discord from 'discord.js';
 import * as moment from 'moment-timezone';
 import { Town, TownP, Nation } from '../../models/models';
 import { errorMessage } from '../../functions/statusMessage';
+import calculateNationBonus from '../../functions/calculateNationBonus';
 
 export default async (message, args) => {
   const query = args[0] == 'town' ? message.content.slice(7).toLowerCase().replace(/ /g, '_') : message.content.slice(4).toLowerCase().replace(/ /g, '_');
@@ -10,40 +11,14 @@ export default async (message, args) => {
 
   if (!town) return errorMessage.setDescription('Town not found. The database may be updating, try again later.');
 
+  const townNation = await Nation.findOne({ name: town.nation }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+  const townNationBonus = await calculateNationBonus(townNation);
+
   const townp = await TownP.findOne({ name: town.name }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
   const description = !townp ? 'Information may be slightly out of date.' : townp.scrating == null ? 'Information may be slightly out of date.' : `**[Shootcity Rating: ${townp.scrating}]** Information may be slightly out of date.`;
   const imgLink = !townp ? 'https://cdn.bcow.xyz/assets/onesearch.png' : townp.imgLink == null ? 'https://cdn.bcow.xyz/assets/onesearch.png' : townp.imgLink;
   const link = !townp ? null : townp.link;
-
-  const townNation = await Nation.findOne({ name: town.nation }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
-
-  let townNationBonus;
-  if (townNation) {
-    const val = townNation.residents;
-    switch (true) {
-      case (val > 0 && val < 9):
-        townNationBonus = 10;
-        break;
-      case (val > 10 && val < 19):
-        townNationBonus = 20;
-        break;
-      case (val > 20 && val < 29):
-        townNationBonus = 40;
-        break;
-      case (val > 30 && val < 39):
-        townNationBonus = 60;
-        break;
-      case (val > 40 && val < 49):
-        townNationBonus = 100;
-        break;
-      case (val > 50):
-        townNationBonus = 140;
-        break;
-    }
-  } else {
-    townNationBonus = 0;
-  }
 
   const tName = town.capital == true ? `:star: ${town.name} (${town.nation})` : `${town.name} (${town.nation})`;
   const color = town.nation == 'No Nation' ? 0x69a841 : town.color == '#000000' ? 0x010101 : town.color == '#FFFFFF' ? 0xfefefe : town.color;
