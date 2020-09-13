@@ -1,0 +1,33 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!setprofile",
+    "description": "These commands require you to have your Minecraft linked to Discord using `1!link`. Using `null` as the value will clear that type.",
+    "fields": [
+      {
+        "name": "1!setprofile desc",
+        "value": "Sets your profile description."
+      },
+      {
+        "name": "1!setprofile twitch",
+        "value": "Sets your Twitch."
+      },
+      {
+        "name": "1!setprofile twitter",
+        "value": "Sets your Twitter."
+      },
+      {
+        "name": "1!setprofile youtube",
+        "value": "Sets your YouTube channel."
+      },
+      {
+        "name": "1!setprofile unlink",
+        "value": "Unlinks your Minecraft and Discord and removes profile information."
+      }
+    ],
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

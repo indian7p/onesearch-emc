@@ -12,9 +12,8 @@ export default {
 	execute: async (message, args) => {
 		if (!config.BOT_ADMINS.includes(message.author.id)) return message.channel.send(errorMessage.setDescription('You do not have permission to use this command.'));
 
-		if (!args[1]) return message.channel.send(help)
-		if (!args[2]) return message.channel.send(errorMessage.setDescription('Missing username or UUID. Command usage: 1!setn [type] [nation] <- Missing [value]'));
-		if (!args[3]) return message.channel.send(errorMessage.setDescription('Missing value, use null to delete. Command usage: 1!setn [type] [nation] [value] <- Missing'));
+		if (!args[2]) return message.channel.send(errorMessage.setDescription('Missing nation name. Command usage: 1!setn [type] [nation] <- Missing [value]'));
+		if (!args[3]) return message.channel.send(errorMessage.setDescription('Missing value, use `null` to delete. Command usage: 1!setn [type] [nation] [value] <- Missing'));
 
 		let query = args[2].toLowerCase();
 
@@ -32,6 +31,9 @@ export default {
 				break;
 			case 'status':
 				status(message, args, nation, nationp);
+				break;
+			default:
+				message.channel.send(help);
 				break;
 		}
 	}

@@ -1,0 +1,21 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!setpl",
+    "description": "Using `null` as the value will clear that type.",
+    "fields": [
+      {
+        "name": "1!setpl historyevent",
+        "value": "Adds an item a player's status history."
+      },
+      {
+        "name": "1!setpl status",
+        "value": "Sets a player's status. Common statuses: <:verified:726833035999182898> Verified, ⚠️ Scammer, ⛔ BANNED."
+      }
+    ],
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}
