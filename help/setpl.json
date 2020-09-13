@@ -5,11 +5,11 @@
     "description": "Using `null` as the value will clear that type.",
     "fields": [
       {
-        "name": "1!setpl historyevent",
+        "name": "1!setpl historyevent [player] [event]",
         "value": "Adds an item a player's status history."
       },
       {
-        "name": "1!setpl status",
+        "name": "1!setpl status [player] [status]",
         "value": "Sets a player's status. Common statuses: <:verified:726833035999182898> Verified, ⚠️ Scammer, ⛔ BANNED."
       }
     ],

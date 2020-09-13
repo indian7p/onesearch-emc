@@ -5,11 +5,11 @@
     "description": "Using `null` as the value will clear that type.",
     "fields": [
       {
-        "name": "1!sett img",
+        "name": "1!sett img [town] [link]",
         "value": "Sets a town's image."
       },
       {
-        "name": "1!sett link",
+        "name": "1!sett link [town] [link]",
         "value": "Sets a nation's link."
       }
     ],

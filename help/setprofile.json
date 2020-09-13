@@ -5,19 +5,19 @@
     "description": "These commands require you to have your Minecraft linked to Discord using `1!link`. Using `null` as the value will clear that type.",
     "fields": [
       {
-        "name": "1!setprofile desc",
+        "name": "1!setprofile desc [description]",
         "value": "Sets your profile description."
       },
       {
-        "name": "1!setprofile twitch",
+        "name": "1!setprofile twitch [twitch url]",
         "value": "Sets your Twitch."
       },
       {
-        "name": "1!setprofile twitter",
+        "name": "1!setprofile twitter [twitter url]",
         "value": "Sets your Twitter."
       },
       {
-        "name": "1!setprofile youtube",
+        "name": "1!setprofile youtube [youtube channel url]",
         "value": "Sets your YouTube channel."
       },
       {
