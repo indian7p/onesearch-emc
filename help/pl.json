@@ -1,0 +1,53 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!pl",
+    "description": "Commands related to players.",
+    "fields": [
+      {
+        "name": "Aliases",
+        "value": "1!player"
+      },
+      {
+        "name": "1!pl [username|uuid]",
+        "value": "Shows information about a player."
+      },
+      {
+        "name": "1!pl activity [username|uuid]",
+        "value": "Shows when a player was last on and where their last location was."
+      },
+      {
+        "name": "1!pl chistory [username|uuid]",
+        "value": "Lists why a player's status was changed and when."
+      },
+      {
+        "name": "1!pl location [username|uuid]",
+        "value": "Shows where a player is if they are visible on the map."
+      },
+      {
+        "name": "1!pl nhistory [username|uuid]",
+        "value": "Lists a player's previous names."
+      },
+      {
+        "name": "1!pl online",
+        "value": "Lists all players online."
+      },
+      {
+        "name": "1!pl online [username|uuid]",
+        "value": "Shows if the specified player is online."
+      },
+      {
+        "name": "1!pl online staff",
+        "value": "Lists all staff online."
+      },
+      {
+        "name": "1!pl uuid [username]",
+        "value": "Gets a player's UUID."
+      }
+    ],
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

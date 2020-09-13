@@ -1,0 +1,11 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!stats",
+    "description": "Shows bot and EarthMC statistics such as, the amount of towns or the amount of servers the bot is in.",
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

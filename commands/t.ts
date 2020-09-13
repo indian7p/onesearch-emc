@@ -1,3 +1,4 @@
+import * as help from '../help/t.json';
 import online from './t/online';
 import activity from './t/activity';
 import def from './t/default';
@@ -11,6 +12,10 @@ export default {
 		message.channel.startTyping();
 
 		switch (args[1]) {
+			case undefined:
+				message.channel.send(help);
+				message.channel.stopTyping();
+				break;
 			case 'activity':
 				activity(message, args);
 				break;
@@ -40,4 +45,3 @@ export default {
 		}
 	}
 };
-

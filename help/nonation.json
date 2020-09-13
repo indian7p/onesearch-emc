@@ -1,0 +1,11 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!nonation",
+    "description": "Shows towns that are not in a nation.",
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

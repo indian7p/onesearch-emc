@@ -1,0 +1,11 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!queue",
+    "description": "Shows the current queue.",
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

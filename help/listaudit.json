@@ -1,0 +1,11 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!listaudit",
+    "description": "Checks for nations which do not have a status.",
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!link",
+    "description": "Gives instructions to link Minecraft to Discord and generates a link code.",
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

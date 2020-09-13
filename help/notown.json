@@ -1,0 +1,17 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!notown",
+    "description": "Shows players that are not in a town.",
+    "fields": [
+      {
+        "name": "Aliases",
+        "value": "1!townless"
+      }
+    ],
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

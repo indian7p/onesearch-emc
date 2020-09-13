@@ -1,0 +1,33 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!t",
+    "description": "Commands related to towns.",
+    "fields": [
+      {
+        "name": "Aliases",
+        "value": "1!town"
+      },
+      {
+        "name": "1!t [town]",
+        "value": "Shows town information."
+      },
+      {
+        "name": "1!t activity [town]",
+        "value": "Shows when players in a town were last online."
+      },
+      {
+        "name": "1!t list [members|area]",
+        "value": "Lists towns based on members or area."
+      },
+      {
+        "name": "1!t online [town]",
+        "value": "Shows players in."
+      }
+    ],
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

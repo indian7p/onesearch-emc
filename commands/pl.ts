@@ -1,3 +1,4 @@
+import * as help from '../help/pl.json';
 import activity from './pl/activity';
 import chistory from './pl/chistory';
 import location from './pl/location';
@@ -12,6 +13,9 @@ export default {
 	description: 'Searches for players',
 	execute: async (message, args, client) => {
 		switch (args[1]) {
+			case undefined:
+				message.channel.send(help);
+				break;
 			case 'chistory':
 				chistory(message, args);
 				break;
