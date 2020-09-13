@@ -2,17 +2,14 @@ import * as Discord from 'discord.js';
 import { getMapData, getPlayer } from "../../functions/fetch";
 import { errorMessage } from "../../functions/statusMessage";
 import * as staffList from '../../staffList.json';
+import * as _ from 'highland';
 
 export default async (message, args) => {
   message.channel.startTyping();
   const data = await getMapData();
 
-  let playersOnline = [];
-  for (var i = 0; i < data.players.length; i++) {
-    const player = data.players[i];
-    
-    playersOnline.push(player.account);
-  }
+  let playersOnline = data.players.map(player => player.account);
+
   switch (args[2]) {
     case 'staff':
       let playerList = playersOnline.filter((player) => {
