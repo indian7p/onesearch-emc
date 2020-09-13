@@ -12,13 +12,8 @@ export default {
     const nations = await Nation.find({}).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
     const results = await Result.find({}).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
 
-    let resCount = [];
-    for (var i = 0; i < towns.length; i++) {
-      const town = towns[i];
-
-      resCount.push(town.membersArr.length);
-    }
-
+    let resCount = towns.map(town => town.membersArr.length);
+    
     const statsEmbed = new Discord.MessageEmbed()
       .setTitle('Stats')
       .setThumbnail('https://cdn.bcow.xyz/assets/onesearch.png')
