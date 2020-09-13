@@ -2,7 +2,6 @@ import * as Discord from 'discord.js';
 import { getMapData, getPlayer } from "../../functions/fetch";
 import { errorMessage } from "../../functions/statusMessage";
 import * as staffList from '../../staffList.json';
-import * as _ from 'highland';
 
 export default async (message, args) => {
   message.channel.startTyping();
