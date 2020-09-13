@@ -59,6 +59,7 @@ client.on('message', (message) => {
 		case 'nonation':
 			commands['nonation'].execute(message, args);
 			break;
+		case 'townless':
 		case 'notown':
 			commands['notown'].execute(message);
 			break;
