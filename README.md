@@ -15,10 +15,10 @@ OneSearch is split into 2 things to increase reliability and uptime. For the upd
   "YT_API_KEY": "YOUR YOUTUBE API KEY",
   "DIALOGFLOW_ENABLED": false,
   "GCP_PROJ": "YOUR GCP PROJECT",
-  "SIEGE_SEARCH_ENABLED": false // Only enable if your Towny server has SiegeWar and the updater is setup to do sieges.
+  "SIEGE_SEARCH_ENABLED": false
 }
 ```
-A YouTube API key is not required if you are not using 1!crawl with YouTube. Dialogflow is used to answer questions will use the [service account](https://cloud.google.com/docs/authentication/getting-started) in your system's environment variables. You can set it up in commands/s.js.
+A YouTube API key is not required if you are not using 1!crawl with YouTube. Dialogflow is used to answer questions will use the [service account](https://cloud.google.com/docs/authentication/getting-started) in your system's environment variables. You can set it up in commands/s.js. Only enable if your Towny server has SiegeWar and the updater is setup to do sieges.
 
 ## Links
 
