@@ -56,6 +56,7 @@ client.on('message', (message) => {
 		case 'ng':
 			commands['ng'].execute(message, args);
 			break;
+		case 'nationless':
 		case 'nonation':
 			commands['nonation'].execute(message, args);
 			break;
