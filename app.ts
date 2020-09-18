@@ -38,7 +38,7 @@ client.on('message', (message) => {
 			commands['crawl'].execute(message);
 			break;
 		case 'help':
-			commands['help'].execute(message);
+			commands['help'].execute(message, args);
 			break;
 		case 'info':
 			commands['info'].execute(message);
