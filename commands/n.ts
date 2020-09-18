@@ -3,6 +3,7 @@ import list from './n/list';
 import online from './n/online';
 import def from './n/default';
 import { errorMessage } from '../functions/statusMessage';
+import invitable from './n/invitable';
 
 export default {
 	name: 'n',
@@ -26,6 +27,9 @@ export default {
 				break;
 			case 'online':
 				online(message, args);
+				break;
+			case 'invitable':
+				invitable(message, args);
 				break;
 			default:
 				const defMsg = await def(message, args).catch(err => {

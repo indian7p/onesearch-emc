@@ -1,0 +1,37 @@
+{
+  "embed": {
+    "color": "003175",
+    "title": "1!n",
+    "description": "Commands related to nations.",
+    "fields": [
+      {
+        "name": "Aliases",
+        "value": "1!nation"
+      },
+      {
+        "name": "1!n [nation]",
+        "value": "Shows nation information."
+      },
+      {
+        "name": "1!n activity [nation]",
+        "value": "Shows when players in a nation were last online."
+      },
+      {
+        "name": "1!n invitable [nation]",
+        "value": "Shows what nations can be invited to the specified nation."
+      },
+      {
+        "name": "1!n list [members|area]",
+        "value": "Lists nations based on members or area."
+      },
+      {
+        "name": "1!n online [nation]",
+        "value": "Shows players online in the specified nation."
+      }
+    ],
+    "footer": {
+      "icon_url": "https://cdn.bcow.xyz/assets/onesearch.png",
+      "text": "OneSearch"
+    }
+  }
+}

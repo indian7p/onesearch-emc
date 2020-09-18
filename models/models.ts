@@ -81,8 +81,8 @@ const TownSchema = new Schema({
 	members: String,
 	membersArr: Array,
 	residents: Number,
-	x: String,
-	z: String,
+	x: Number,
+	z: Number,
 	capital: Boolean,
 	time: { type: Date, default: Date.now }
 });
