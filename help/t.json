@@ -22,7 +22,7 @@
       },
       {
         "name": "1!t online [town]",
-        "value": "Shows players in."
+        "value": "Shows players online in the specified town."
       }
     ],
     "footer": {
