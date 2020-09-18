@@ -87,6 +87,9 @@ client.on('message', (message) => {
 		case 'sett':
 			commands['sett'].execute(message, args);
 			break;
+		case 'siege':
+			commands['siege'].execute(message, args);
+			break;
 		case 'stats':
 			commands['stats'].execute(message, client);
 			break;
