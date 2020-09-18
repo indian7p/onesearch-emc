@@ -1,6 +1,6 @@
 {
   "name": "onesearch",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Find towns, nations, and discords with OneSearch for EarthMC.",
   "main": "index.js",
   "repository": {
