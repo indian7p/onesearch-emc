@@ -32,7 +32,7 @@ export default async (message, args) => {
   const resEmbedN = new Discord.MessageEmbed()
     .setTitle(`Name History - ${data.data.player.username}`)
     .setColor(0x003175)
-    .setThumbnail(`https://crafatar.com/avatars/${data.data.player.raw_id}?overlay`)
+    .setThumbnail(`https://crafatar.bcow.xyz/avatars/${data.data.player.raw_id}?overlay`)
     .setDescription('```' + `test\n` + namesD.toString().replace(/,/g, '\n') + '```')
     .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');
   message.channel.send(resEmbedN);

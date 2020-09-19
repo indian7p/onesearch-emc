@@ -10,7 +10,7 @@ export default async (message, args) => {
   const resEmbedU = new Discord.MessageEmbed()
     .setTitle(`UUID - ${data.data.player.username}`)
     .setColor(0x003175)
-    .setThumbnail(`https://crafatar.com/avatars/${data.data.player.raw_id}?overlay`)
+    .setThumbnail(`https://crafatar.bcow.xyz/avatars/${data.data.player.raw_id}?overlay`)
     .addField('UUID', data.data.player.raw_id)
     .addField('Formatted', data.data.player.id)
     .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');

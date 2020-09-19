@@ -26,7 +26,7 @@ export default async (message, args) => {
 
   const embed = new Discord.MessageEmbed()
     .setTitle(playerData.data.player.username)
-    .setThumbnail(`https://crafatar.com/avatars/${playerData.data.player.raw_id}?overlay`)
+    .setThumbnail(`https://crafatar.bcow.xyz/avatars/${playerData.data.player.raw_id}?overlay`)
     .addField('Location', location)
     .setColor(0x003175)
     .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');

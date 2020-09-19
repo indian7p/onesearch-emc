@@ -50,7 +50,7 @@ export default async (message, args) => {
         let embed = new Discord.MessageEmbed()
           .setTitle(playerData.data.player.username).setColor(0x003175)
           .addField('Status', status)
-          .setThumbnail(`https://crafatar.com/avatars/${playerData.data.player.raw_id}?overlay`)
+          .setThumbnail(`https://crafatar.bcow.xyz/avatars/${playerData.data.player.raw_id}?overlay`)
           .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');
         message.channel.send(embed);
       }

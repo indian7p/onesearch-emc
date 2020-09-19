@@ -24,7 +24,7 @@ export default async (message, args, client) => {
   const resEmbed = new Discord.MessageEmbed()
     .setTitle(name)
     .setURL(`https://namemc.com/profile/${data.data.player.id}`)
-    .setThumbnail(`https://crafatar.com/renders/body/${data.data.player.raw_id}?overlay`)
+    .setThumbnail(`https://crafatar.bcow.xyz/renders/body/${data.data.player.raw_id}?overlay`)
     .setColor(emColor)
     .addField('Status', status)
     .setFooter('OneSearch', 'https://cdn.bcow.xyz/assets/onesearch.png');

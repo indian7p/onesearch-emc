@@ -14,7 +14,7 @@ export default async (message, args) => {
 
   let resEmbedPl = new Discord.MessageEmbed()
     .setTitle(`Player History - ${data.data.player.username}`)
-    .setThumbnail(`https://crafatar.com/avatars/${data.data.player.raw_id}?overlay`)
+    .setThumbnail(`https://crafatar.bcow.xyz/avatars/${data.data.player.raw_id}?overlay`)
     .setDescription('⚠ Player event history started on 4/17/2020. Previous events are missing.')
     .setColor(0x003175)
     .addField('Current Status', player.status)
