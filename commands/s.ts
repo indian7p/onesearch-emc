@@ -1,11 +1,12 @@
 import * as Discord from 'discord.js';
 import dialogflow from '@google-cloud/dialogflow';
 import * as config from '../config.json';
-import { NationGroup, Result, Town } from '../models/models';
+import { NationGroup, Result } from '../models/models';
 import { paginator } from '../functions/paginator';
 import { errorMessage, successMessage } from '../functions/statusMessage';
 import nation from './n/default';
 import town from './t/default';
+import { getSearchResults } from '../functions/search';
 
 export default {
 	name: 's',
@@ -72,7 +73,7 @@ export default {
 			let NSFWcount = 0;
 
 			const nationGroup = await NationGroup.findOne({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
-			const results = await Result.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).exec().catch(err => message.channel.send(errorMessage.setDescription('An error occurred.')));
+			const results = await getSearchResults(query);
 
 			const nationEmbed = await nation(message, args).catch(err => {});
 			if (nationEmbed) embeds.push(nationEmbed);
@@ -96,18 +97,15 @@ export default {
 				embeds.push(ngEmbed);
 			}
 
-			for (var i = 0, len = results.length; i < len; i++) {
-				const result = results[i];
-
-				const themeColor = result.themeColor ? result.themeColor : 0x003175;
+			for (var i = 0, len = results.hits.length; i < len; i++) {
+				const result = results.hits[i];
 
 				const resEmbed = new Discord.MessageEmbed()
 					.setTitle(result.name)
 					.setURL(result.link)
 					.setDescription(result.desc)
 					.setThumbnail(result.imgLink)
-					.setColor(themeColor)
-					.setFooter(`Page ${i + 1}/${results.length} | OneSearch`, 'https://cdn.bcow.xyz/assets/onesearch.png');
+					.setFooter(`Page ${i + 1}/${results.nbHits} | OneSearch`, 'https://cdn.bcow.xyz/assets/onesearch.png');
 
 				if (result.nsfw != undefined) {
 					if (message.channel.type == 'dm') {
