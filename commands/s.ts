@@ -102,6 +102,7 @@ export default {
 
 				const resEmbed = new Discord.MessageEmbed()
 					.setTitle(result.name)
+					.setColor(0x003175)
 					.setURL(result.link)
 					.setDescription(result.desc)
 					.setThumbnail(result.imgLink)
