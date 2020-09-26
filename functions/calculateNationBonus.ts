@@ -10,9 +10,9 @@ export default function(nation) {
         return 40;
       case (val >= 30 && val <= 39):
         return 60;
-      case (val >= 40 && val <= 49):
+      case (val >= 40 && val <= 59):
         return 100;
-      case (val >= 50):
+      case (val >= 60):
         return 140;
     }
   } else {
